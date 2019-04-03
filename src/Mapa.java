@@ -6,8 +6,8 @@
 
 /**
  *
- * @author marcp
+ * @author Marc
  */
 public class Mapa {
-    
+    String punt; 
 }
