@@ -6,7 +6,7 @@
 
 /**
  *
- * @author marcp
+ * @author Marc
  */
 public class Vehicle {
     String matricula;
