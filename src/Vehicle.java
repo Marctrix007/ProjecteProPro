@@ -11,4 +11,5 @@
 public class Vehicle {
     String matricula;
     String nom;
+    float autonomia;
 }
