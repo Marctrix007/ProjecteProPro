@@ -9,5 +9,5 @@
  * @author marcp
  */
 public class Vehicle {
-    
+    String matricula;
 }
