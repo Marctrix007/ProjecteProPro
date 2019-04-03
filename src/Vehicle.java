@@ -9,5 +9,5 @@
  * @author Marc Padrós Jiménez
  */
 public class Vehicle {
-    
+    String matricula;
 }
