@@ -12,6 +12,4 @@ public class Vehicle {
     String matricula;
     String nom;
     int places;
-    String Paco;
-    rhv8ehver
 }
