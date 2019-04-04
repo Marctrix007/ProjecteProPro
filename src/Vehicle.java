@@ -10,4 +10,5 @@
  */
 public class Vehicle {
     String matricula;
+    String nom;
 }
