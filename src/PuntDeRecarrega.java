@@ -19,36 +19,40 @@ public class PuntDeRecarrega extends Localitzacio {
         super(nom,index_popularitat);
         a_nPlaces = nPlaces;
         a_carregaRapida = CarregaRapida;
-        a_places_lliures = 0;
     }
     
     
-    boolean accepta_carregaRapida(){
+    public boolean accepta_carregaRapida(){
         return a_carregaRapida;
     }
     
-    int places_lliures(){
-        return a_places_lliures;
+    public int places_lliures(){
+        return (a_nPlaces - a_parking.size());
     }
+  
     
-    void estacionar_vehicle(Vehicle v, Temps hArribada){
+    public void estacionar_vehicle(Vehicle v, Temps hArribada){
+      
+        if ( places_lliures() == 0)
+           throw("No queden places lliures"); 
         a_parking.add(v);
+       
         //v.temps_arribada_estacionat(Temps hArribada);
     }
     
-    void sortida_vehicle(Vehicle v, Temps hSortida){
+    public void sortida_vehicle(Vehicle v, Temps hSortida){    // vehicle no surt fins que no està carregat 
+        
         a_parking.remove(v);
         //v.carregar_bateria(Temps hSortida)
     }
     
     @Override
-    boolean esPuntDeRecarrega(){
+    public boolean esPuntDeRecarrega(){
         return true;
     }
     
     
     private int a_nPlaces;
-    private int a_places_lliures;
     private boolean a_carregaRapida;
     private HashSet<Vehicle> a_parking;
     
