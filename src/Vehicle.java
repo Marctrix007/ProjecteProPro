@@ -15,6 +15,7 @@ public class Vehicle {
     private String model;
     private float autonomia;        // en km 
     private int duradaCarrega;      // hores / minuts (API temps Java)
+    //Temps(hh,mm)
     private int nPlaces;
     
     // nPlacesOcupades afegir potser 
