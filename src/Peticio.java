@@ -13,7 +13,7 @@
 
 public class Peticio {
     
-    String numero; 
+    int numero; 
     String horaTrucada;
     String horaSortida;
     Localitzacio origen;
