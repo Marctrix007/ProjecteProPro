@@ -13,7 +13,7 @@ public class Vehicle {
     String matricula;
     String marca;
     String model;
-    int autonomia;          // en km 
+    float autonomia;          // en km 
     float consum;           // Kwh/100km 
     int duradaCarrega;      // hores / minuts (API temps Java)
     int nPlaces;
@@ -25,7 +25,7 @@ public class Vehicle {
     
     // Excepcions: el main podria llançar una excepcio si el temps de carrega es excessiu per indicar que el vehicle no es pot acceptar 
     
-    public int getAutonomia() {
+    public float getAutonomia() {
         
         return autonomia; 
         
