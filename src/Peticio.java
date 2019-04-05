@@ -19,13 +19,17 @@ public class Peticio {
     Localitzacio origen;
     Localitzacio desti; 
     int nClients; 
-    String estat;  // estat pot ser per_atendre, satisfeta o insatisfeta 
+    int estat;  
+    // estat = -1 (fallada)
+    // estat= 0 (per atendre)
+    // estat = 1 (satisfeta)
     
     
-    public Peticio(String horaSort) {
+    public Peticio(String horaSort, int nCli) {
         
-        this.horaSortida = horaSort; 
-        estat = "per_atendre"; 
+        horaSortida = horaSort; 
+        nClients = nCli;
+        estat = 0; 
         
     }
     
@@ -39,6 +43,18 @@ public class Peticio {
     public int compareTo(Peticio p) {
         
         return horaSortida.compareTo(p.horaSortida);
+        
+    }
+    
+    public void fallada(){
+        
+        estat = -1;
+        
+    }
+    
+    public void satisfeta(){
+        
+        estat = 1;
         
     }
     
