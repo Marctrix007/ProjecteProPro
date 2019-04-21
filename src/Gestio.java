@@ -45,20 +45,26 @@ public class Gestio {
         
         
         // Llegim el fitxer de vehicles 
-        
+        // El try catch s'ha de fer al main no al mètode
+        Scanner teclat = new Scanner(System.in);
         System.out.println("Fitxer de vehicles: ");
-        Scanner veh = new Scanner(System.in);
-        File fitVeh = new File(veh.nextLine()); 
-        try {
-            // falta crear cada vehicle 
-            Scanner lin = new Scanner(fitVeh);
-            while (lin.hasNextLine()) {
-                System.out.println(lin.nextLine());
-            }       
+        Scanner fitxerVehicles = new Scanner(new File(teclat.nextLine()));
+        teclat.close();
+        while(fitxerVehicles.hasNext()){
+            String matricula = fitxerVehicles.next();
+            String nom = fitxerVehicles.next();
+            if (fitxerVehicles.hasNext()){
+                nom = nom + " " + fitxerVehicles.next();
+            }
+            
+            int autonomia = fitxerVehicles.nextInt();
+            int carrega = fitxerVehicles.nextInt();
+            int nPlaces = fitxerVehicles.nextInt();
+            
+            //afegirVehicle(new Vehicle(matricula,nom,autonomia,carrega,nPlaces));
+            
         }
-        catch(FileNotFoundException e) {
-            System.err.println("Fitxer no existeix \n");
-        }
+        
         
     
         
