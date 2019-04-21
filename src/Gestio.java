@@ -52,16 +52,14 @@ public class Gestio {
         teclat.close();
         while(fitxerVehicles.hasNext()){
             String matricula = fitxerVehicles.next();
-            String nom = fitxerVehicles.next();
-            if (fitxerVehicles.hasNext()){
-                nom = nom + " " + fitxerVehicles.next();
-            }
-            
+            String marca = fitxerVehicles.next();
+            String model = fitxerVehicles.next();
+            String tipus = fitxerVehicles.next();
             int autonomia = fitxerVehicles.nextInt();
             int carrega = fitxerVehicles.nextInt();
             int nPlaces = fitxerVehicles.nextInt();
             
-            //afegirVehicle(new Vehicle(matricula,nom,autonomia,carrega,nPlaces));
+            //afegirVehicle(new Vehicle(matricula,nom,model,tipus,autonomia,carrega,nPlaces));
             
         }
         
