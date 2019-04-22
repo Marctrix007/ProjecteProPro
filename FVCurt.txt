@@ -1,11 +1,11 @@
-1491GVL, Jeep, 4x4, 189, false, 6
-8701IIT, Seat Picasso, Cotxe, 98, true, 4
-4958PYV, Seat Ibiza, Cotxe, 87, true, 4
-8147UOT, Seat Arona, Cotxe, 101, true, 4
-8825KIB, Seat Toledo, Cotxe, 111, false, 4
-2091PFJ, Volvo CX, Cotxe, 120, true, 4
-5687VHW, Peugeot 25, Cotxe, 132, false, 4
-6450ZND, Tesla S, Cotxe, 338, true, 4
-1754GUT, Nissan Leaf, Cotxe, 114, true, 4
-3540DVJ, Fiat 500, Cotxe, 85, false, 3
-6507RIX, Smart, Cotxe, 59, true, 2
+1491GVL, Jeep, 4x4, 189, false, 6, 1.12
+8701IIT, Seat Picasso, Cotxe, 98, true, 4, 1.22
+4958PYV, Seat Ibiza, Cotxe, 87, true, 4, 1.74
+8147UOT, Seat Arona, Cotxe, 101, true, 4, 2.05
+8825KIB, Seat Toledo, Cotxe, 111, false, 4, 1.43
+2091PFJ, Volvo CX, Cotxe, 120, true, 4, 2.11
+5687VHW, Peugeot 25, Cotxe, 132, false, 4, 2.00
+6450ZND, Tesla S, Cotxe, 338, true, 4, 1.98
+1754GUT, Nissan Leaf, Cotxe, 114, true, 4, 1.11
+3540DVJ, Fiat 500, Cotxe, 85, false, 3, 3.98
+6507RIX, Smart, Cotxe, 59, true, 2, 0.91
