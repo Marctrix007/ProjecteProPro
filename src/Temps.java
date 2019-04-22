@@ -2,29 +2,35 @@
  * @author Xavier Rodríguez i Martínez
  */
 public class Temps {
-    //Descripció general: Hora:minut
-    
+    //Descripció general: Classe Temps amb Hora:minut
+
     private int hora;
     private int minut;
-    
+
     public Temps(){
         hora = 0;
         minut = 0;
     }
-    
+
     public Temps(int h, int m){
         //Pre: --
         //Post: Temps creat amb l'excés de minuts corregits
         hora = h + m/60;
         minut = m%60;
     }
-    
+
+    public Temps(float t){
+      hora = (int) t;
+      t -= hora;
+      minut = (int) t*60;
+    }
+
     public Temps mes(Temps t){
         //Pre: --
         //Post: Retorna els temps de  this  i  t  sumats.
         return new Temps(this.hora+t.hora, this.minut+t.minut);
     }
-    
+
     public Temps menys(Temps t){
         //Pre: --
         //Post: Retora la diferència de  this  i  t.
@@ -32,7 +38,7 @@ public class Temps {
         int m2 = t.hora*60 + t.minut;
         return new Temps(0, m1-m2);
     }
-    
+
     public Temps per(float n){
         //Pre: --
         //Post: multiplica el temps  this  per  n  vegades
@@ -40,7 +46,7 @@ public class Temps {
         m = (int) (m*n);
         return new Temps(0, m);
     }
-    
+
     @Override
     public String toString(){
         if (minut <= -10) return "-" + (-hora) + ":" + (-minut);
