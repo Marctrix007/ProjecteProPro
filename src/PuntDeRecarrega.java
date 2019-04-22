@@ -31,30 +31,36 @@ public class PuntDeRecarrega extends Localitzacio {
     }
   
     
-    public void estacionar_vehicle(Vehicle v){
+    public void estacionar_vehicle(Vehicle v, Temps tempsEntrada){
       
         if ( places_lliures() == 0))
            throw("No queden places lliures"); 
         else{
-            a_parking.add(v);
+            a_parking.put(v, tempEntrada.mes(v.tempsCarrega()));
         }
     }
     
-    public Vehicle sortida_vehicle(int recorregut, int nPersones){    // vehicle no surt fins que no està carregat 
+    public Vehicle sortida_vehicle(int recorregut, int nPersones, Temps tempsSortida){    // vehicle no surt fins que no està carregat 
         
         if (a_parking.isEmpty())
             throw("No hi ha vehicles");
         else{
         
-            Iterator<Vehicle> it_vehicles = a_parking.iterator();
-            boolean trobat = false;
+            Set<Map.Entry<Vehicle, Temps>> vehicles = a_parking.entrySet();
+            Iterator<Map.Entry<Vehicle, Temps>> it_vehicles = vehicles.iterator();
+            Map.Entry<Vehicle, Temps> entry_vehicle;
             Vehicle v;
+            boolean trobat = false;
             
-            while(it_vehicles.hasNext() && v.autonomia() > recorregut && v.nPlaces() > nPersones){
-                v = it_vehicles.next();
+            while(it_vehicles.hasNext() && !trobat){
+                entry_vehicle = it_vehicles.next();
+                v = entry_vehicle.getKey();
+                if (v.autonomia() > recorregut && v.nPlaces() > nPersones && entry_vehicle.getValue().inferior(tempsSortida)){
+                    trobat = true;
+                }
             }
             
-            if (!it_vehicles.hasNext())
+            if (!trobat)
                 return null;
             else{
                 a_parking.remove(v);
@@ -75,7 +81,7 @@ public class PuntDeRecarrega extends Localitzacio {
     
     private int a_nPlaces;
     private boolean a_carregaRapida;
-    private HashSet<Vehicle> a_parking;
+    private HashMap<Vehicle, Temps> a_parking;
     
     
 }
