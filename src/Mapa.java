@@ -79,6 +79,23 @@ public class Mapa {
         
     }
     
+    public int nLocalitzacions() {
+    // Pre: --
+    // Post: Retorna el nombre de localitzacions del mapa 
+    
+        return localitzacions.size(); 
+        
+    }
+    
+    
+    public Localitzacio loc(int i) {
+    // Pre: 0 < i < nLocalitzacions 
+    // Post: Retorna la localització de la posició i de la taula 
+    
+        return localitzacions.get(i);
+        
+    }
+    
     public int Popularitat(int l) throws Exception{
         //Pre: l < localitzacions.size()
         //Post: Retorna l'índex de popularitat de la localització  l.
