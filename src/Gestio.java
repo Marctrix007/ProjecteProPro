@@ -63,8 +63,9 @@ public class Gestio {
             int autonomia = fitxerVehicles.nextInt();
             int carrega = fitxerVehicles.nextInt();
             int nPlaces = fitxerVehicles.nextInt();
+            Temps tempsCarrega = Temps(fitxerVehicles.nextFloat());
             
-            //afegirVehicle(new Vehicle(matricula,nom,model,tipus,autonomia,carrega,nPlaces));
+            //afegirVehicle(new Vehicle(matricula,nom,model,tipus,autonomia,carrega,nPlaces,tempsCarrega));
             
         }
         
