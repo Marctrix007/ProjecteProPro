@@ -31,19 +31,40 @@ public class PuntDeRecarrega extends Localitzacio {
     }
   
     
-    public void estacionar_vehicle(Vehicle v, Temps hArribada){
+    public void estacionar_vehicle(Vehicle v){
       
-        if ( places_lliures() == 0)
+        if ( places_lliures() == 0))
            throw("No queden places lliures"); 
-        a_parking.add(v);
-       
-        //v.temps_arribada_estacionat(Temps hArribada);
+        else{
+            a_parking.add(v);
+        }
     }
     
-    public void sortida_vehicle(Vehicle v, Temps hSortida){    // vehicle no surt fins que no està carregat 
+    public Vehicle sortida_vehicle(int recorregut, int nPersones){    // vehicle no surt fins que no està carregat 
         
-        a_parking.remove(v);
-        //v.carregar_bateria(Temps hSortida)
+        if (a_parking.isEmpty())
+            throw("No hi ha vehicles");
+        else{
+        
+            Iterator<Vehicle> it_vehicles = a_parking.iterator();
+            boolean trobat = false;
+            Vehicle v;
+            
+            while(it_vehicles.hasNext() && v.autonomia() > recorregut && v.nPlaces() > nPersones){
+                v = it_vehicles.next();
+            }
+            
+            if (!it_vehicles.hasNext())
+                return null;
+            else{
+                a_parking.remove(v);
+                return v;
+            }
+            
+        }
+        
+        
+        
     }
     
     @Override
