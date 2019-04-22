@@ -1,0 +1,20 @@
+PETICIONS 
+
+- No pot haver més de 100 peticions en un punt 
+
+Màxim nombre de peticions segons la popularitat: 
+
+1 - 10 
+2 - 20
+3 - 30
+4 - 40
+5 - 50
+6 - 60
+7 - 70
+8 - 80
+9 - 90
+10 - 100
+
+- Atendrem peticions des de les 8h del matí fins les 22h de la nit 
+- Entre la horaTrucada i horaSortida ha d'haver com a minim 15 min de marge 
+- Fixem el nombre de clients que fan una petició: entre 1 i 4 
