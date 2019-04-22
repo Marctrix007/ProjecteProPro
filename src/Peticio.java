@@ -13,9 +13,9 @@
 
 public class Peticio {
     
-    int numero; 
-    String horaTrucada;
-    String horaSortida;
+    int identificador; 
+    Temps horaTrucada;
+    Temps horaSortida;
     Localitzacio origen;
     Localitzacio desti; 
     int nClients; 
@@ -25,26 +25,32 @@ public class Peticio {
     // estat = 1 (satisfeta)
     
     
-    public Peticio(String horaSort, int nCli) {
+    public Peticio(int identificador, Temps horaTrucada, Temps horaSortida, Localitzacio origen, Localitzacio desti, int nClients, int estat) {
         
-        horaSortida = horaSort; 
-        nClients = nCli;
-        estat = 0; 
+        this.identificador = identificador;
+        this.horaTrucada = horaTrucada;
+        this.horaSortida = horaSortida;
+        this.origen = origen;
+        this.desti = desti;
+        this.nClients = nClients;
+        this.estat = estat; 
+        
+    }
+
+    
+    public Temps horaSortida() {
+        
+        return horaSortida;
         
     }
     
-    public int getNombreClients() {
+    
+    public int NombreClients() {
         
         return nClients; 
         
     }
     
-     
-    public int compareTo(Peticio p) {
-        
-        return horaSortida.compareTo(p.horaSortida);
-        
-    }
     
     public void fallada(){
         
