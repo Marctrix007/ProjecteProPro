@@ -19,7 +19,8 @@ import java.io.FileNotFoundException;
 
 public class Gestio {
     
-    
+    // Cua de prioritats que conté les peticions 
+    private PriorityQueue<Peticio> cua; 
     
     
     
@@ -157,16 +158,14 @@ public class Gestio {
     
     public void CrearPeticions(Mapa m) {
     // Pre: m té localitzacions
-    // Post: Crea cada petició amb la seva hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten 
-    //       i l'afegeix a una cua de prioritats ordenada segons l'hora de sortida 
+    // Post: Crea cada petició amb el seu identificador, hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten, 
+    //       el seu estat inicial i l'afegeix a una cua de prioritats ordenada segons l'hora de sortida 
     
         // Creem la cua de prioritats buida 
-        Comparator<Peticio> comparator = new ComparadorPeticions();
-        PriorityQueue<Peticio> cua = new PriorityQueue<>(0,comparator); 
+        cua = new PriorityQueue<>(0); 
     
         int iden = 1; 
-        for (int i=0; i<m.nLocalitzacions(); i++) {
-            // Creem cada petició 
+        for (int i=0; i<m.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
             Localitzacio origen = m.loc(i); 
             int maxPeticionsOrigen = MaxPeticionsPopul().get(origen.popularitat()); 
             int nPeticionsOrigen = (int)randFloat(1,(float)maxPeticionsOrigen);     // Com a mínim en un punt s'atendrà una petició 
@@ -175,15 +174,16 @@ public class Gestio {
                 Temps hTrucada = new Temps(horaTrucada); 
                 float horaSortida = randFloat(horaTrucada+(float)0.25,22);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
                 Temps hSortida = new Temps(horaSortida); 
-                int d;  
-                if (i < m.nLocalitzacions()-1)      // d ha de ser diferent de i (desti != origen) 
-                    d = (int)randFloat(i+1,m.nLocalitzacions()-1); 
-                else 
-                    d = (int)randFloat(0,i-1);
-                Localitzacio desti = m.loc(d); 
+                // Obtenim aleatoriament una localització de destí diferent a la d'origen 
+                int des;    // des és l'identificador de la localització de destí 
+                do {
+                    des = (int)randFloat(1,(float)m.nLocalitzacions()); 
+                }while (des == i); 
+                Localitzacio desti = m.loc(des); 
                 int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4 
-                Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients,0); 
-                
+                // Creem la petició
+                // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
+                Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients,0);    
                 // Afegim la petició a la cua
                 cua.add(pet);
                 iden++;   
@@ -191,27 +191,5 @@ public class Gestio {
         }
     }   
         
-    private class ComparadorPeticions implements Comparator<Peticio> {
-    
-        @Override
-        public int compare(Peticio pet1, Peticio pet2) {
-            
-            if (pet1.horaSortida().EsMesPetit(pet2.horaSortida()))
-            {
-                return -1;
-            }
-            if (pet1.horaSortida().EsMesGran(pet2.horaSortida()))
-            {
-                return 1;
-            }
-            return 0;
-            
-        }   
-    }
-        
-        
-        
-    
-    
-    
+       
 }
