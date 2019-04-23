@@ -11,7 +11,7 @@
 
 
 
-public class Peticio {
+public class Peticio implements Comparable<Peticio> {
     
     int identificador; 
     Temps horaTrucada;
@@ -65,12 +65,11 @@ public class Peticio {
     }
     
     @Override
-    public boolean equals(Object o) {
+    public int compareTo(Peticio p) {
         
-        if (!(o instanceof Peticio)) return false;
-        else return (horaSortida.equals(((Peticio)o).horaSortida) && origen.equals((Peticio)o).origen);
+        return horaSortida.compareTo(p.horaSortida); 
+        
     }
-    
     
     /*
     public static void main(String args[]) {
