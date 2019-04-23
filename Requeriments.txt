@@ -18,3 +18,5 @@ Màxim nombre de peticions segons la popularitat:
 - Atendrem peticions des de les 8h del matí fins les 22h de la nit 
 - Entre la horaTrucada i horaSortida ha d'haver com a minim 15 min de marge 
 - Fixem el nombre de clients que fan una petició: entre 1 i 4 
+- Els punts de recàrrega també són punts de recollida
+- Com a mínim 1 punt té populartitat 1 (PR) 
