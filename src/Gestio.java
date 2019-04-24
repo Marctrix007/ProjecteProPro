@@ -11,9 +11,7 @@
 
 import java.io.File; 
 import java.util.Scanner; 
-import java.util.ArrayList;
 import java.util.Random; 
-import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.io.FileNotFoundException;
 
@@ -26,8 +24,13 @@ public class Gestio {
     
     public static void main(String argv[]) {
         
+        try {
+            
+        }
         
-        
+        catch(FileNotFoundException e) {
+            System.err.println("El fitxer no existeix\n");
+        }
     
         
     }
@@ -120,30 +123,7 @@ public class Gestio {
           
     }
     
-     
-    
-     
-    public ArrayList<Integer> MaxPeticionsPopul() {
-    // Pre: --
-    // Post: Retorna el llistat del màxim de peticions que poden produir-se en una localització donat el seu índex de popularitat 
-    
-        ArrayList<Integer> maxPeticionsPopul = new ArrayList<>(); 
-        maxPeticionsPopul.add(0);
-        maxPeticionsPopul.add(10);
-        maxPeticionsPopul.add(20);
-        maxPeticionsPopul.add(30);
-        maxPeticionsPopul.add(40);
-        maxPeticionsPopul.add(50);
-        maxPeticionsPopul.add(60); 
-        maxPeticionsPopul.add(70);
-        maxPeticionsPopul.add(80);
-        maxPeticionsPopul.add(90);
-        maxPeticionsPopul.add(100);
         
-        return maxPeticionsPopul; 
-        
-    }
-    
     public static float randFloat(float min, float max) {
     // Pre: --
     // Post: Retorna un nombre amb coma flotant contingut entre min i max 
@@ -163,11 +143,16 @@ public class Gestio {
     
         // Creem la cua de prioritats buida 
         cua = new PriorityQueue<>(0); 
-    
+        
+        // Creem una taula amb el màxim de peticions que poden produir-se en una localització
+        // segons el seu índex de popularitat 
+        int[] maxPeticionsPopul = {0,10,20,30,40,50,60,70,80,90,100};
+        
+        // Creem les peticions 
         int iden = 1; 
         for (int i=0; i<m.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
             Localitzacio origen = m.loc(i); 
-            int maxPeticionsOrigen = MaxPeticionsPopul().get(origen.popularitat()); 
+            int maxPeticionsOrigen = maxPeticionsPopul[origen.popularitat()]; 
             int nPeticionsOrigen = (int)randFloat(1,(float)maxPeticionsOrigen);     // Com a mínim en un punt s'atendrà una petició 
             for (int j=0; j<nPeticionsOrigen; j++) {
                 float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades 
