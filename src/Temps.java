@@ -4,8 +4,8 @@
 public class Temps implements Comparable<Temps>{
     //Descripció general: Classe Temps amb Hora:minut
 
-    private int hora;
-    private int minut;
+    private final int hora;
+    private final int minut;
 
     public Temps(){
         hora = 0;
@@ -64,5 +64,4 @@ public class Temps implements Comparable<Temps>{
         else if (minut<10) return hora + ":0" + minut;
         else return hora + ":" + minut;
     }
-
 }

@@ -72,7 +72,7 @@ public class Mapa {
         }
     }
     
-    private void Dijkstra(int origen, int desti){
+    private Ruta Dijkstra(int origen, int desti){
         ArrayList<Float> dist;
         dist = new ArrayList<Float>(localitzacions.size());
         ArrayList<Integer> prev;
@@ -86,9 +86,30 @@ public class Mapa {
         }
         dist.set(origen, (float) 0);
         
+        Ruta r = new Ruta();
+        Pes p = new Pes();
+        
         while (!Q.isEmpty()){
+            int u;
             
+            //u vertex a Q amb min dist[u]
+            
+            Q.remove(u);
+            
+            if(u==desti){
+                boolean fi = prev.get(u)==null;
+                while (!fi){
+                    r.addFirst(u);
+                    if (prev.get(u)==null) fi=true;
+                    else{
+                        r.afegirPes(connexions.get(u).get(prev.get(u)));
+                        u = prev.get(u);
+                    }
+                }
+                return r;
+            }
         }
+        return r;
     }
     
     public Ruta CamiMinim(int o, int d) throws Exception{
@@ -116,6 +137,7 @@ public class Mapa {
     public Localitzacio loc(int i) {
     // Pre: 0 < i < nLocalitzacions 
     // Post: Retorna la localització de la posició i de la taula 
+        
         return localitzacions.get(i);
     }
     
