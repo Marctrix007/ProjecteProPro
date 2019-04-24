@@ -1,7 +1,7 @@
 /**
  * @author Xavier Rodríguez i Martínez
  */
-public class Temps {
+public class Temps implements Comparable<Temps>{
     //Descripció general: Classe Temps amb Hora:minut
 
     private int hora;
@@ -20,6 +20,8 @@ public class Temps {
     }
 
     public Temps(float t){
+      //Pre: --
+      //Post: L'hora és l'enter i els minuts la fracció centesimal dels decimals
       hora = (int) t;
       t -= hora;
       minut = (int) t*60;
@@ -38,7 +40,7 @@ public class Temps {
         int m2 = t.hora*60 + t.minut;
         return new Temps(0, m1-m2);
     }
-    
+
 
     public Temps per(float n){
         //Pre: --
@@ -47,20 +49,14 @@ public class Temps {
         m = (int) (m*n);
         return new Temps(0, m);
     }
-    
-    public boolean EsMesGran(Temps t) {
-                
-        return ((hora > t.hora) || ((hora == t.hora) && (minut > t.minut))); 
-        
-    }
-    
-    public boolean EsMesPetit(Temps t) {
-        
-        return ((hora < t.hora) || ((hora == t.hora) && (minut < t.minut))); 
 
+    @Override
+    public int compareTo(Temps t){
+      int r = this.hora - t.hora;
+      if (r==0) r = this.minut - t.minut;
+      return r;
     }
-    
-    
+
     @Override
     public String toString(){
         if (minut <= -10) return "-" + (-hora) + ":" + (-minut);
@@ -68,6 +64,5 @@ public class Temps {
         else if (minut<10) return hora + ":0" + minut;
         else return hora + ":" + minut;
     }
-        
-       
+
 }
