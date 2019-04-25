@@ -122,7 +122,7 @@ public class Gestio {
             
             
             
-            m.guardar_en_punt_de_recarrega(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
+            //afegir_vehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
             
         }
         
