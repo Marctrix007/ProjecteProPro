@@ -18,8 +18,8 @@ import java.io.FileNotFoundException;
 public class Gestio {
     
     // Cua de prioritats que conté les peticions 
-    private PriorityQueue<Peticio> cua; 
-    
+    private PriorityQueue<Peticio> cua;
+    private Mapa mapa;
     
     
     public static void main(String argv[]) {
@@ -58,6 +58,7 @@ public class Gestio {
                 
                 Localitzacio puntRec = new PuntDeRecarrega(iden,nom,popul,nPlaces,carregaRapida); 
                 m.AfegirLocalitzacio(puntRec);
+               
             }
             else { 
                 Localitzacio loc = new Localitzacio(iden,nom,popul);   
@@ -103,6 +104,7 @@ public class Gestio {
         Scanner fitxerVehicles = new Scanner(fitVeh);
         teclat.close();
         while(fitxerVehicles.hasNext()){
+            
             String matricula = fitxerVehicles.next();
             String model = fitxerVehicles.next();
             String tipus = fitxerVehicles.next();
@@ -114,8 +116,13 @@ public class Gestio {
             int nPlaces = fitxerVehicles.nextInt();
             int hora = fitxerVehicles.nextInt();
             int minut = fitxerVehicles.nextInt();
+            
+            
             Temps tCarrega = new Temps(hora,minut); 
-            //afegirVehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
+            
+            
+            
+            m.guardar_en_punt_de_recarrega(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
             
         }
         
