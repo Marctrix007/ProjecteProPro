@@ -11,9 +11,10 @@
 public class Vehicle {
     
     private String matricula;
-    private String marca;
+    private String tipus;
     private String model;
     private float autonomia;        // en km 
+    private boolean carrRapida;
     private int duradaCarrega;      // hores / minuts (API temps Java)
     //Temps(hh,mm)
     private int nPlaces;
@@ -26,16 +27,21 @@ public class Vehicle {
     //            duradaCarrega > 0 
     
     // Excepcions: el main podria llançar una excepcio si el temps de carrega es excessiu per indicar que el vehicle no es pot acceptar 
-    
-    public Vehicle(String mat, String mar, String mod, float auto, int duradaCarr, int nombrePlaces) {
+    //matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega
+    public Vehicle(String mat, String mod, String tipus, float auto, boolean carregaRapida, int nombrePlaces, Temps duradaCarr) {
     
         matricula = mat;
-        marca = mar;
+        this.tipus = tipus;
         model = mod; 
         autonomia = auto;
         duradaCarrega = duradaCarr;
         nPlaces = nombrePlaces; 
+        this.carrRapida = carregaRapida;
         
+    }
+    
+    public boolean carregaRapida(){
+        return carrRapida;
     }
     
     
