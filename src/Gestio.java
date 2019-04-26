@@ -12,13 +12,13 @@
 import java.io.File; 
 import java.util.Scanner; 
 import java.util.Random; 
-import java.util.PriorityQueue;
+import java.util.TreeSet;
 import java.io.FileNotFoundException;
 
 public class Gestio {
     
     // Cua de prioritats que conté les peticions 
-    private PriorityQueue<Peticio> cua;
+    private TreeSet<Peticio> peticions;
     private Mapa mapa;
     
     
