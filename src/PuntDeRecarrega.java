@@ -22,7 +22,7 @@ public class PuntDeRecarrega extends Localitzacio {
     }
     
     
-    public boolean accepta_carregaRapida(){
+    public boolean acceptaCarregaRapida(){
         return a_carregaRapida;
     }
     
@@ -36,7 +36,10 @@ public class PuntDeRecarrega extends Localitzacio {
         if ( places_lliures() == 0))
            throw("No queden places lliures"); 
         else{
-            a_parking.put(v, tempEntrada.mes(v.tempsCarrega()));
+            Temps tCar = v.tempsCarrega();
+            if (acceptaCarregaRapida() && v.carregaRapida())
+                tCar = tCar.per(0.7);
+            a_parking.put(v, tempEntrada.mes(tCar));
         }
     }
     
