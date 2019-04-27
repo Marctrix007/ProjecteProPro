@@ -20,18 +20,26 @@ public class Localitzacio {
     }
     
     int popularitat(){
+    //Pre: cert
+    //Post: retorna el index de popularitat de la Localitzacio
         return a_index_pop;
     }
     
     boolean esPuntDeRecarrega(){
+    //Pre: cert
+    //Post: retorna fals indicant que no és un PuntDeRecarrega   
         return false;
+    }
+    
+    @Override
+    public String toString(){
+        return "\nNom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\n";
     }
     
     
     
-    
-    private String a_nom;
-    private int a_index_pop;
+    protected String a_nom; //INVARIANT: cert
+    protected int a_index_pop; //INVARIANT: 0 < index_pop < 10
     
     
     
