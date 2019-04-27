@@ -15,7 +15,7 @@ public class Vehicle {
     private String model;
     private float autonomia;        // en km 
     private boolean carrRapida;
-    private int duradaCarrega;      // hores / minuts (API temps Java)
+    private Temps duradaCarrega;      // hores / minuts (API temps Java)
     //Temps(hh,mm)
     private int nPlaces;
     
@@ -39,8 +39,18 @@ public class Vehicle {
         this.carrRapida = carregaRapida;
         
     }
+
+    public Vehicle() {
+        matricula = " ";
+        this.tipus = " ";
+        model = " "; 
+        autonomia = 0;
+        duradaCarrega = new Temps();
+        nPlaces = 0; 
+        this.carrRapida = false;
+    }
     
-    public boolean carregaRapida(){
+    public boolean CarregaRapida(){
         return carrRapida;
     }
     
@@ -53,16 +63,23 @@ public class Vehicle {
      
     public Temps DuradaCarrega(float kmRuta) {
         
-        return duradaCarrega*(1-(autonomia-kmRuta)/autonomia);
+        return duradaCarrega.per(1-(autonomia-kmRuta)/autonomia);
     
     }
     
-    public int Nombreplaces() {
+    public int NombrePlaces() {
         
         return nPlaces;
-        
     }
     
     
+    public Temps TempsCarrega(){
+        return duradaCarrega;
+    }
+    
+    @Override
+    public String toString(){
+        return "Matricula: " + matricula + "\nTipus: " + tipus + "\nModel: " + model + "\nAutonomia: " + autonomia + "\nTemps de carrega: " + duradaCarrega.toString() + "\nPlaces vehicle: " + nPlaces + "\n";
+    }
     
 }
