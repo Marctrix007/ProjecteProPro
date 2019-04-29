@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import org.graphstream.algorithm.Dijkstra;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.Path;
+import org.graphstream.graph.implementations.SingleGraph;
 
 // @author Xavier Rodríguez Martínez
 
@@ -14,6 +20,7 @@ public class Mapa {
     private ArrayList<Localitzacio> localitzacions;
     private ArrayList<Map<Integer,Pes>> connexions;
     private ArrayList<Integer> indexsPR;
+    Graph mapa; 
     
     Mapa(){
     //Pre: --
@@ -22,6 +29,24 @@ public class Mapa {
         connexions = new ArrayList<Map<Integer,Pes>>();
         indexsPR = new ArrayList<Integer>();
     }
+    
+    
+    /*
+    Mapa() {
+      
+        mapa = new SingleGraph("Mapa de Barcelona");   
+    
+    }
+    */
+    
+    /*
+    public void AfegirLocalitzacio(String iden, Localitzacio l) {
+        
+        Node n = mapa.addNode(iden); 
+        n.addAttribute("punt", l);
+        Localitzacio loc = n.getAttribute("punt"); 
+    }
+    */
     
     public void AfegirLocalitzacio(Localitzacio l){
     //Pre: --
@@ -32,6 +57,17 @@ public class Mapa {
             indexsPR.add(localitzacions.size()-1);
     }
     
+    
+    /*
+    public void AfegirConnexio(String connexio, String origen, String desti, float km, Temps tEst) {
+        
+        Edge conn = mapa.addEdge(connexio, origen, desti); 
+        conn.addAttribute("pes", new Pes(km, tEst));
+        
+    }
+    */
+    
+    
     public void AfegirConnexio(int o, int d, float dist, Temps t) throws Exception{
     //Pre: {o,d} < localitzacions.size()
     //Post: Crea una connexió entre la localització origen i la localització
@@ -40,6 +76,7 @@ public class Mapa {
             throw new Exception("Localització no existent");
         connexions.get(o).put(d, new Pes(dist, t));
     }
+    
     
     /*public Ruta PRmesProxim(int loc) throws Exception{
         //Pre: loc < localitzacions.size()
@@ -71,6 +108,18 @@ public class Mapa {
             }
         }
     }
+    
+    
+    /*
+    private Path Dijkstra() {
+        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "cost"); 
+        dijkstra.init(mapa);
+        dijkstra.setSource(g.getNode("A"));
+        dijkstra.compute();
+        return dijkstra.getPath(mapa.getNode("B")); 
+        
+    }
+    */
     
     private Ruta Dijkstra(int origen, int desti){
         ArrayList<Float> dist;
