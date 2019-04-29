@@ -14,11 +14,11 @@ import java.util.Scanner;
 import java.util.Random; 
 import java.util.TreeSet;
 import java.io.FileNotFoundException;
-
+import java.util.SortedSet;
 public class Gestio {
     
     // Cua de prioritats que conté les peticions 
-    private TreeSet<Peticio> peticions;
+    private SortedSet<Peticio> peticions;
     private Mapa mapa;
     
     
@@ -143,24 +143,23 @@ public class Gestio {
 
     }
     
-    public void CrearPeticions(Mapa m) {
-    // Pre: m té localitzacions
+    public void CrearPeticions() {
+    // Pre: 
     // Post: Crea cada petició amb el seu identificador, hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten, 
     //       el seu estat inicial i l'afegeix a una cua de prioritats ordenada segons l'hora de sortida 
     
-        // Creem la cua de prioritats buida 
-        cua = new PriorityQueue<>(0); 
+        // Creem les peticions  
+        peticions = new TreeSet<>(); 
         
         // Creem una taula amb el màxim de peticions que poden produir-se en una localització
         // segons el seu índex de popularitat 
         int[] maxPeticionsPopul = {0,10,20,30,40,50,60,70,80,90,100};
         
-        // Creem les peticions 
         int iden = 1; 
-        for (int i=0; i<m.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
-            Localitzacio origen = m.loc(i); 
-            int maxPeticionsOrigen = maxPeticionsPopul[origen.popularitat()]; 
-            int nPeticionsOrigen = (int)randFloat(1,(float)maxPeticionsOrigen);     // Com a mínim en un punt s'atendrà una petició 
+        for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
+            Localitzacio origen = mapa.loc(i); 
+            int maxPeticionsOrigen = maxPeticionsPopul[origen.popularitat()] / mapa.nLocalitzacions(); 
+            int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);     // Com a mínim en un punt s'atendrà una petició 
             for (int j=0; j<nPeticionsOrigen; j++) {
                 float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades 
                 Temps hTrucada = new Temps(horaTrucada); 
@@ -169,15 +168,15 @@ public class Gestio {
                 // Obtenim aleatoriament una localització de destí diferent a la d'origen 
                 int des;    // des és l'identificador de la localització de destí 
                 do {
-                    des = (int)randFloat(1,(float)m.nLocalitzacions()); 
+                    des = (int)randFloat(1,(float)mapa.nLocalitzacions()); 
                 }while (des == i); 
-                Localitzacio desti = m.loc(des); 
+                Localitzacio desti = mapa.loc(des); 
                 int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4 
                 // Creem la petició
                 // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
                 Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients,0);    
                 // Afegim la petició a la cua
-                cua.add(pet);
+                peticions.add(pet); 
                 iden++;   
             }                
         }
