@@ -15,88 +15,120 @@ import java.util.Random;
 import java.util.TreeSet;
 import java.io.FileNotFoundException;
 import java.util.SortedSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 public class Gestio {
     
     // Cua de prioritats que conté les peticions 
     private SortedSet<Peticio> peticions;
+    private final Temps tEspera = new Temps(0,10); 
     private Mapa mapa;
     
     
     public static void main(String argv[]) {
         
-        try {
-            
-        }
-        
-        catch(FileNotFoundException e) {
-            System.err.println("El fitxer no existeix\n");
-        }
-    
+        //CrearLocalitzacions(); 
+ 
+       CrearConnexions(); 
         
     }
     
     
-    public void CrearLocalitzacions(Mapa m) {
-        
+    public static void CrearLocalitzacions() {
+    // Pre: --
+    // Post: Crea les localitzacions que poden ser punts de recàrrega o no i les afegeix al mapa    
+    
         System.out.println("Fitxer de localitzacions: ");
         Scanner teclat = new Scanner(System.in);
-        File fitLoc = new File(teclat.nextLine()); 
-       
-        Scanner fitxerLoc = new Scanner(fitLoc);
-        while (fitxerLoc.hasNextLine()) {
-            int iden = fitxerLoc.nextInt();
-            String nom = fitxerLoc.next();
-            int popul = fitxerLoc.nextInt(); 
-            boolean puntRecarr = false; 
-            if (nom == "PR") {      // Si la localització és un punt de recàrrega 
-                puntRecarr = true;
-                int nPlaces = fitxerLoc.nextInt();
-                String carrRapid = fitxerLoc.next();
-                boolean carregaRapida = false; 
-                if (carrRapid == "SI")
-                    carregaRapida = true;
-                
-                Localitzacio puntRec = new PuntDeRecarrega(iden,nom,popul,nPlaces,carregaRapida); 
-                m.AfegirLocalitzacio(puntRec);
-               
-            }
-            else { 
-                Localitzacio loc = new Localitzacio(iden,nom,popul);   
-                m.AfegirLocalitzacio(loc);
-            }
-        }
+        File fitLoc = new File(teclat.nextLine());
         
+        try {
+           
+            Scanner fitxerLoc = new Scanner(fitLoc);
+            while (fitxerLoc.hasNextLine()) {
+                String linia = fitxerLoc.nextLine();
+                String[] liniaArr = linia.split(","); 
+                String iden = liniaArr[0];
+                System.out.println(iden);
+                String nom = liniaArr[1]; 
+                System.out.println(nom);
+                int popul = Integer.parseInt(liniaArr[2]); 
+                System.out.println(popul);
+                if ("PR".equals(nom)) {      // Si la localització és un punt de recàrrega
+                    int nPlaces = Integer.parseInt(liniaArr[3]); 
+                    System.out.println(nPlaces);
+                    String carrRapid = liniaArr[4]; 
+                    System.out.println(carrRapid);
+                    boolean carregaRapida = false;
+                    if ("SI".equals(carrRapid))
+                        carregaRapida = true;
+                    
+                    //Localitzacio puntRec = new PuntDeRecarrega(nom,popul,nPlaces,carregaRapida);
+                    //mapa.AfegirLocalitzacio(iden,puntRec);
+                }
+                else {
+                    //Localitzacio loc = new Localitzacio(nom,popul);
+                    //mapa.AfegirLocalitzacio(iden,loc);
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("El fitxer no existeix\n");
+        }
     }
     
-    public void CrearConnexions(Mapa m) {
-        
+    
+    public static void CrearConnexions() {
+    // Pre: --
+    // Post: Crea les connexions entre les localitzacions i les afegeix al mapa 
+    
         System.out.println("Fitxer de connexions: ");
         Scanner teclat = new Scanner(System.in);
-        File fitCon = new File(teclat.nextLine()); 
-       
-        Scanner fitxerCon = new Scanner(fitCon);
-        while (fitxerCon.hasNextLine()) {
-            int origen = fitxerCon.nextInt();
-            int desti = fitxerCon.nextInt();
-            int hora = fitxerCon.nextInt();
-            int minut = fitxerCon.nextInt();
-            Temps tTrajecte = new Temps(hora,minut); 
-            float distKm = fitxerCon.nextFloat(); 
-            m.AfegirConnexio(origen, desti, distKm, tTrajecte);
+        File fitCon = new File(teclat.nextLine());
+        
+        try {
+   
+            Scanner fitxerCon = new Scanner(fitCon);
+            while (fitxerCon.hasNextLine()) {
+                String linia = fitxerCon.nextLine(); 
+                String[] liniaArr = linia.split(","); 
+                String id = liniaArr[0];
+                System.out.println(id);
+                String origen = liniaArr[1];
+                System.out.println(origen);
+                String desti = liniaArr[2];
+                System.out.println(desti);
+                String temps = liniaArr[3]; 
+                String[] tempsArr = temps.split(":"); 
+                int hora = Integer.parseInt(tempsArr[0]);
+                int minut = Integer.parseInt(tempsArr[1]);
+                Temps tTrajecte = new Temps(hora,minut);
+                System.out.println(tTrajecte);
+                float distKm = Float.parseFloat(liniaArr[4]); 
+                System.out.println(distKm); 
+                //mapa.AfegirConnexio(id, origen, desti, distKm, tTrajecte);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Gestio.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
+    /*
     public void CrearMapa() {
-        
+    // Pre: --
+    // Post: Crea un mapa amb les seves localitzacions i les connexions entre aquestes 
+    
         Mapa m = new Mapa(); 
         
-        CrearLocalitzacions(m);
-        CrearConnexions(m);
+        CrearLocalitzacions();
+        CrearConnexions();
             
     }
-    
-     public void CrearVehicles() {
+    */
+    /*
+    public void CrearVehicles() {
         
         System.out.println("Fitxer de vehicles: ");
         Scanner teclat = new Scanner(System.in);
@@ -122,14 +154,15 @@ public class Gestio {
             
             
             
-            afegir_vehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
+            //afegir_vehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
             
         }
         
         fitxerVehicles.close();
           
     }
-    
+    */
+    /*
     public void afegir_vehicle(Vehicle v){
         
         PuntDeRecarrega p; 
@@ -140,7 +173,7 @@ public class Gestio {
         p.EstacionarVehicle(v, new Temps(7,0));
        
     }
-        
+      */  
     public static float randFloat(float min, float max) {
     // Pre: --
     // Post: Retorna un nombre amb coma flotant contingut entre min i max 
