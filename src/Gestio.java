@@ -122,7 +122,7 @@ public class Gestio {
             
             
             
-            //afegir_vehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
+            afegir_vehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
             
         }
         
@@ -130,6 +130,16 @@ public class Gestio {
           
     }
     
+    public void afegir_vehicle(Vehicle v){
+        
+        PuntDeRecarrega p; 
+        do{
+           p = mapa.randomPuntDeRecarrega();
+        }while(p.PlacesLliures()<0);
+        
+        p.EstacionarVehicle(v, new Temps(7,0));
+       
+    }
         
     public static float randFloat(float min, float max) {
     // Pre: --
