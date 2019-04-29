@@ -120,7 +120,7 @@ public class Mapa {
         
     }
     */
-    
+    /*
     private Ruta Dijkstra(int origen, int desti){
         ArrayList<Float> dist;
         dist = new ArrayList<Float>(localitzacions.size());
@@ -160,7 +160,8 @@ public class Mapa {
         }
         return r;
     }
-    
+    */
+    /*
     public Ruta CamiMinim(int o, int d) throws Exception{
         //Pre: {o,d} < localitzacions.size()
         //Post: Retorna la ruta de distància mínima entre  o  i  d.
@@ -170,7 +171,7 @@ public class Mapa {
         
         
     }
-    
+    */
     public int nLocalitzacions() {
     // Pre: --
     // Post: Retorna el nombre de localitzacions del mapa 
