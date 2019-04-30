@@ -8,7 +8,7 @@ Mentre hi hagi peticions{
 TractarPrimeraPeticio(){
 	BuscarVehicle();
 	SI HiHaVehicle{
-		FOR cada punt
+		FOR cada punt //aquesta part encara no!!!!
 			intentarAtendrePeticions();
 	}
 }
