@@ -1,0 +1,32 @@
+GESTIÓ
+
+Mentre hi hagi peticions{
+	TractarPrimeraPeticio();
+}
+
+
+TractarPrimeraPeticio(){
+	BuscarVehicle();
+	SI HiHaVehicle{
+		FOR cada punt
+			intentarAtendrePeticions();
+	}
+}
+
+BuscarVehicle(){
+	PRp = LocalitzarPRmesProper();
+	Demanar a PRp un vehicle que compleixi les necessitats;
+	WHILE ( vehicle == null && no s'han preguntat a tots els PR)
+		es pregunta al següent;
+	
+	return vehicle;
+}
+
+AtendrePeticionsLoc(){
+	DemanarPeticio(loc, hora); //a la llista de peticions
+	if ( peticio != null && vehicle.noPle()) {
+		assignarPeticioAVehicle(peticio);
+		DemanarPeticio(loc, hora);
+	}
+}
+		
