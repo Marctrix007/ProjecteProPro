@@ -63,7 +63,7 @@ public class Vehicle {
      
     public Temps DuradaCarrega(float kmRuta) {
         
-        return duradaCarrega.per(1-(autonomia-kmRuta)/autonomia);
+        return duradaCarrega.per(kmRuta/autonomia);
     
     }
     
