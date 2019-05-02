@@ -15,15 +15,15 @@ import java.util.Random;
 import java.util.TreeSet;
 import java.io.FileNotFoundException;
 import java.util.SortedSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList; 
+import org.graphstream.graph.Path;
+
 
 
 public class Gestio {
     
     // Cua de prioritats que conté les peticions 
-    private SortedSet<Peticio> peticions;
-    private final Temps tEspera = new Temps(0,10); 
+    private static SortedSet<Peticio> peticions;
     private Mapa mapa;
     
     
@@ -32,6 +32,7 @@ public class Gestio {
         //CrearLocalitzacions(); 
  
        CrearConnexions(); 
+       AtendrePeticions(); 
         
     }
     
@@ -110,7 +111,8 @@ public class Gestio {
                 //mapa.AfegirConnexio(id, origen, desti, distKm, tTrajecte);
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Gestio.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("El fitxer no existeix\n");
+
         }
         
     }
@@ -173,7 +175,7 @@ public class Gestio {
         p.EstacionarVehicle(v, new Temps(7,0));
        
     }
-      */  
+    */  
     public static float randFloat(float min, float max) {
     // Pre: --
     // Post: Retorna un nombre amb coma flotant contingut entre min i max 
@@ -187,7 +189,7 @@ public class Gestio {
     }
     
     public void CrearPeticions() {
-    // Pre: 
+    // Pre: --
     // Post: Crea cada petició amb el seu identificador, hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten, 
     //       el seu estat inicial i l'afegeix a una cua de prioritats ordenada segons l'hora de sortida 
     
@@ -211,7 +213,7 @@ public class Gestio {
                 // Obtenim aleatoriament una localització de destí diferent a la d'origen 
                 int des;    // des és l'identificador de la localització de destí 
                 do {
-                    des = (int)randFloat(1,(float)mapa.nLocalitzacions()); 
+                    des = (int)randFloat(0,(float)mapa.nLocalitzacions()); 
                 }while (des == i); 
                 Localitzacio desti = mapa.loc(des); 
                 int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4 
@@ -224,6 +226,135 @@ public class Gestio {
             }                
         }
     }   
+    
+    public static void AtendrePeticions() {
+    // Pre: --  
+    // Post: Aten totes les peticions
+        
+    
+        // Demanem per teclat el temps d'espera màxim de les peticions 
+        System.out.println("Temps d'espera màxim de les peticions: ");
+        Scanner s = new Scanner(System.in);
+        String tEsp = s.next(); 
+        Temps tEspMax = new Temps(tEsp); // falta fer un conversor a la classe Temps de String a Temps 
+        
+        // Creem un objecte estadístics que contindrà totes les estadístiques de la simulació 
+        Estadistics est = new Estadistics(); 
+        // Guardem el nombre de peticions  
+        est.GuardarNombrePeticions(peticions.size());
+        
+        
+        while (!peticions.isEmpty()) {
+            TractarPeticio(peticions.first(), tEspMax, est); 
+        }
+        
+    }
+    
+    
+    public static void TractarPeticio(Peticio pet, Temps tEspMax, Estadistics est) {
+        
+        // Es demana un vehicle al punt de recàrrega més proper, que pugui atendre la petició 
+        Vehicle v = null;
+        PuntDeRecarrega pIni = null; 
+        DemanarPuntDeRecarregaVehiclePerAtendrePeticio(pet, tEspera, v, pIni); 
+        
+        if (v != null) {    // Si s'ha trobat un vehicle per atendre la petició  
+            Estadistics est = new Estadistics(); 
+            // S'envia el vehicle des del punt de recàrrega fins al punt d'origen de la petició  
+            PuntDeRecarrega pFi = mapa.PuntDeRecarregaMesProperA(pet.desti.numero()); 
+            Ruta rVehicle = ObtenirRutaVehicle(pet, pIni,pFi); 
+            // rutes[v.numero][v.nRutes] = rVehicle a Estadistics  
+            est.AfegirRutaVehicle(v.numero(),v.nRutes(),rVehicle); 
+            for (Localitzacio loc: rVehicle.LlistaLocalitzacions()) {
+                while (peticions.)
+            }
+            
+            while (rVehicle.ultimaLoc != pFi) {
+                
+                
+                
+            }
+            rVehicle.AfegirLocalitzacio(rMinPrIniOri.primeraLoc()); 
+            
+            // El vehicle ja arribat al punt d'origen de la petició 
+            // Comprova si hi ha més peticions en aquell 
+//rutes[v.numero()][v.nRutes()].add(Ruta(p.numero(),pet.origen.numero())); 
+            
+            
+        }
+        
+        
+    }
+    
+    public static void DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Temps tEspera, Vehicle v, PuntDeRecarrega pMesProperOrigen, 
+            PuntDeRecarrega pMesProperDesti) {
+    // Pre: --
+    // Post: Busca v en pMesProperOrigen de la petició, que pugui atendre pet sense que el seu temps d'espera sigui major a tEspera i que la ruta de v comenci 
+    //       en pMesProperOrigen i acabi en pMesProperDesti. 
+        
+        boolean trobat = false; 
+        int i = 0; 
+        // Es demana a la classe Mapa el PuntDeRecarrega més proper al punt d'origen de la petició 
+        pMesProperOrigen = mapa.PuntDeRecarregaMesProperA(pet.origen); // cal fer static el mètode de Mapa,  
+        // També es demana el PuntDeRecarrega més proper al punt de destí de la petició 
+        pMesProperDesti = mapa.PuntDeRecarregaMesProperA(pet.desti); 
+        // Es crea una taula de localitzacions que conté la localització d'origen i la de destí de la petició pet, que són els punts per on ha de passar el vehicle 
+        // Diga'm quin dels 2 mètodes et va millor, Xavi
+        // 1r mètode (crec que queda millor però no si és possible fer-lo perque li passo un ArrayList a RutaMin, que són els punts a visitar)
+        //ArrayList<Localitzacio> trajectePeticio;     
+        //trajectePeticio.add(pet.origen);
+        //trajectePeticio.add(pet.desti); 
+        //Ruta rVehicle = mapa.RutaMin(locTrajecte, pMesProperOrigen, pMesProperDesti); 
+        //double recorregut = rVehicle.Distancia(); 
+        // 2n mètode
+        // Es calcula la distància en km que ha de fer el vehicle 
+        double recorregut = 0; 
+        int nPass = pet.NombreClients(); 
+        // S'obté el temps per anar del punt de recàrrega al punt d'origen de la petició 
+        Temps tPRaOrigen = mapa.TempsRuta(pMesProperOrigen,pet.origen); 
+        // L'hora en la qual l'empresa avisa al vehicle per atendre la petició és 5 minuts després de què el client truqui 
+        Temps tAvis = pet.horaTrucada().mes(new Temps(0,5)); 
+        while (i < (mapa.nPuntsRecarrega()*mapa.nPuntsRecarrega()) && !trobat) { // cal fer static mapa.nPuntsRecarrega()   
+            recorregut = mapa.DistanciaMin(pMesProperOrigen,pet.origen) + mapa.DistanciaMin(pet.origen,pet.desti) + mapa.DistanciaMin(pet.desti,pMesProperDesti); 
+            if (!pMesProperOrigen.Buit() && pMesProperDesti.PlacesLliures() > 0) { // Es comprova si els punts de recàrrega es poden admetre 
+                v = pMesProperOrigen.SortidaVehicle(recorregut, nPass, tPRaOrigen, tEspera, pet.horaSortida(), tAvis); 
+                if (v != null)  // Si s'ha trobat un vehicle apropiat, ja no es busca més 
+                    trobat = true;
+            }
+            if (pMesProperOrigen.Buit() || v == null) {// Obtenir el següent punt de recàrrega més proper a origen en cas que el PR estigui buit o no s'hagi trobat un vehicle apropiat 
+              pMesProperOrigen = mapa.SeguentPuntDeRecarregaMesProperA(pet.origen);
+              tPRaOrigen = mapa.TempsRuta(pMesProperOrigen,pet.origen); // Recalcular el temps per anar del nou punt de recàrrega al punt d'origen de la petició 
+            }
+            if (pMesProperDesti.PlacesLliures() == 0) { // Obtenir el següent punt de recàrrega més proper a destí en cas que el PR no tingui places lliures 
+                pMesProperDesti = mapa.SeguentPuntDeRecarregaMesProperA(pet.desti); 
+            }
+            
+            i++; 
+        }
+        
+    }
+    
+ 
+    
+    public static Ruta ObtenirRutaVehicle(Peticio pet, PuntDeRecarrega pIni, PuntDeRecarrega pFi) {
+        
+        Ruta rMinPrIniOri = mapa.RutaMin(pIni.numero(),pet.origen.numero());
+        Ruta rVehicle = new Ruta(rMinPrIniOri); 
+        Ruta rMinOriDes = mapa.RutaMin(pet.origen.numero(),pet.desti.numero());
+        rVehicle.Concatenar(rMinOriDes); 
+        Ruta rMinDesPrFi = mapa.RutaMin(pet.desti.numero(),pFi.numero());
+        rVehicle.Concatenar(rMinDesPrFi);
+        return rVehicle; 
+    }
+    
+    
+    
+  
+    
+ 
+   
+    
+    
         
        
 }
