@@ -1,52 +1,34 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import org.graphstream.algorithm.Dijkstra;
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.Path;
-import org.graphstream.graph.implementations.SingleGraph;
+import java.util.TreeSet;
 
 // @author Xavier Rodríguez Martínez
 
 public class Mapa {
     // Descripció general: Mapa amb diferents localitzacions, algunes d'elles 
     //                     són punts de recàrrega, i les connexions entre elles
-       
-    final float INFINIT = 2147483647;
-    
+        
     private ArrayList<Localitzacio> localitzacions;
     private ArrayList<Map<Integer,Pes>> connexions;
-    private ArrayList<Integer> indexsPR;
-    Graph mapa; 
+    
+    private TreeSet<Integer> indexsPR;
+    private ArrayList<ArrayList<Pes>> distancies;
+    private ArrayList<ArrayList<Integer>> previs;
+    boolean esFinal;
     
     Mapa(){
     //Pre: --
     //Post: Mapa buit
         localitzacions = new ArrayList<Localitzacio>();
         connexions = new ArrayList<Map<Integer,Pes>>();
-        indexsPR = new ArrayList<Integer>();
+        indexsPR = new TreeSet<Integer>();
+        distancies = new ArrayList<ArrayList<Pes>>();
+        previs = new ArrayList<ArrayList<Integer>>();
+        esFinal = false;
     }
-    
-    
-    /*
-    Mapa() {
-      
-        mapa = new SingleGraph("Mapa de Barcelona");   
-    
-    }
-    */
-    
-    /*
-    public void AfegirLocalitzacio(String iden, Localitzacio l) {
-        
-        Node n = mapa.addNode(iden); 
-        n.addAttribute("punt", l);
-        Localitzacio loc = n.getAttribute("punt"); 
-    }
-    */
     
     public void AfegirLocalitzacio(Localitzacio l){
     //Pre: --
@@ -57,17 +39,6 @@ public class Mapa {
             indexsPR.add(localitzacions.size()-1);
     }
     
-    
-    /*
-    public void AfegirConnexio(String connexio, String origen, String desti, float km, Temps tEst) {
-        
-        Edge conn = mapa.addEdge(connexio, origen, desti); 
-        conn.addAttribute("pes", new Pes(km, tEst));
-        
-    }
-    */
-    
-    
     public void AfegirConnexio(int o, int d, float dist, Temps t) throws Exception{
     //Pre: {o,d} < localitzacions.size()
     //Post: Crea una connexió entre la localització origen i la localització
@@ -77,101 +48,41 @@ public class Mapa {
         connexions.get(o).put(d, new Pes(dist, t));
     }
     
-    
-    /*public Ruta PRmesProxim(int loc) throws Exception{
+    public int PRmesProximA(int loc) throws Exception{
         //Pre: loc < localitzacions.size()
-        //Post: Retorna la ruta al punt de recàrrega més pròxim
+        //Post: Retorna la ruta al punt de recàrrega més pròxim a loc que tingui places disponibles
         if (localitzacions.size()<loc)
             throw new Exception("Localització no existent");
-        
-        
-    }*/
-    
-    private void BellmanFord(int o, ArrayList<Float> distance, ArrayList<Integer> predecessor){
-        
-        for (int i=0; i < localitzacions.size(); i++){
-            distance.set(i, INFINIT);
-            predecessor.set(i, null);
-        }
-        
-        distance.set(o, (float) 0);
-        
-        for (int i=1; i < connexions.size(); i++){
-            Iterator<Integer> ite = connexions.get(i).keySet().iterator();
-            while (ite.hasNext()){
-                Integer aux = ite.next();
-                float w = connexions.get(i).get(aux).distancia();
-                if (distance.get(i) + w < distance.get(aux)){
-                    distance.set(aux, distance.get(i) + w);
-                    predecessor.set(aux, i);
-                }
-            }
-        }
-    }
-    
-    
-    /*
-    private Path Dijkstra() {
-        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "cost"); 
-        dijkstra.init(mapa);
-        dijkstra.setSource(g.getNode("A"));
-        dijkstra.compute();
-        return dijkstra.getPath(mapa.getNode("B")); 
+        if (!esFinal) Dijkstra();
         
     }
-    */
-    /*
-    private Ruta Dijkstra(int origen, int desti){
-        ArrayList<Float> dist;
-        dist = new ArrayList<Float>(localitzacions.size());
-        ArrayList<Integer> prev;
-        prev = new ArrayList<Integer>(localitzacions.size());
-        Set<Integer> Q = null;
+    
+    public int PRmesProximDesde(int loc, int nPlaces, double dist) throws Exception{
+        //Pre: loc < localitzacions.size()
+        //Post: Retorna la ruta al punt de recàrrega més pròxim des de loc que disposi d'un vehicle amb nPlaces i autonomia suficeint
+        if (localitzacions.size()<loc)
+            throw new Exception("Localització no existent");
+        if (!esFinal) Dijkstra();
         
-        for (int v=0; v < localitzacions.size(); v++){
-            dist.set(v, INFINIT);
-            prev.set(v, null);
-            Q.add(v);
-        }
-        dist.set(origen, (float) 0);
-        
-        Ruta r = new Ruta();
-        Pes p = new Pes();
-        
-        while (!Q.isEmpty()){
-            int u;
-            
-            //u vertex a Q amb min dist[u]
-            
-            Q.remove(u);
-            
-            if(u==desti){
-                boolean fi = prev.get(u)==null;
-                while (!fi){
-                    r.addFirst(u);
-                    if (prev.get(u)==null) fi=true;
-                    else{
-                        r.afegirPes(connexions.get(u).get(prev.get(u)));
-                        u = prev.get(u);
-                    }
-                }
-                return r;
-            }
-        }
-        return r;
     }
-    */
-    /*
+    
     public Ruta CamiMinim(int o, int d) throws Exception{
         //Pre: {o,d} < localitzacions.size()
         //Post: Retorna la ruta de distància mínima entre  o  i  d.
         if (localitzacions.size()<o || localitzacions.size()<d)
             throw new Exception("Localització no existent");
+        if (!esFinal) Dijkstra();
         
-        
-        
+        Ruta r = new Ruta();
+        r.afegirPes(distancies.get(o).get(d));
+        int aux = d;
+        while (aux != o){
+            r.addFirst(aux);
+            aux = previs.get(o).get(aux);
+        }
+        return r;
     }
-    */
+    
     public int nLocalitzacions() {
     // Pre: --
     // Post: Retorna el nombre de localitzacions del mapa 
@@ -190,12 +101,71 @@ public class Mapa {
         
         return localitzacions.get(i);
     }
-    
-    public int Popularitat(int l) throws Exception{
-    //Pre: l < localitzacions.size()
-    //Post: Retorna l'índex de popularitat de la localització  l.
-        if (!(l<localitzacions.size()))
-            throw new Exception("Localització no existent");
-        return localitzacions.get(l).popularitat();
+        
+    private void Dijkstra(int origen) throws Exception{
+    //Pre: 0 < origen < localitzacions.size()
+    //Post: Calcula la taula de distancies i previs de Dijkstra des de l'origen
+        ArrayList<Pes> dist;
+        dist = new ArrayList<Pes>(localitzacions.size());
+        ArrayList<Integer> prev;
+        prev = new ArrayList<Integer>(localitzacions.size());
+        Set<Integer> Q = null;
+        
+        Pes INFINIT = new Pes(2147483647, new Temps(24,00));
+        
+        for (int v=0; v < localitzacions.size(); v++){
+            dist.set(v, INFINIT);
+            prev.set(v, null);
+            boolean add = Q.add(v);
+            if (!add) throw new Exception("Q falla");
+        }
+        dist.set(origen, new Pes());
+                
+        while (!Q.isEmpty()){
+            int u = -1;
+            
+            //u vertex a Q amb min dist[u]
+            Iterator<Integer> ite = Q.iterator();
+            
+            if (ite.hasNext()) u = ite.next();                
+            while(ite.hasNext()){
+                int aux = ite.next();
+                if (dist.get(aux).compareTo(dist.get(u)) < 0) u = aux;
+            }
+            
+            if(u==-1) throw new Exception("Dijkstra out of range");
+            Q.remove(u);
+                        
+            Iterator<Entry<Integer,Pes>> veins;
+            veins = connexions.get(u).entrySet().iterator();
+                    
+            while (veins.hasNext()) {
+                Entry<Integer,Pes> aux = veins.next();
+                Integer v = aux.getKey();
+                Pes p = aux.getValue();
+                Pes alt = dist.get(u).mes(p);
+                if (alt.compareTo(dist.get(v)) < 0){
+                    dist.set(v, alt);
+                    prev.set(v, u);
+                }
+            }          
+        }
+        distancies.set(origen, dist);
+        previs.set(origen, prev);
+        
+        esFinal = true;
     }
+    
+    private void Dijkstra() {
+    //Pre: --
+    //Post: Calcula la matriu de distancies i previs per Dijkstra
+        for (int i=0; i<localitzacions.size(); i++){
+            try {
+                Dijkstra(i);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+    
 }
