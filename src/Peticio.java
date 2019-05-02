@@ -44,6 +44,14 @@ public class Peticio implements Comparable<Peticio> {
         
     }
     
+    public Temps horaTrucada() {
+    // Pre: --
+    // Post: Retorna l'hora de trucada de la petició
+    
+        return horaTrucada; 
+        
+    }
+    
     
     public int NombreClients() {
         
