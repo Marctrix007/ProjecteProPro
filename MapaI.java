@@ -22,11 +22,11 @@ public interface MapaI
     //Post: Crea una connexió entre la localització origen i la localització
     //      desti amb pes p, si ja existeix la modifica amb el nou pes.
     
-    public PuntDeRecarrega PRmesProximA(int loc) throws Exception;
+    public int PRmesProximA(int loc) throws Exception;
         //Pre: loc < localitzacions.size()
         //Post: Retorna la ruta al punt de recàrrega més pròxim a loc que tingui places disponibles
 
-    public PuntDeRecarrega PRmesProximDesde(int loc, int nPlaces, double dist) throws Exception;
+    public int PRmesProximDesde(int loc, int nPlaces, double dist) throws Exception;
         //Pre: loc < localitzacions.size()
         //Post: Retorna la ruta al punt de recàrrega més pròxim des de loc que disposi d'un vehicle amb nPlaces i autonomia suficeint
         
