@@ -24,11 +24,11 @@ public interface MapaI
     
     public int PRmesProximA(int loc) throws Exception;
         //Pre: loc < localitzacions.size()
-        //Post: Retorna la ruta al punt de recàrrega més pròxim a loc que tingui places disponibles
+        //Post: Retorna l'index del punt de recàrrega més pròxim a loc que tingui places disponibles
 
     public int PRmesProximDesde(int loc, int nPlaces, double dist) throws Exception;
         //Pre: loc < localitzacions.size()
-        //Post: Retorna la ruta al punt de recàrrega més pròxim des de loc que disposi d'un vehicle amb nPlaces i autonomia suficeint
+        //Post: Retorna l'índex del punt de recàrrega més pròxim des de loc que disposi d'un vehicle amb nPlaces i autonomia suficeint
         
     public Ruta CamiMinim(int o, int d) throws Exception;
         //Pre: {o,d} < localitzacions.size()
