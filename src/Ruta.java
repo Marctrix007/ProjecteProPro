@@ -27,4 +27,9 @@ public class Ruta {
         pes = pes.mes(p);
     }
     
+    public Pes cost(){
+    //Pre: --
+    //Post: retorna el pes (distància i temps total) d'una ruta
+        return pes;
+    }
 }
