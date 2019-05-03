@@ -25,6 +25,7 @@ public class Gestio {
     // Cua de prioritats que conté les peticions 
     private static SortedSet<Peticio> peticions;
     private Mapa mapa;
+    private Estadistica stats;
     
     
     public static void main(String argv[]) {
@@ -68,6 +69,7 @@ public class Gestio {
                     
                     //Localitzacio puntRec = new PuntDeRecarrega(nom,popul,nPlaces,carregaRapida);
                     //mapa.AfegirLocalitzacio(iden,puntRec);
+                    //stats.guardarPuntRC(puntRec);
                 }
                 else {
                     //Localitzacio loc = new Localitzacio(nom,popul);
@@ -155,9 +157,9 @@ public class Gestio {
             Temps tCarrega = new Temps(hora,minut); 
             
             
-            
-            //afegir_vehicle(new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega));
-            
+            Vehicle v = new Vehicle(matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega);
+            //afegirVehicle(v);
+            stats.guardarVehicle(v);
         }
         
         fitxerVehicles.close();
