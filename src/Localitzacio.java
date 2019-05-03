@@ -36,6 +36,12 @@ public class Localitzacio {
         return "\nNom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\n";
     }
     
+    @Override
+    public boolean equals(Object o){
+        if(!o instanceof Localitzacio) return false;
+        else return (a_nom.equals( (Localitzacio) o.a_nom));
+    }
+    
     
     
     protected String a_nom; //INVARIANT: cert
