@@ -150,8 +150,8 @@ public class Estadistica {
         return " Mitjana ocupació = " + statsMitjanaOcup.getAverage() + " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
     }
     
-    
-    public double StandardDeviation(ArrayList<Double> numeros, double mitjana){
+ //ALTRES EINES ESTADISTISQUES   
+    private double StandardDeviation(ArrayList<Double> numeros, double mitjana){
     //Pre: numeros.size() > 0 i mitjana > 0
     //Post: retorna la desviacio estandard de la llista de numeros a partir de la mitjana, NaN si la llista està buida
         if (numeros.size()==0){
@@ -163,7 +163,7 @@ public class Estadistica {
         }
     }
     
-    public double Variacio(ArrayList<Double> numeros, double mitjana){
+    private double Variacio(ArrayList<Double> numeros, double mitjana){
     //Pre: numeros.size()>0 i mitjana>0
     //Post: retorna la variacio de llista de numeros a partir de la mitjana, NaN si la llista de està buida
         return Math.pow(StandardDeviation(numeros,mitjana),2);
