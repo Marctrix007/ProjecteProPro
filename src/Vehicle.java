@@ -13,11 +13,13 @@ public class Vehicle {
     private String matricula;
     private String tipus;
     private String model;
-    private float autonomia;        // en km 
+    private final float autonomia;        // en km 
+    private float autonomiaRestant; 
     private boolean carrRapida;
     private Temps duradaCarrega;      // hores / minuts (API temps Java)
     //Temps(hh,mm)
-    private int nPlaces;
+    private final int nPlaces;
+    private int nPlacesLliures; 
     
     // nPlacesOcupades afegir potser 
     
@@ -37,6 +39,7 @@ public class Vehicle {
         duradaCarrega = duradaCarr;
         nPlaces = nombrePlaces; 
         this.carrRapida = carregaRapida;
+        nPlacesLliures = nPlaces; 
         
     }
 
@@ -60,7 +63,15 @@ public class Vehicle {
         return autonomia; 
         
     }
-     
+    
+    public float AutonomiaRestant() {
+        return autonomiaRestant; 
+    }
+    
+    public void ReduirAutonomiaRestant(float km) {
+        autonomiaRestant-=km; 
+    }
+    
     public Temps DuradaCarrega(float kmRuta) {
         
         return duradaCarrega.per(kmRuta/autonomia);
@@ -70,6 +81,24 @@ public class Vehicle {
     public int NombrePlaces() {
         
         return nPlaces;
+    }
+    
+    public int NombrePlacesLliures() {
+    // Pre: --
+    // Post: Retorna el nombre de places lliures del vehicle 
+        return nPlacesLliures; 
+    }
+    
+    public void CarregarPassatgers(int nPass) {
+    // Pre: --
+    // Post: Redueix el nombre de places lliures del vehicle en funció del nombre de passatgers que ha de carregar  
+        nPlacesLliures-=nPass;
+    }
+    
+    public void DescarregarPassatgers(int nPass) {
+    // Pre: --
+    // Post: Augmenta el nombre de places lliures del vehicle en funció del nombre de passatgers que ha de descarregar  
+        nPlacesLliures+=nPass;
     }
     
     
