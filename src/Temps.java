@@ -26,7 +26,17 @@ public class Temps implements Comparable<Temps>{
       t -= hora;
       minut = (int) t*60;
     }
-
+    
+    public Temps(String s) {
+    // Pre: s té la forma hh:mm 
+    // Post: Temps creat a partir de s
+    
+        String[] tempsArr = s.split(":"); 
+        hora = Integer.parseInt(tempsArr[0]);
+        minut = Integer.parseInt(tempsArr[1]);
+        
+    }
+    
     public Temps mes(Temps t){
         //Pre: --
         //Post: Retorna els temps de  this  i  t  sumats.
@@ -49,7 +59,7 @@ public class Temps implements Comparable<Temps>{
         m = (int) (m*n);
         return new Temps(0, m);
     }
-
+    
     @Override
     public int compareTo(Temps t){
       int r = this.hora - t.hora;
