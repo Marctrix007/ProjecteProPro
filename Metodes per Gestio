@@ -1,0 +1,20 @@
+Mapa
+
+public PriorityQueue<PuntDeRecarrega> PRMesProximsA(int loc) 
+// Pre: cert
+// Post: retorna la cua de punts de recàrrega ordenats per proximitat a loc (de PR a loc) 
+
+public PriorityQueue<PuntDeRecarrega> PRMesProximsDesDe(int loc) 
+// Pre: cert
+// Post: retorna la cua de punts de recàrrega ordenats per proximitat a loc (de loc a PR) 
+
+
+Ruta
+
+public void Concatenar(Ruta r) 
+// Pre: La ruta actual no conté r 
+// Post: la ruta actual es concatena amb r, r s'afegeix al final 
+
+public boolean Conte(Ruta r)
+// Pre: cert
+// Post: Retorna cert si la ruta actual conté r, fals altrament 
