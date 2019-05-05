@@ -52,6 +52,18 @@ public class Peticio implements Comparable<Peticio> {
         
     }
     
+    public Localitzacio origen() {
+    // Pre: --
+    // Post: Retorna el punt d'origen de la petició
+        return origen;
+    }
+    
+    
+    public Localitzacio desti() {
+    // Pre: --
+    // Post: Retorna la destinació de la petició
+        return desti; 
+    }
     
     public int NombreClients() {
         
