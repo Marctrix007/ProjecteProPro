@@ -42,6 +42,12 @@ public class PuntDeRecarrega extends Localitzacio {
     //Post: retorna el nombre de places lliures al PC
         return (a_nPlaces - a_parking.size());
     }
+    
+    public int Capacitat() {
+    // Pre: --
+    // Post: Retorna la capacitat del punt de recàrrega 
+        return a_parking.size(); 
+    }
   
     
     public void EstacionarVehicle(Vehicle v, Temps tempsEntrada) throws ExcepcioNoQuedenPlaces{
@@ -54,16 +60,24 @@ public class PuntDeRecarrega extends Localitzacio {
            throw new ExcepcioNoQuedenPlaces("No queden places lliures"); 
         else{
             Temps tCar = v.TempsCarrega();
-            if (AcceptaCarregaRapida() && v.CarregaRapida())
+            // Si la hora d'entrada són 7h, hora de disponibilitat = horaEntrada
+            Temps tempsDisp = tempsEntrada.mes(tCar); 
+            if (tempsEntrada.compareTo(new Temps(7,0)) == 0)
+               tempsDisp = tempsEntrada; 
+            else if (AcceptaCarregaRapida() && v.CarregaRapida()) {
                 tCar = tCar.per((float) 0.7);
-            a_parking.put(v, tempsEntrada.mes(tCar));
+                tempsDisp = tempsEntrada.mes(tCar); 
+            }
+            a_parking.put(v, tempsDisp);
         }
     }
     
-    public Vehicle SortidaVehicle(int recorregut, int nPersones, Temps tempsSortida) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
+    public Vehicle SortidaVehicle(float recorregut, int nPersones, Temps tPRaOrigen, Temps tEspMax, Temps horaRecollida, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    
+    // vehicle no surt fins que no està carregat 
     /*
         Pre: recorregut > 0, nPersones > 0 i han de haver vehicles estacionats al punt de recarrega
-        Post: surt un Vehicle v qualsevol que la seva autonomia > recorregut, NombrePlaces > nPersones i que tempsCarrega < tempsSortida
+        Post: surt un Vehicle v qualsevol que la seva autonomia >= recorregut, NombrePlaces >= nPersones, que estigui disponible en horaAvis
+              i que compleixi que horaAvis + tPRaOrigen <= horaRecollida + tEspMax  
     
     */    
         if (a_parking.isEmpty()){
@@ -80,8 +94,13 @@ public class PuntDeRecarrega extends Localitzacio {
             while(it_vehicles.hasNext() && !trobat){
                 entry_vehicle = it_vehicles.next();
                 v = entry_vehicle.getKey();
-                if (v.Autonomia() > recorregut && v.NombrePlaces() > nPersones && entry_vehicle.getValue().compareTo(tempsSortida) < 0){
-                    trobat = true;
+                if (estaDisponibleVehicle(v,horaAvis)) {
+                    // Si el vehicle pot arribar al punt d'origen de la petició com a molt tard tEspMax + horaRecollida de la petició 
+                    // es segueix acceptant
+                    if (horaAvis.mes(tPRaOrigen).compareTo(horaRecollida.mes(tEspMax)) < 0 || horaAvis.mes(tPRaOrigen).compareTo(horaRecollida.mes(tEspMax)) == 0) {
+                        if (v.Autonomia() >= recorregut && v.NombrePlaces() >= nPersones)
+                            trobat = true;
+                    }
                 }
             }
             
@@ -94,8 +113,24 @@ public class PuntDeRecarrega extends Localitzacio {
             
         }
     }    
+    
+    public Temps horaDisponibilitat(Vehicle v) {
+    // Pre: v està estacionat en el punt de recàrrega
+    // Post: Retorna l'hora de disponibilitat de v en el punt de recàrrega 
+        return a_parking.get(v); 
+    }
         
+    boolean estaDisponibleVehicle(Vehicle v, Temps horaAvis) {
+    // Pre: --
+    // Post: Retorna cert si v està disponible en horaAvis
         
+        boolean disponible = false; 
+        Temps horaDisp = a_parking.get(v); 
+        // Si abans o en el mateix moment en què avisi l'empresa el vehicle s'ha carregat, aquest està disponible 
+        if (horaDisp.compareTo(horaAvis) < 0 || horaDisp.compareTo(horaAvis) == 0) 
+           disponible = true;
+        return disponible; 
+    } 
     
     
     @Override
