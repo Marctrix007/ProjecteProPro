@@ -29,7 +29,14 @@ public class Ruta {
     
     public Pes cost(){
     //Pre: --
-    //Post: retorna el pes (distància i temps total) d'una ruta
+    //Post: retorna el pes (distància i temps total) d'una ruta.
         return pes;
     }
+    
+    public ArrayDeque<Integer> Localitzacions() {
+    // Pre: --
+    // Post: retorna la llista de localitzacions de la ruta. 
+        return cami; 
+    }
+    
 }
