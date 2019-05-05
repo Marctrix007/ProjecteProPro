@@ -12,6 +12,7 @@ public class Localitzacio {
     Localitzacio(){
         a_nom = " ";
         a_index_pop = 0;
+        iden = 0; 
     }
     
     Localitzacio(String nom, int index_popularitat){
@@ -31,6 +32,12 @@ public class Localitzacio {
         return false;
     }
     
+    public int identificador() {
+    // Pre: cert
+    // Post: retorna el nombre identificador de la Localitzacio 
+        return iden;     
+    }
+    
     @Override
     public String toString(){
         return "\nNom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\n";
@@ -46,7 +53,7 @@ public class Localitzacio {
     
     protected String a_nom; //INVARIANT: cert
     protected int a_index_pop; //INVARIANT: 0 < index_pop < 10
-    
+    private int iden; 
     
     
     
