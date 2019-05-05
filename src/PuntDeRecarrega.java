@@ -59,15 +59,10 @@ public class PuntDeRecarrega extends Localitzacio {
         if(this.PlacesLliures() == 0)
            throw new ExcepcioNoQuedenPlaces("No queden places lliures"); 
         else{
-            Temps tCar = v.TempsCarrega();
             // Si la hora d'entrada són 7h, hora de disponibilitat = horaEntrada
-            Temps tempsDisp = tempsEntrada.mes(tCar); 
+            Temps tempsDisp = tempsEntrada.mes(tempsCarrega(v)); 
             if (tempsEntrada.compareTo(new Temps(7,0)) == 0)
                tempsDisp = tempsEntrada; 
-            else if (AcceptaCarregaRapida() && v.CarregaRapida()) {
-                tCar = tCar.per((float) 0.7);
-                tempsDisp = tempsEntrada.mes(tCar); 
-            }
             a_parking.put(v, tempsDisp);
         }
     }
@@ -113,6 +108,17 @@ public class PuntDeRecarrega extends Localitzacio {
             
         }
     }    
+    
+    public Temps tempsCarrega(Vehicle v) {
+    // Pre: v està estacionat en el punt de recàrrega 
+    // Post: Retorna el temps de càrrega de v 
+        Temps tCar = v.TempsCarrega();
+        if (AcceptaCarregaRapida() && v.CarregaRapida()) {
+            tCar = tCar.per((float) 0.7);
+        }
+        return tCar; 
+        
+    }
     
     public Temps horaDisponibilitat(Vehicle v) {
     // Pre: v està estacionat en el punt de recàrrega
