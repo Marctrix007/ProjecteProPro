@@ -30,7 +30,6 @@ public class Gestio {
     Temps tEspMax; 
     private Estadistica stats;
     
-    
     public static void main(String argv[]) {
         
        CrearLocalitzacions(); 
@@ -330,7 +329,7 @@ public class Gestio {
             rVehicle.Concatenar(mapa.CamiMinim(pet.origen.identificador(), pet.desti.identificador()));
             rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
             double ocupPROri = (pMesProperOrigen.Capacitat()-pMesProperOrigen.PlacesLliures())/pMesProperOrigen.Capacitat();
-            Temps tEstacionat = horaAvis.menys(pMesProperOrigen.horaDisponibilitat(v)); 
+            Temps tEstacionat = horaAvis.menys(pMesProperOrigen.horaDisponibilitat(v).menys(pMesProperOrigen.tempsCarrega(v))); 
             stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupMitjPROri); 
             stats.guardartempsEstacionatVehicle(v,tEstacionat); 
         }
