@@ -61,4 +61,8 @@ public class Ruta {
         
         return primer && desti;
     } 
+    
+    public Iterator<Integer> iterator(){
+        return cami.iterator();
+    }
 }
