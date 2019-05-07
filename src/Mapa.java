@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,11 +23,11 @@ public class Mapa {
     Mapa(){
     //Pre: --
     //Post: Mapa buit
-        localitzacions = new ArrayList<Localitzacio>();
-        connexions = new ArrayList<Map<Integer,Pes>>();
-        indexsPR = new TreeSet<Integer>();
-        distancies = new ArrayList<ArrayList<Pes>>();
-        previs = new ArrayList<ArrayList<Integer>>();
+        localitzacions = new ArrayList<>();
+        connexions = new ArrayList<>();
+        indexsPR = new TreeSet<>();
+        distancies = new ArrayList<>();
+        previs = new ArrayList<>();
         esFinal = false;
     }
     
@@ -48,22 +49,52 @@ public class Mapa {
         connexions.get(o).put(d, new Pes(dist, t));
     }
     
-    public int PRmesProximA(int loc) throws Exception{
+    public ArrayDeque<Integer> PRMesProximA(int loc) throws Exception{
         //Pre: loc < localitzacions.size()
-        //Post: Retorna la ruta al punt de recàrrega més pròxim a loc que tingui places disponibles
+        //Post: retorna la cua de punts de recàrrega ordenats per proximitat a loc (de PR a loc)
         if (localitzacions.size()<loc)
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
         
+        return PRMesProxim(loc,false);
     }
     
-    public int PRmesProximDesde(int loc, int nPlaces, double dist) throws Exception{
+    public ArrayDeque<Integer> PRMesProximDesde(int loc) throws Exception{
         //Pre: loc < localitzacions.size()
-        //Post: Retorna la ruta al punt de recàrrega més pròxim des de loc que disposi d'un vehicle amb nPlaces i autonomia suficeint
+        //Post: retorna la cua de punts de recàrrega ordenats per proximitat a loc (de loc a PR)
         if (localitzacions.size()<loc)
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
         
+        return PRMesProxim(loc,true);
+    }
+    
+    private ArrayDeque<Integer> PRMesProxim(int loc, boolean dir) throws Exception{
+        TreeSet<Integer> iPR = (TreeSet<Integer>) indexsPR.clone();
+        ArrayDeque<Integer> ret = new ArrayDeque<>();
+        
+        Pes paux, pmin;
+        pmin = new Pes();
+        int aux, PRmin;
+        PRmin = -1;
+        
+        while (!iPR.isEmpty()){
+            Iterator<Integer> ite = iPR.iterator();
+            if (ite.hasNext()) pmin = distancies.get(loc).get(ite.next());
+            while (ite.hasNext()){
+                aux = ite.next();
+                if (dir) paux = distancies.get(loc).get(aux);
+                else paux = distancies.get(aux).get(loc);
+                if ( paux.compareTo(pmin) < 0){
+                    pmin = paux;
+                    PRmin = aux;
+                }
+            }
+            if (PRmin==-1) throw new Exception("No existeixen PRs per anar a/desde" + loc);
+            ret.addLast(PRmin);
+            iPR.remove(PRmin);
+        }
+        return ret;
     }
     
     public Ruta CamiMinim(int o, int d) throws Exception{
