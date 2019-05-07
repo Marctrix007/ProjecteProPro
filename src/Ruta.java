@@ -40,6 +40,25 @@ public class Ruta {
     }
     
     public boolean Conte(Ruta r){
-        return false;
+        //Pre: --
+        //Post: 
+        
+        boolean primer = false, desti = false;
+        int cap = r.cami.peekFirst();
+        int cua = r.cami.peekLast();
+        
+        Iterator<Integer> ite = cami.iterator();
+        
+        while (ite.hasNext() && !primer){
+            if (cap==ite.next()) primer = true;
+        }
+        
+        if (primer){
+            while (ite.hasNext() && !desti){
+                if (cua==ite.next()) desti = true;
+            }
+        }
+        
+        return primer && desti;
     } 
 }
