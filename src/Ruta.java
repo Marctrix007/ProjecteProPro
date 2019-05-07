@@ -1,5 +1,6 @@
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 
 /**
  *
@@ -24,19 +25,21 @@ public class Ruta {
     void afegirPes(Pes p) {
     //Pre: --
     //Post: Es suma el Pes p al de la ruta.
+        
         pes = pes.mes(p);
     }
     
-    public Pes cost(){
-    //Pre: --
-    //Post: retorna el pes (distància i temps total) d'una ruta.
-        return pes;
+    public void Concatenar(Ruta r) {
+        //Pre: --
+        //Post: Es concatenen la ruta actual i  r  afegint aquesta al final
+        
+        pes = pes.mes(r.pes);
+        Iterator<Integer> ite = r.cami.iterator();
+        while (ite.hasNext())
+            cami.add(ite.next());
     }
     
-    public ArrayDeque<Integer> Localitzacions() {
-    // Pre: --
-    // Post: retorna la llista de localitzacions de la ruta. 
-        return cami; 
-    }
-    
+    public boolean Conte(Ruta r){
+        return false;
+    } 
 }
