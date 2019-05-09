@@ -1,3 +1,8 @@
+/** 
+    @file PuntDeRecarrega.java
+    @brief Fixter que conté la classe Punt de Recàrrega
+*/
+package proves.fitxers;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -5,25 +10,36 @@ import java.util.Map;
 import java.util.Set;
 
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author qsamb
- */
+/** 
+    @class PuntDeRecarrega
+    @brief Classe que guarda els Vehicles de l'empresa i és subtipus de Localització
+    @author Enrique Sambola
+*/
 public class PuntDeRecarrega extends Localitzacio {
     
+    
+    public static void main(String argv[]) throws Exception {
+
+        
+    }
+    
+    /** 
+        @brief Constructor per defecte
+        @pre cert
+        @post Nou objecte PuntDeRecarrega creat
+    */
     PuntDeRecarrega(){
         super();
         a_nPlaces = 0;
         a_carregaRapida = false;
-        a_parking = new HashMap();
+        a_parking = null;
     }
     
+    /** 
+        @brief Constructor amb paràmetres
+        @pre cert
+        @post Nou objecte Estadística creat a partir dels paràmetres
+    */
     PuntDeRecarrega(String nom, int index_popularitat, int nPlaces, boolean CarregaRapida){
         super(nom,index_popularitat);
         a_nPlaces = nPlaces;
@@ -31,50 +47,70 @@ public class PuntDeRecarrega extends Localitzacio {
         a_parking = new HashMap();
     }
     
-    public boolean AcceptaCarregaRapida(){
-    //Pre: a_nPlaces > mida a_parking
-    //Post: retorna el nombre de places lliures al PC        
+    /**
+     * 
+        @brief Indica si accepta carrega ràpida el punt
+        @pre cert
+        @post retorna si accepta carrega rapida o no el punt de Recarrega
+    */
+    public boolean AcceptaCarregaRapida(){       
         return a_carregaRapida;
     }
     
+    /** 
+        @brief Indica el nombre de places lliures que hi ha al PC
+        @pre a_nPlaces >= a_parking.size()
+        @post retorna el nombre de places lliures al PC
+    */
     public int PlacesLliures() throws ExcepcioNoQuedenPlaces{
-    //Pre: a_nPlaces > mida a_parking
-    //Post: retorna el nombre de places lliures al PC
         return (a_nPlaces - a_parking.size());
     }
     
-    public int Capacitat() {
-    // Pre: --
-    // Post: Retorna la capacitat del punt de recàrrega 
-        return a_parking.size(); 
+    /** 
+        @brief Indica l'ocupació que té eñ PC
+        @pre cert
+        @post retorna el percentatge d'ocupació del vehicle
+    */
+    public double ocupacio(){
+        return 100.0*a_parking.size()/a_nPlaces;
     }
-  
     
+    
+    /** 
+        @brief Retorna el nom del punt de Recarrega
+        @pre cert
+        @post retorna el nom del PC
+    */
+    public String nom(){
+        return a_nom;
+    }
+    
+    
+    /** 
+        @brief Estaciona un vehicle al Punt de Recarrega
+        @pre v!=null i PlacesLliures>0
+        @post guarda un vehicle amb un temps d'entrada
+    */
     public void EstacionarVehicle(Vehicle v, Temps tempsEntrada) throws ExcepcioNoQuedenPlaces{
-     /*
-        Pre: han de haver places al punt de recarrega
-        Post: vehicle v estacionat conjuntament amb el tempEntrada + tCar
-    
-    */      
+  
         if(this.PlacesLliures() == 0)
            throw new ExcepcioNoQuedenPlaces("No queden places lliures"); 
         else{
-            // Si la hora d'entrada són 7h, hora de disponibilitat = horaEntrada
-            Temps tempsDisp = tempsEntrada.mes(tempsCarrega(v)); 
-            if (tempsEntrada.compareTo(new Temps(7,0)) == 0)
-               tempsDisp = tempsEntrada; 
-            a_parking.put(v, tempsDisp);
+            Temps tCar = v.TempsCarrega();
+            if (AcceptaCarregaRapida() && v.CarregaRapida())
+                tCar = tCar.per((float) 0.7);
+            a_parking.put(v, tempsEntrada.mes(tCar));
         }
     }
     
-    public Vehicle SortidaVehicle(float recorregut, int nPersones, Temps tPRaOrigen, Temps tEspMax, Temps horaRecollida, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    
-    // vehicle no surt fins que no està carregat 
-    /*
-        Pre: recorregut > 0, nPersones > 0 i han de haver vehicles estacionats al punt de recarrega
-        Post: surt un Vehicle v qualsevol que la seva autonomia >= recorregut, NombrePlaces >= nPersones, que estigui disponible en horaAvis
-              i que compleixi que horaAvis + tPRaOrigen <= horaRecollida + tEspMax  
     
-    */    
+    /** 
+        @brief Surt un vehicle del punt de recarrega a atendre una petició
+        @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
+        @post retorna un vehicle v del punt de recarrega i l'elimina del punt
+    */
+    public Vehicle SortidaVehicle(int recorregut, int nPersones, Temps tempsSortida) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
+  
         if (a_parking.isEmpty()){
             throw new ExcepcioNoQuedenVehicles("No hi ha vehicles");
         }
@@ -89,13 +125,8 @@ public class PuntDeRecarrega extends Localitzacio {
             while(it_vehicles.hasNext() && !trobat){
                 entry_vehicle = it_vehicles.next();
                 v = entry_vehicle.getKey();
-                if (estaDisponibleVehicle(v,horaAvis)) {
-                    // Si el vehicle pot arribar al punt d'origen de la petició com a molt tard tEspMax + horaRecollida de la petició 
-                    // es segueix acceptant
-                    if (horaAvis.mes(tPRaOrigen).compareTo(horaRecollida.mes(tEspMax)) < 0 || horaAvis.mes(tPRaOrigen).compareTo(horaRecollida.mes(tEspMax)) == 0) {
-                        if (v.Autonomia() >= recorregut && v.NombrePlaces() >= nPersones)
-                            trobat = true;
-                    }
+                if (v.Autonomia() > recorregut && v.NombrePlaces() > nPersones && entry_vehicle.getValue().compareTo(tempsSortida) < 0){
+                    trobat = true;
                 }
             }
             
@@ -108,42 +139,25 @@ public class PuntDeRecarrega extends Localitzacio {
             
         }
     }    
-    
-    public Temps tempsCarrega(Vehicle v) {
-    // Pre: v està estacionat en el punt de recàrrega 
-    // Post: Retorna el temps de càrrega de v 
-        Temps tCar = v.TempsCarrega();
-        if (AcceptaCarregaRapida() && v.CarregaRapida()) {
-            tCar = tCar.per((float) 0.7);
-        }
-        return tCar; 
         
-    }
-    
-    public Temps horaDisponibilitat(Vehicle v) {
-    // Pre: v està estacionat en el punt de recàrrega
-    // Post: Retorna l'hora de disponibilitat de v en el punt de recàrrega 
-        return a_parking.get(v); 
-    }
         
-    boolean estaDisponibleVehicle(Vehicle v, Temps horaAvis) {
-    // Pre: --
-    // Post: Retorna cert si v està disponible en horaAvis
-        
-        boolean disponible = false; 
-        Temps horaDisp = a_parking.get(v); 
-        // Si abans o en el mateix moment en què avisi l'empresa el vehicle s'ha carregat, aquest està disponible 
-        if (horaDisp.compareTo(horaAvis) < 0 || horaDisp.compareTo(horaAvis) == 0) 
-           disponible = true;
-        return disponible; 
-    } 
     
-    
+    /** 
+        @brief Indica que es un punt de recarrega
+        @pre cert
+        @post retorna cert indicant que es un punt de recarrega
+    */
     @Override
     public boolean esPuntDeRecarrega(){
         return true;
     }
     
+    
+    /** 
+        @brief toString de la classe
+        @pre cert
+        @post retorna l'string amb les dades d'un Punt de recàrrega
+    */
     @Override
     public String toString(){
         String s = "\n-------------------------------------------\n";
@@ -169,7 +183,7 @@ public class PuntDeRecarrega extends Localitzacio {
     }
     
     //ATRIBUTS
-    private final int a_nPlaces; //INVARIANT: a_nPlaces > 0 i a_nPlaces > a_parking
+    private final int a_nPlaces; //INVARIANT: a_nPlaces > 0 i a_nPlaces >= a_parking.size()
     private final boolean a_carregaRapida; //INVARIANT: cert
     private HashMap<Vehicle, Temps> a_parking; //INVARIANT: cert
     // Més el de la classe Localització heretats
@@ -200,3 +214,4 @@ public class PuntDeRecarrega extends Localitzacio {
     
     
 }
+
