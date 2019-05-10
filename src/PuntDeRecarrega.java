@@ -62,7 +62,7 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre a_nPlaces >= a_parking.size()
         @post retorna el nombre de places lliures al PC
     */
-    public int PlacesLliures() throws ExcepcioNoQuedenPlaces{
+    public int PlacesLliures() {
         return (a_nPlaces - a_parking.size());
     }
     
