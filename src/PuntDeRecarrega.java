@@ -185,7 +185,7 @@ public class PuntDeRecarrega extends Localitzacio {
     //ATRIBUTS
     private final int a_nPlaces; //INVARIANT: a_nPlaces > 0 i a_nPlaces >= a_parking.size()
     private final boolean a_carregaRapida; //INVARIANT: cert
-    private HashMap<Vehicle, Temps> a_parking; //INVARIANT: cert
+    private HashMap<Vehicle, Temps> a_parking; //INVARIANT: a_parking.size()<=a_nPlaces
     // Més el de la classe Localització heretats
     
     
