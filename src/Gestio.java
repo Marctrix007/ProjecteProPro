@@ -38,6 +38,18 @@ public class Gestio {
        MostrarEstadistics();  
     }
     
+    /**
+        @pre cert
+        @post guarda la informació de les rutes i estadístics a un fitxer de sortida
+    **/
+    
+    public void SortidaFitxer()throws IOException{
+        String dades = stats.toString();
+        BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt",true));
+        writer.write(dades);
+        writer.close();
+        
+    }
     
     public static void CrearLocalitzacions() {
     // Pre: --
