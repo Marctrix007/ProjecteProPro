@@ -192,7 +192,7 @@ public class PuntDeRecarrega extends Localitzacio {
 
 //------------------------------------------------------------------------------------------------------    
     //EXCEPCIONS
-    private static class ExcepcioNoQuedenPlaces extends Exception {
+    static class ExcepcioNoQuedenPlaces extends Exception {
     //Descripcio: excepcio que es crida quan no queden places al parking i no es poden afegir més vehicles  
         public ExcepcioNoQuedenPlaces(){
             super();
@@ -202,7 +202,7 @@ public class PuntDeRecarrega extends Localitzacio {
         }
     }
 
-    private static class ExcepcioNoQuedenVehicles extends Exception {
+    static class ExcepcioNoQuedenVehicles extends Exception {
     //Descripcio: excepcio que es crida quan no hi ha vehicles i es demana que en surti un
         public ExcepcioNoQuedenVehicles() {
             super();
