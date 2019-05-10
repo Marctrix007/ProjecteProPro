@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 */
 public class Estadistica {
     
-    static final int FALLADA = -1;
-    static final int SATISFETA = 1;
+   
     private int peticionsSatisfetes;
     private int peticionsFallades;
     private HashMap<Vehicle,ArrayList<Double>> mitjanesOcupVehi;
