@@ -2,7 +2,6 @@
     @file Estadistica.java
     @brief Fixter que s'encarrega de les estadístiques del programa
 */
-package proves.fitxers;
 
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
