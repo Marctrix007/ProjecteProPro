@@ -27,7 +27,7 @@ import java.util.Iterator;
 public class Gestio {
     
     // Cua de prioritats que conté les peticions 
-    private static SortedSet<Peticio> peticions;
+    private SortedSet<Peticio> peticions;
     private Mapa mapa;
     private Temps tEspMax; 
     private Estadistica stats;
