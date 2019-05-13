@@ -39,6 +39,13 @@ public class Ruta {
             cami.add(ite.next());
     }
     
+    public int ultimaLoc() {
+        
+        return cami.getLast(); 
+        
+    }
+    
+    
     public boolean Conte(Ruta r){
         //Pre: --
         //Post: 
@@ -64,5 +71,10 @@ public class Ruta {
     
     public Iterator<Integer> iterator(){
         return cami.iterator();
+    }
+    
+    
+    public Pes cost() {
+        return pes; 
     }
 }
