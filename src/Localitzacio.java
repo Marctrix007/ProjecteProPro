@@ -3,8 +3,6 @@
     @brief Fixter que guarda la classe Localització
 */
 
-package proves.fitxers;
-
 /** 
     @class Localitzacio
     @brief Classe que guarda la informacio d'una Localització de l'empresa
@@ -42,8 +40,13 @@ public class Localitzacio {
         @pre cert
         @post retorna l'index de popularitat d'una localització
     */
-    int popularitat(){
+    public int popularitat(){
         return a_index_pop;
+    }
+    
+    
+    public int identificador() {
+        return a_iden; 
     }
     
     
@@ -70,6 +73,7 @@ public class Localitzacio {
     
     
     protected String a_nom; //INVARIANT: cert
+    protected int a_iden; 
     protected int a_index_pop; //INVARIANT: 0 < index_pop < 10
     
     
