@@ -9,16 +9,18 @@
  * @author Marc Padrós Jiménez
  */
 
+import java.io.BufferedWriter;
 import java.io.File; 
 import java.util.Scanner; 
 import java.util.Random; 
 import java.util.TreeSet;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.SortedSet;
 import java.util.ArrayList; 
 import java.util.Iterator;
-import java.util.PriorityQueue;
 
 
 
@@ -27,31 +29,24 @@ public class Gestio {
     // Cua de prioritats que conté les peticions 
     private static SortedSet<Peticio> peticions;
     private Mapa mapa;
-    Temps tEspMax; 
+    private Temps tEspMax; 
     private Estadistica stats;
-    
-    public static void main(String argv[]) {
-        
-       CrearLocalitzacions(); 
-       CrearConnexions(); 
-       AtendrePeticions(); 
-       MostrarEstadistics();  
-    }
-    
+   
     /**
+     * @throws java.io.IOException
         @pre cert
         @post guarda la informació de les rutes i estadístics a un fitxer de sortida
     **/
     
-    public void SortidaFitxer()throws IOException{
+    public void MostrarEstadistics()throws IOException{
         String dades = stats.toString();
-        BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt",true));
-        writer.write(dades);
-        writer.close();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt",true))) {
+            writer.write(dades);
+        }
         
     }
     
-    public static void CrearLocalitzacions() {
+    public void CrearLocalitzacions() {
     // Pre: --
     // Post: Crea les localitzacions que poden ser punts de recàrrega o no i les afegeix al mapa    
     
@@ -95,7 +90,7 @@ public class Gestio {
     }
     
     
-    public static void CrearConnexions() {
+    public void CrearConnexions() {
     // Pre: --
     // Post: Crea les connexions entre les localitzacions i les afegeix al mapa 
     
@@ -129,7 +124,7 @@ public class Gestio {
         
     }
     
-    /*
+    
     public void CrearMapa() {
     // Pre: --
     // Post: Crea un mapa amb les seves localitzacions i les connexions entre aquestes 
@@ -140,15 +135,16 @@ public class Gestio {
         CrearConnexions();
             
     }
-    */
-    /*
-    public void CrearVehicles() {
+    
+    
+    public void CrearVehicles() throws FileNotFoundException{
         
         System.out.println("Fitxer de vehicles: ");
-        Scanner teclat = new Scanner(System.in);
-        File fitVeh = new File(teclat.nextLine()); 
-        Scanner fitxerVehicles = new Scanner(fitVeh);
-        teclat.close();
+        Scanner fitxerVehicles;
+        try (Scanner teclat = new Scanner(System.in)) {
+            File fitVeh = new File(teclat.nextLine());
+            fitxerVehicles = new Scanner(fitVeh);
+        }
         while(fitxerVehicles.hasNext()){
             
             String matricula = fitxerVehicles.next();
@@ -157,7 +153,7 @@ public class Gestio {
             float autonomia = fitxerVehicles.nextFloat();
             String carrRapida = fitxerVehicles.next();
             boolean carregaRapida = false;
-            if (carrRapida == "SI") 
+            if ("SI".equals(carrRapida)) 
                 carregaRapida = true; 
             int nPlaces = fitxerVehicles.nextInt();
             int hora = fitxerVehicles.nextInt();
@@ -175,19 +171,7 @@ public class Gestio {
         fitxerVehicles.close();
           
     }
-    */
-    /*
-    public void afegir_vehicle(Vehicle v){
-        
-        PuntDeRecarrega p; 
-        do{
-           p = mapa.randomPuntDeRecarrega();
-        }while(p.PlacesLliures()<0);
-        
-        p.EstacionarVehicle(v, new Temps(7,0));
-       
-    }
-    */  
+   
     public static float randFloat(float min, float max) {
     // Pre: --
     // Post: Retorna un nombre amb coma flotant contingut entre min i max 
@@ -231,7 +215,7 @@ public class Gestio {
                 int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4 
                 // Creem la petició
                 // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
-                Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients,0);    
+                Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);    
                 // Afegim la petició a la cua
                 peticions.add(pet); 
                 iden++;   
@@ -239,7 +223,7 @@ public class Gestio {
         }
     }   
     
-    public  void AtendrePeticions() {
+    public  void AtendrePeticions() throws Exception {
     // Pre: --  
     // Post: Tracta totes les peticions 
         
@@ -253,6 +237,7 @@ public class Gestio {
         
         // Es crea l'objecte estadistica 
         stats = new Estadistica(); 
+        
         // Mentre quedin peticions per tractar 
         while (!peticions.isEmpty()) {
             TractarPeticio(peticions.first()); // S'agafa la primera petició de la cua i la tractem, mentre es tracta aquesta se'n poden tractar d'altres 
@@ -263,7 +248,7 @@ public class Gestio {
        
     
     
-    public void TractarPeticio(Peticio pet) {
+    public void TractarPeticio(Peticio pet) throws Exception {
     // Pre: --
     // Post: Marca pet com a atesa o com a fallida. Mentre es tracta pet es poden tractar altres peticions. 
     
@@ -280,7 +265,7 @@ public class Gestio {
             stats.incrementarNombreDeEncerts(); 
             // El vehicle fa la ruta marcada per la primera petició 
             FerTrajecte(v,rVehicle,peticionsAtendre,horaAvis); 
-                 
+            stats.guardarRecorregutVehicle(v,rVehicle); 
         }
         else {
             stats.incrementarNombreDeFallades(); 
@@ -290,7 +275,7 @@ public class Gestio {
             
     }
         
-    public static Vehicle DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Ruta rVehicle, Temps horaAvis) {
+    public Vehicle DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Ruta rVehicle, Temps horaAvis) throws Exception {
     // Pre: --
     // Post: Retorna el vehicle en el punt de recàrrega més proper a pet, que la pugui atendre sense que el seu temps d'espera sigui major a tEspMax. 
     //       rVehicle comença en el punt de recàrrega més proper a l'origen de pet i acaba en el punt de recàrrega més proper al punt de destí de pet
@@ -300,23 +285,26 @@ public class Gestio {
         Vehicle v = null; 
         boolean trobat = false; 
         // Es demana a Mapa el PuntDeRecarrega més proper al punt d'origen de la petició 
-        PriorityQueue<PuntDeRecarrega> PRMesPropersOrigen = mapa.PRmesProximsA(pet.origen); 
-        PuntDeRecarrega pMesProperOrigen = PRMesPropersOrigen.peek(); 
-        // També es demana el PuntDeRecarrega més proper des del punt de destí de la petició 
-        PriorityQueue<PuntDeRecarrega> PRMesPropersDesti = mapa.PRmesProximsDesDe(pet.desti); 
-        PuntDeRecarrega pMesProperDesti = PRMesPropersDesti.peek(); 
+        ArrayDeque<Integer> PRMesPropersOrigen = mapa.PRMesProximA(pet.origen().identificador()); 
+        ArrayDeque<Integer> PRMesPropersDesti = mapa.PRMesProximDesde(pet.desti().identificador()); 
+        
+        Iterator<Integer> itOri = PRMesPropersOrigen.iterator();
+        PuntDeRecarrega pMesProperOrigen = (PuntDeRecarrega)mapa.loc(itOri.next()); 
+        Iterator<Integer> itDes = PRMesPropersDesti.iterator(); 
+        PuntDeRecarrega pMesProperDesti = (PuntDeRecarrega)mapa.loc(itDes.next()); 
         
         // Temps per anar del punt de recàrrega a l'origen de la petició
-        Temps tPRaOrigen = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador()).cost().temps(); 
+        Temps tPRaOrigen = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen().identificador()).cost().temps(); 
         // Nombre de clients de la petició 
         int nPass = pet.NombreClients(); 
         // Distància en km de rVehicle 
-        float recorregut = 0; 
-                
-        while ((!PRMesPropersOrigen.isEmpty() && !PRMesPropersDesti.isEmpty()) && !trobat) { 
-            recorregut = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador()).cost().distancia()+ 
-            mapa.CamiMinim(pet.origen.identificador(), pet.desti.identificador()).cost().distancia()+
-            mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador()).cost().distancia(); 
+        float recorregut; 
+        
+        
+        while ((itOri.hasNext() && itDes.hasNext()) && !trobat) { 
+            recorregut = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen().identificador()).cost().distancia()+ 
+            mapa.CamiMinim(pet.origen().identificador(), pet.desti().identificador()).cost().distancia()+
+            mapa.CamiMinim(pet.desti().identificador(), pMesProperDesti.identificador()).cost().distancia(); 
             if (!pMesProperOrigen.Buit() && pMesProperDesti.PlacesLliures() > 0) { // Es comprova si els punts de recàrrega es poden admetre 
                 v = pMesProperOrigen.SortidaVehicle(recorregut, nPass, tPRaOrigen, tEspMax, pet.horaSortida(), horaAvis); 
                 if (v != null)  // Si s'ha trobat un vehicle apropiat, ja no es busca més 
@@ -324,14 +312,14 @@ public class Gestio {
             }
             if (pMesProperOrigen.Buit() || v == null) {
             // Obtenir el següent punt de recàrrega més proper a origen en cas que el PR estigui buit o no s'hagi trobat un vehicle apropiat 
-              PuntDeRecarrega PROriDescartat = PRMesPropersOrigen.remove(); 
-              pMesProperOrigen = PRMesPropersOrigen.peek();
-               // Recalcular el temps per anar del nou punt de recàrrega al punt d'origen de la petició 
+              PuntDeRecarrega PROriDescartat = pMesProperOrigen; 
+              pMesProperOrigen = (PuntDeRecarrega)mapa.loc(itOri.next()); 
+              // Recalcular el temps per anar del nou punt de recàrrega al punt d'origen de la petició 
               tPRaOrigen = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador()).cost().temps();
             }
             if (pMesProperDesti.PlacesLliures() == 0) { // Obtenir el següent punt de recàrrega més proper a destí en cas que el PR no tingui places lliures 
-                PuntDeRecarrega PRDestiDescartat = PRMesPropersDesti.remove(); 
-                pMesProperDesti = PRMesPropersDesti.peek(); 
+                PuntDeRecarrega PRDestiDescartat = pMesProperDesti; 
+                pMesProperDesti = (PuntDeRecarrega)mapa.loc(itDes.next());
             }
         }
         
@@ -342,7 +330,7 @@ public class Gestio {
             rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
             double ocupPROri = (pMesProperOrigen.Capacitat()-pMesProperOrigen.PlacesLliures())/pMesProperOrigen.Capacitat();
             Temps tEstacionat = horaAvis.menys(pMesProperOrigen.horaDisponibilitat(v).menys(pMesProperOrigen.tempsCarrega(v))); 
-            stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupMitjPROri); 
+            stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupPROri); 
             stats.guardartempsEstacionatVehicle(v,tEstacionat); 
         }
         
@@ -350,33 +338,35 @@ public class Gestio {
     }
     
 
-    public static void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws PuntDeRecarrega.ExcepcioNoQuedenPlaces {
+    public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
         
-        // Es redueix l'autonomia del vehicle a partir dels km de la ruta
-        v.ReduirAutonomiaRestant(rVehicle.cost().distancia());
         // Es redueix el nombre de places lliures del vehicle a partir del nombre de clients de la petició inicial, pet 
         Peticio petIni = petAtendre.get(0); 
         v.CarregarPassatgers(petIni.NombreClients());
+        peticions.remove(petIni); 
         double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
         stats.guardarOcupacioVehicle(v,ocupVehicle); 
-        int aux = 0;
-        ArrayDeque<Integer> llistaLoc = rVehicle.Localitzacions(); 
+        Iterator<Integer> itLoc = rVehicle.iterator(); 
+        Iterator<Integer> itSeg; 
+        int locAct, locSeg = 0; 
         
-        for (int loc: llistaLoc) {
-            DescarregarClients(v,loc, petAtendre); 
-            TractarMesPeticions(v,loc,horaArribada,petAtendre,rVehicle, petIni); 
-            aux = llistaLoc.remove(); 
-            horaArribada=horaArribada.mes(mapa.CamiMinim(aux, llistaLoc.getFirst()).cost().temps());
-            llistaLoc.addFirst(aux);
-            llistaLoc = rVehicle.Localitzacions(); 
+        while (itLoc.hasNext()) {
+            locAct = itLoc.next();
+            DescarregarClients(v,locAct, petAtendre); 
+            TractarMesPeticions(v,locAct,horaArribada,petAtendre,rVehicle); 
+            itSeg = itLoc; 
+            locSeg = itSeg.next(); 
+            horaArribada=horaArribada.mes(mapa.CamiMinim(locAct, locSeg).cost().temps());
+            itLoc.remove();
+            itLoc = rVehicle.iterator(); 
         }
         // L'últim punt de la ruta del vehicle és el punt de recàrrega on ha d'estacionar 
-        PuntDeRecarrega PR = (PuntDeRecarrega) mapa.loc(llistaLoc.getLast()); 
+        PuntDeRecarrega PR = (PuntDeRecarrega) mapa.loc(locSeg); 
         PR.EstacionarVehicle(v, horaArribada);
         
     }
     
-    public static void DescarregarClients(Vehicle v, int loc, ArrayList<Peticio> petAtendre) {
+    public void DescarregarClients(Vehicle v, int loc, ArrayList<Peticio> petAtendre) {
     // Pre: v té passatgers 
     // Post: v descarrega els passatgers que tinguin com a destinació loc. Les peticions dels passatgers que pertanyen a petAtendre han pogut ser ateses per v. 
         
@@ -396,7 +386,7 @@ public class Gestio {
         
     }
     
-    public static void TractarMesPeticions(Vehicle v, int loc, Temps horaArribada, ArrayList<Peticio> petAtendre, Ruta rVehicl, Peticio petIni) {
+    public void TractarMesPeticions(Vehicle v, int loc, Temps horaArribada, ArrayList<Peticio> petAtendre, Ruta rVehicle) throws Exception {
     // Pre: --
     // Post: v comprova si és capaç d'atendre més peticions que s'hagin de recollir a loc en el moment que hi és v, horaArribada.
     //       Qualsevol petició que pugui atendre s'afegeix a petAtendre. La destinació de la petició pot modificar rVehicle. 
@@ -406,30 +396,30 @@ public class Gestio {
         Iterator<Peticio> it = peticions.iterator(); 
         while (it.hasNext()) {
             Peticio pet = it.next(); 
-            if (pet != petIni) {
                 // Es comprova si el vehicle pot atendre la petició 
                 // Primer es compara l'hora d'arribada amb l'hora de sortida de la petició 
                 // Si horaArribada de v <= pet.horaSortida + tEspMax, ok 
-                if (horaArribada.compareTo(pet.horaSortida().mes(tEspMax)) || horaArribada.compareTo(pet.horaSortida().mes(tEspMax))) {
+                if (horaArribada.compareTo(pet.horaSortida().mes(tEspMax)) <= 0) {
                     // Es comprova si la ruta del vehicle conté la ruta de la petició 
                     // Si no la conté el recorregut que hauria de fer el vehicle és major 
                     Ruta rPet = mapa.CamiMinim(pet.origen().identificador(), pet.desti().identificador());
                     float recorregut = 0;
                     boolean modificarRuta = false;
                     Ruta rNova = null; 
-                    if (!rVehicle.conte(rPet)) {
+                    if (!rVehicle.Conte(rPet)) {
                         // Si la ruta del vehicle no conté la ruta de la petició, la ruta del vehicle s'ha de modificar en cas que la petició es pugui atendre
                         modificarRuta = true; 
+                        rNova = mapa.CamiMinim(rVehicle.ultimaLoc(), pet.desti().identificador()); 
                         // Si es troba un punt de recàrrega on pot estacionar el vehicle, es calcula el recorregut que ha de fer per portar la petició al seu destí 
                         // més per anar del destí al punt de recàrrega 
-                        if (pMesProperLocEstacionable(loc) != null) {
-                            PuntDeRecarrega p = pMesProperLocEstacionable(loc); 
-                            rNova = rPet.Concatenar(mapa.CamiMinim(pet.desti().identificador(), p.identificador()));
-                            recorregut = rNova.cost().distancia();
+                        PuntDeRecarrega pc = pMesProperLocEstacionable(pet.desti.identificador()); 
+                        if (pc != null) {
+                            rNova.Concatenar(mapa.CamiMinim(pet.desti().identificador(), pc.identificador()));
+                            recorregut = rVehicle.cost().distancia()+rNova.cost().distancia();
                         }
                     }
                     // Es comprova si el vehicle té prou autonomia restant
-                    if (v.AutonomiaRestant() >= recorregut) {
+                    if (v.Autonomia()>= recorregut) {
                         // Es comprova si el vehicle té prou places lliures 
                         if (v.NombrePlacesLliures() >= pet.NombreClients()) {
                             // Si el vehicle pot atendre la petició s'afegeix a la resta de peticions que es poden atendre
@@ -437,7 +427,6 @@ public class Gestio {
                             // El vehicle carrega els passatgers de la petició
                             v.CarregarPassatgers(pet.NombreClients());
                             // Es redueix l'autonomia restant del vehicle 
-                            v.ReduirAutonomiaRestant(recorregut);
                             if (modificarRuta) 
                                 rVehicle.Concatenar(rNova); 
                             // Es marca la petició com a atesa
@@ -449,22 +438,20 @@ public class Gestio {
                 }   
             }
         }
-        
-    }
+
     
-    
-    public static PuntDeRecarrega pMesProperLocEstacionable(int loc) {
+    private PuntDeRecarrega pMesProperLocEstacionable(int loc) throws Exception {
     // Pre: --
     // Post: Retorna el punt de recàrrega més proper a loc en el qual es pugui estacionar. Retorna null si no s'ha trobat cap punt de recàrrega estacionable. 
     
-        PriorityQueue<PuntDeRecarrega> PRMesPropersLoc = mapa.PRmesProximsDesDe(loc); 
+        ArrayDeque<Integer> PRMesPropersLoc = mapa.PRMesProximDesde(loc); 
         boolean trobat = false; 
         PuntDeRecarrega p = null; 
-        while (!PRMesPropersLoc.isEmpty() && !trobat) {
-            if (PRMesPropersLoc.peek().PlacesLliures()>0) {
+        Iterator<Integer> itPR = PRMesPropersLoc.iterator();
+        while (itPR.hasNext() && !trobat) {
+            p = (PuntDeRecarrega)mapa.loc(itPR.next()); 
+            if (p.PlacesLliures()>0) 
                 trobat = true; 
-                p = PRMesPropersLoc.peek(); 
-            }
         }
         
         return p; 
