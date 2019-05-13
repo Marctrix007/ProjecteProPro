@@ -13,30 +13,29 @@
 
 public class Peticio implements Comparable<Peticio> {
     
+    /* ATRIBUTS */ 
     int identificador; 
     Temps horaTrucada;
     Temps horaSortida;
     Localitzacio origen;
     Localitzacio desti; 
     int nClients; 
-    int estat;  
-    // estat = -1 (fallada)
-    // estat= 0 (per atendre)
-    // estat = 1 (satisfeta)
     
     
-    public Peticio(int identificador, Temps horaTrucada, Temps horaSortida, Localitzacio origen, Localitzacio desti, int nClients, int estat) {
+    public Peticio(int identificador, Temps horaTrucada, Temps horaSortida, Localitzacio origen, Localitzacio desti, int nClients) {
         
         this.identificador = identificador;
         this.horaTrucada = horaTrucada;
         this.horaSortida = horaSortida;
         this.origen = origen;
         this.desti = desti;
-        this.nClients = nClients;
-        this.estat = estat; 
+        this.nClients = nClients;        
         
     }
 
+    public int identificador() {
+        return identificador; 
+    }
     
     public Temps horaSortida() {
         
@@ -71,19 +70,6 @@ public class Peticio implements Comparable<Peticio> {
         
     }
     
-    
-    public void fallada(){
-        
-        estat = -1;
-        
-    }
-    
-    public void satisfeta(){
-        
-        estat = 1;
-        
-    }
-    
     @Override
     public int compareTo(Peticio p) {
         
@@ -91,21 +77,10 @@ public class Peticio implements Comparable<Peticio> {
         
     }
     
-    /*
-    public static void main(String args[]) {
-        
-        
-        Peticio p1 = new Peticio("20:14");
-        Peticio p2 = new Peticio("20:13");
-        
-        if (p1.compareTo(p2) == -1) 
-            System.out.println("L'hora de la primera peticio es inferior\n");
-        
-        else 
-            System.out.println("L'hora de la primera peticio es superior\n");
-        
-        
+    @Override
+    public String toString(){
+        return "PETICIÓ " + identificador(); + "\nTemps màxim d'espera = " + statsMitjanaTempsE.getMax() + "\nTemps mínim d'espera = " + statsMitjanaTempsE.getMin() + "\nSD = " + StandardDeviation(mitjanesTempsEspera,statsMitjanaTempsE.getAverage()) + "\nVariació = " + Variacio(mitjanesTempsEspera,statsMitjanaTempsE.getAverage());
+
     }
     
-    */
 }
