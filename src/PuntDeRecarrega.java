@@ -2,8 +2,6 @@
     @file PuntDeRecarrega.java
     @brief Fixter que conté la classe Punt de Recàrrega
 */
-package proves.fitxers;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,11 +15,7 @@ import java.util.Set;
 */
 public class PuntDeRecarrega extends Localitzacio {
     
-    
-    public static void main(String argv[]) throws Exception {
-
-        
-    }
+   
     
     /** 
         @brief Constructor per defecte
@@ -49,6 +43,7 @@ public class PuntDeRecarrega extends Localitzacio {
     
     /**
      * 
+     * @return 
         @brief Indica si accepta carrega ràpida el punt
         @pre cert
         @post retorna si accepta carrega rapida o no el punt de Recarrega
@@ -57,7 +52,8 @@ public class PuntDeRecarrega extends Localitzacio {
         return a_carregaRapida;
     }
     
-    /** 
+    /**
+     * @return 
         @brief Indica el nombre de places lliures que hi ha al PC
         @pre a_nPlaces >= a_parking.size()
         @post retorna el nombre de places lliures al PC
@@ -66,7 +62,8 @@ public class PuntDeRecarrega extends Localitzacio {
         return (a_nPlaces - a_parking.size());
     }
     
-    /** 
+    /**
+     * @return 
         @brief Indica l'ocupació que té eñ PC
         @pre cert
         @post retorna el percentatge d'ocupació del vehicle
@@ -75,8 +72,32 @@ public class PuntDeRecarrega extends Localitzacio {
         return 100.0*a_parking.size()/a_nPlaces;
     }
     
+    /**
+     * @return 
+        @brief Indica la capacitat del punt de recàrrega
+        @pre cert
+        @post retorna el nombre de places del punt de recàrrega
+    */
+    public int Capacitat(){
+        return a_nPlaces; 
+    }
     
-    /** 
+    
+    
+    /**
+     *  @return 
+        @brief Indica si el punt de recàrrega està buit 
+        @pre cert
+        @post retorna cert si el punt de recàrrega està buit, fals altrament 
+    */
+    public boolean Buit(){
+        return (a_nPlaces - a_parking.size()) == 0; 
+    }
+    
+    
+    
+    /**
+     * @return 
         @brief Retorna el nom del punt de Recarrega
         @pre cert
         @post retorna el nom del PC
@@ -86,7 +107,10 @@ public class PuntDeRecarrega extends Localitzacio {
     }
     
     
-    /** 
+    /**
+     * @param v
+     * @param tempsEntrada
+     * @throws PuntDeRecarrega.ExcepcioNoQuedenPlaces
         @brief Estaciona un vehicle al Punt de Recarrega
         @pre v!=null i PlacesLliures>0
         @post guarda un vehicle amb un temps d'entrada
@@ -96,10 +120,10 @@ public class PuntDeRecarrega extends Localitzacio {
         if(this.PlacesLliures() == 0)
            throw new ExcepcioNoQuedenPlaces("No queden places lliures"); 
         else{
-            Temps tCar = v.TempsCarrega();
-            if (AcceptaCarregaRapida() && v.CarregaRapida())
-                tCar = tCar.per((float) 0.7);
-            a_parking.put(v, tempsEntrada.mes(tCar));
+            if (tempsEntrada.compareTo(new Temps(7,0)) == 0) // si són les 7 està disponible des de les 7 
+                a_parking.put(v,new Temps(7,0)); 
+            else 
+                a_parking.put(v, tempsEntrada.mes(tempsCarrega(v)));
         }
     }
     
@@ -109,7 +133,7 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
         @post retorna un vehicle v del punt de recarrega i l'elimina del punt
     */
-    public Vehicle SortidaVehicle(int recorregut, int nPersones, Temps tempsSortida) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
+    public Vehicle SortidaVehicle(float recorregut, int nPersones, Temps tPRaLoc, Temps tEspMax, Temps horaSortida, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
   
         if (a_parking.isEmpty()){
             throw new ExcepcioNoQuedenVehicles("No hi ha vehicles");
@@ -125,22 +149,42 @@ public class PuntDeRecarrega extends Localitzacio {
             while(it_vehicles.hasNext() && !trobat){
                 entry_vehicle = it_vehicles.next();
                 v = entry_vehicle.getKey();
-                if (v.Autonomia() > recorregut && v.NombrePlaces() > nPersones && entry_vehicle.getValue().compareTo(tempsSortida) < 0){
-                    trobat = true;
+                if (entry_vehicle.getValue().compareTo(horaAvis) <= 0) {// si tDisp <= horaAvis, el vehicle està disponible quan l'avisa l'empresa 
+                    if (horaAvis.mes(tPRaLoc).compareTo(horaSortida.mes(tEspMax)) <= 0 && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones) 
+                        trobat = true;
                 }
-            }
-            
+            }           
             if (!trobat)
                 return null;
             else{
                 a_parking.remove(v);
                 return v;
             }
-            
         }
     }    
         
-        
+    
+    /** 
+        @brief Indica l'hora de disponibilitat d'un vehicle determinat 
+        @pre v està estacionat en el punt de recàrrea 
+        @post retorna l'hora de disponibilitat de v
+    */
+    public Temps horaDisponibilitat(Vehicle v){
+        return a_parking.get(v); 
+    }
+    
+       /** 
+        @brief Temps de càrrega d'un vehicle determinat 
+        @pre v està estacionat en el punt de recàrrega
+        @post retorna el temps de càrrega de v 
+    */
+    public Temps tempsCarrega(Vehicle v){
+        Temps tCar = v.TempsCarrega();
+        if (AcceptaCarregaRapida() && v.CarregaRapida())
+            tCar = tCar.per((float) 0.7);
+        return tCar; 
+    }
+    
     
     /** 
         @brief Indica que es un punt de recarrega
