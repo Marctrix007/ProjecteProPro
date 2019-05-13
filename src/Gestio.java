@@ -31,7 +31,7 @@ public class Gestio {
     private Mapa mapa;
     private Temps tEspMax; 
     private Estadistica stats;
-   
+
     /**
      * @throws java.io.IOException
         @pre cert
