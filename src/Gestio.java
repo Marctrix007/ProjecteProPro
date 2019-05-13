@@ -53,7 +53,7 @@ public class Gestio {
         System.out.println("Fitxer de localitzacions: ");
         Scanner teclat = new Scanner(System.in);
         File fitLoc = new File(teclat.nextLine());
-        
+     
         try {
            
             Scanner fitxerLoc = new Scanner(fitLoc);
