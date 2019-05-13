@@ -14,7 +14,6 @@ public class Vehicle {
     private String tipus;
     private String model;
     private final float autonomia;        // en km 
-    private float autonomiaRestant; 
     private boolean carrRapida;
     private Temps duradaCarrega;      // hores / minuts (API temps Java)
     //Temps(hh,mm)
@@ -63,15 +62,7 @@ public class Vehicle {
         return autonomia; 
         
     }
-    
-    public float AutonomiaRestant() {
-        return autonomiaRestant; 
-    }
-    
-    public void ReduirAutonomiaRestant(float km) {
-        autonomiaRestant-=km; 
-    }
-    
+  
     public Temps DuradaCarrega(float kmRuta) {
         
         return duradaCarrega.per(kmRuta/autonomia);
