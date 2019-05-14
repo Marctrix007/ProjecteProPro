@@ -1,7 +1,7 @@
-A,Aeroport,10
-B,Camp Nou,8
-C,Estacio de Sants,9
-D,PR,1,5,SI
-E,Palau Sant Jordi,7
-F,Torre Agbar,7
-G,PR,1,7,NO
+0,Aeroport,10
+1,Camp Nou,8
+2,Estacio de Sants,9
+3,PR,1,5,SI
+4,Palau Sant Jordi,7
+5,Torre Agbar,7
+6,PR,1,7,NO
