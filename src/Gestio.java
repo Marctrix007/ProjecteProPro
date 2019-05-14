@@ -35,7 +35,11 @@ public class Gestio {
     
     
     
-    
+    /**
+        @brief Creació de Gestió 
+        @pre Cert
+        @post Crea un objecte Gestió 
+    **/
     
     Gestio(){
         peticions = new TreeSet();
@@ -46,11 +50,12 @@ public class Gestio {
 
     /**
      * @throws java.io.IOException
-        @pre cert
-        @post guarda la informació de les rutes i estadístics a un fitxer de sortida
+        @pre Cert
+        @post Guarda la informació de les rutes i estadístics a un fitxer de sortida
     **/
     
     public void MostrarEstadistics()throws IOException{
+        
         String dades = stats.toString();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt",true))) {
             writer.write(dades);
@@ -58,7 +63,7 @@ public class Gestio {
         
     }
     
-    public void CrearLocalitzacions() throws FileNotFoundException {
+    public void CrearLocalitzacions() throws FileNotFoundException, IndexOutOfBoundsException {
     // Pre: --
     // Post: Crea les localitzacions que poden ser punts de recàrrega o no i les afegeix al mapa    
     
@@ -71,21 +76,22 @@ public class Gestio {
         while (fitxerLoc.hasNextLine()) {
             String linia = fitxerLoc.nextLine();
             String[] liniaArr = linia.split(","); 
-            String iden = liniaArr[0];
+            int iden = Integer.parseInt(liniaArr[0]); 
             String nom = liniaArr[1]; 
             int popul = Integer.parseInt(liniaArr[2]); 
             if (liniaArr.length>3) {      // Si la localització és un punt de recàrrega
                 int nPlaces = Integer.parseInt(liniaArr[3]); 
                 String carrRapid = liniaArr[4]; 
                 boolean carregaRapida = "SI".equals(carrRapid);
-                
                 PuntDeRecarrega puntRec = new PuntDeRecarrega(nom,popul,nPlaces,carregaRapida);
                 mapa.AfegirLocalitzacio(puntRec);
                 stats.guardarPuntRC(puntRec);
+                System.out.println(puntRec);
             }
             else {
                 Localitzacio loc = new Localitzacio(nom,popul);
                 mapa.AfegirLocalitzacio(loc);
+                System.out.println(loc);
             }
         }
         
@@ -101,18 +107,21 @@ public class Gestio {
         Scanner teclat = new Scanner(System.in);
         File fitCon = new File(teclat.nextLine());
    
-            Scanner fitxerCon = new Scanner(fitCon);
-            while (fitxerCon.hasNextLine()) {
-                String linia = fitxerCon.nextLine(); 
-                String[] liniaArr = linia.split(","); 
-                Integer origen = Integer.parseInt(liniaArr[0]);
-                Integer desti = Integer.parseInt(liniaArr[1]);
-                String temps = liniaArr[2];
-                Temps tTrajecte = new Temps(temps);
-                float distKm = Float.parseFloat(liniaArr[4]); 
-                mapa.AfegirConnexio(origen, desti, distKm, tTrajecte);
-            }
-
+        Scanner fitxerCon = new Scanner(fitCon);
+        while (fitxerCon.hasNextLine()) {
+            String linia = fitxerCon.nextLine(); 
+            String[] liniaArr = linia.split(","); 
+            Integer origen = Integer.parseInt(liniaArr[0]);
+            Integer desti = Integer.parseInt(liniaArr[1]);
+            System.out.println("abans");
+            String temps = liniaArr[2];
+            Temps tTrajecte = new Temps(temps);
+            System.out.println(liniaArr[3]);
+            float distKm = Float.parseFloat(liniaArr[3]); 
+            mapa.AfegirConnexio(origen, desti, distKm, tTrajecte);
+            System.out.println("després"); 
+        }
+        fitxerCon.close();
         
     }
     
@@ -124,12 +133,12 @@ public class Gestio {
         Mapa m = new Mapa(); 
         
         CrearLocalitzacions();
-        CrearConnexions();
+        //CrearConnexions();
             
     }
     
     
-    public void CrearVehicles() throws FileNotFoundException{
+    public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException, PuntDeRecarrega.ExcepcioNoQuedenPlaces {
         
         System.out.println("Fitxer de vehicles: ");
         Scanner fitxerVehicles;
@@ -147,16 +156,17 @@ public class Gestio {
             String matricula = liniaArr[0];
             String model = liniaArr[1];
             String tipus = liniaArr[2];
-            Integer autonomia = Integer.parseInt(liniaArr[3]);
+            float autonomia = Float.parseFloat(liniaArr[3]); 
             boolean carregaRapida = liniaArr[4].equals("SI");
             Integer nPlaces = Integer.parseInt(liniaArr[5]);
             String tCarrega = liniaArr[6];
             Temps tCarr = new Temps(tCarrega); 
-            
+            int puntRecarrega = Integer.parseInt(liniaArr[7]); 
             Vehicle v = new Vehicle(matricula,model,tipus,autonomia,carregaRapida,nPlaces, tCarr);
             System.out.println(v);
             stats.guardarVehicle(v);
-            
+            PuntDeRecarrega p = (PuntDeRecarrega)mapa.loc(puntRecarrega); // ubiquem el vehicle en el punt de recàrrega llegit del fitxer a les 7:00 
+            p.EstacionarVehicle(v, new Temps(0,7));
         }        
         fitxerVehicles.close();
           
@@ -184,7 +194,7 @@ public class Gestio {
         
         // Creem una taula amb el màxim de peticions que poden produir-se en una localització
         // segons el seu índex de popularitat 
-        int[] maxPeticionsPopul = {0,10,20,30,40,50,60,70,80,90,100};
+        int[] maxPeticionsPopul = {0,1,3,4,5,6,7,8,9,10};
         
         int iden = 1; 
         for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
@@ -207,7 +217,7 @@ public class Gestio {
                 // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
                 Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);    
                 // Afegim la petició a la cua
-                System.out.println(pet+" dades: " + hTrucada + " " + hSortida + " " + origen + " " + desti + " " + nClients);
+                System.out.println(pet);
                 peticions.add(pet); 
                 iden++;   
             }                
