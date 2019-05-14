@@ -133,7 +133,7 @@ public class Gestio {
         Mapa m = new Mapa(); 
         
         CrearLocalitzacions();
-        //CrearConnexions();
+        CrearConnexions();
             
     }
     

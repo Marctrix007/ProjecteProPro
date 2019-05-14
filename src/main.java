@@ -23,8 +23,7 @@ public class main {
         Gestio g = new Gestio();
         try{
             g.CrearMapa();
-            g.CrearVehicles();
-            g.CrearPeticions();
+
         }
         catch(IndexOutOfBoundsException ioobe){
             System.err.println(ioobe);
