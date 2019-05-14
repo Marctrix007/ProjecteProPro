@@ -205,11 +205,7 @@ public class PuntDeRecarrega extends Localitzacio {
     @Override
     public String toString(){
         String s = "\n-------------------------------------------\n";
-        try {
-            s = s + "Nom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\nPlaces disponibles: " + PlacesLliures();
-        } catch (ExcepcioNoQuedenPlaces ex) {
-            System.err.println(ex);
-        }
+        s = s + "Nom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\nPlaces disponibles: " + PlacesLliures();
         
         Set<Map.Entry<Vehicle, Temps>> vehicles = a_parking.entrySet();
         Iterator<Map.Entry<Vehicle, Temps>> it_vehicles = vehicles.iterator();

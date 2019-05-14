@@ -1,4 +1,5 @@
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /*
@@ -18,11 +19,16 @@ public class main {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException, Exception {
+    
         Gestio g = new Gestio();
-        g.CrearMapa();
-        g.CrearVehicles();
-        g.AtendrePeticions();
-        g.MostrarEstadistics();
+        try{
+            
+            g.CrearLocalitzacions();
+            g.CrearPeticions();
+        }
+        catch(IndexOutOfBoundsException ioobe){
+            System.err.println(ioobe);
+        }
     }
     
 }

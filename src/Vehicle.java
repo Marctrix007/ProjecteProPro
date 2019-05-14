@@ -97,6 +97,11 @@ public class Vehicle {
         return duradaCarrega;
     }
     
+    //Per estadistiques
+    public String matricula(){
+        return matricula;
+    }
+    
     @Override
     public String toString(){
         return "Matricula: " + matricula + "\nTipus: " + tipus + "\nModel: " + model + "\nAutonomia: " + autonomia + "\nTemps de carrega: " + duradaCarrega.toString() + "\nPlaces vehicle: " + nPlaces + "\n";

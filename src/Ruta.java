@@ -77,4 +77,8 @@ public class Ruta {
     public Pes cost() {
         return pes; 
     }
+    
+    public double kmFets(){
+        return pes.distancia();
+    }
 }

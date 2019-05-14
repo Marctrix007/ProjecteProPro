@@ -60,6 +60,11 @@ public class Temps implements Comparable<Temps>{
         return new Temps(0, m);
     }
     
+    //Metode fet per Quique per estadistics
+    public double conversioDouble(){
+        return hora + minut/60.0;
+    }
+    
     @Override
     public int compareTo(Temps t){
       int r = this.hora - t.hora;

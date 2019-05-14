@@ -44,7 +44,11 @@ public class Localitzacio {
         return a_index_pop;
     }
     
-    
+    /** 
+        @brief Retorna l'identificador de popularitat
+        @pre cert
+        @post retorna l'identificador d'una localització
+    */    
     public int identificador() {
         return a_iden; 
     }
