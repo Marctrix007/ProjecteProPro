@@ -50,6 +50,7 @@ public class Estadistica {
         mitjanesTempsVehiEstac = new HashMap<>();
         mitjanesOcupPRC = new HashMap<>();
         mitjanesTempsEspera = new ArrayList();
+        mitjanesKMVehicle = new HashMap<>();
     
     }
     
