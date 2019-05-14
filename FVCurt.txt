@@ -8,4 +8,4 @@
 6450ZND, Tesla S, Cotxe, 338,SI, 4, 01:58
 1754GUT, Nissan Leaf, Cotxe, 114,SI, 4, 01:39
 3540DVJ, Fiat 500, Cotxe, 85,NO, 3, 03:58
-6507RIX, Smart, Cotxe, 59,SI, 2, 00.51
+6507RIX, Smart, Cotxe, 59,SI, 2, 00:51
