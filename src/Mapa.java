@@ -36,7 +36,7 @@ public class Mapa {
     //Pre: --
     //Post: Afegeix la localització al mapa
         localitzacions.add(l);
-Loc        connexions.add(new HashMap());
+        connexions.add(new HashMap());
         if (l.esPuntDeRecarrega())
             indexsPR.add(localitzacions.size()-1);
     }
