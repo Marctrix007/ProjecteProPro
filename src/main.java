@@ -22,8 +22,8 @@ public class main {
     
         Gestio g = new Gestio();
         try{
-            
-            g.CrearLocalitzacions();
+            g.CrearMapa();
+            g.CrearVehicles();
             g.CrearPeticions();
         }
         catch(IndexOutOfBoundsException ioobe){
