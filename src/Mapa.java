@@ -44,6 +44,7 @@ public class Mapa {
     //Pre: {o,d} < localitzacions.size()
     //Post: Crea una connexió entre la localització origen i la localització
     //      desti amb pes p, si ja existeix la modifica amb el nou pes.
+        
         if (localitzacions.size()<=o || localitzacions.size()<=d)
             throw new IndexOutOfBoundsException("Mida: "+localitzacions.size()+" Valors: "+o+", "+d);
         connexions.get(o).put(d, new Pes(dist, t));
