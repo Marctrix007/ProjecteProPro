@@ -1,11 +1,11 @@
-1491GVL, Jeep, 4x4, 189, NO, 6, 01:12
-8701IIT, Seat Picasso, Cotxe, 98, SI, 4, 01:22
-4958PYV, Seat Ibiza, Cotxe, 87, SI, 4, 01:44
-8147UOT, Seat Arona, Cotxe, 101, SI, 4, 02:05
-8825KIB, Seat Toledo, Cotxe, 111, NO, 4, 01:43
-2091PFJ, Volvo CX, Cotxe, 120, SI, 4, 02:11
-5687VHW, Peugeot 25, Cotxe, 132, NO, 4, 02:00
-6450ZND, Tesla S, Cotxe, 338, SI, 4, 01:58
-1754GUT, Nissan Leaf, Cotxe, 114, SI, 4, 01:39
-3540DVJ, Fiat 500, Cotxe, 85, NO, 3, 03:58
-6507RIX, Smart, Cotxe, 59, SI, 2, 00:51
+1491GVL, Jeep, 4x4, 189, NO, 6, 01:12, 3
+8701IIT, Seat Picasso, Cotxe, 98, SI, 4, 01:22, 6
+4958PYV, Seat Ibiza, Cotxe, 87, SI, 4, 01:44, 6
+8147UOT, Seat Arona, Cotxe, 101, SI, 4, 02:05, 3
+8825KIB, Seat Toledo, Cotxe, 111, NO, 4, 01:43, 3
+2091PFJ, Volvo CX, Cotxe, 120, SI, 4, 02:11, 3
+5687VHW, Peugeot 25, Cotxe, 132, NO, 4, 02:00, 6
+6450ZND, Tesla S, Cotxe, 338, SI, 4, 01:58, 3
+1754GUT, Nissan Leaf, Cotxe, 114, SI, 4, 01:39, 3
+3540DVJ, Fiat 500, Cotxe, 85, NO, 3, 03:58, 6
+6507RIX, Smart, Cotxe, 59, SI, 2, 00:51, 3
