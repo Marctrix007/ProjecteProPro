@@ -102,7 +102,6 @@ public class Gestio {
     public void CrearConnexions() throws FileNotFoundException, IndexOutOfBoundsException {
     // Pre: --
     // Post: Crea les connexions entre les localitzacions i les afegeix al mapa 
-    
         System.out.println("Fitxer de connexions: ");
         Scanner teclat = new Scanner(System.in);
         File fitCon = new File(teclat.nextLine());

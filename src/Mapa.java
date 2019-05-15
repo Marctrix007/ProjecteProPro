@@ -13,6 +13,7 @@ public class Mapa {
     // Descripció general: Mapa amb diferents localitzacions, algunes d'elles 
     //                     són punts de recàrrega, i les connexions entre elles
         
+    
     private ArrayList<Localitzacio> localitzacions;
     private ArrayList<Map<Integer,Pes>> connexions;
     
