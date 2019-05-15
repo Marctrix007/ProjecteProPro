@@ -7,12 +7,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-// @author Xavier Rodríguez Martínez
+/** 
+@class Mapa
+@brief Mapa amb diferents localitzacions, algunes d'elles són punts de recàrrega, i les connexions entre elles
+@author Xavier Rodríguez Martínez
+*/
 
-public class Mapa {
-    // Descripció general: Mapa amb diferents localitzacions, algunes d'elles 
-    //                     són punts de recàrrega, i les connexions entre elles
-        
+public class Mapa {        
     
     private ArrayList<Localitzacio> localitzacions;
     private ArrayList<Map<Integer,Pes>> connexions;
@@ -22,9 +23,11 @@ public class Mapa {
     private ArrayList<ArrayList<Integer>> previs;
     boolean esFinal;
     
+    /**
+    @pre --
+    @post Mapa buit
+    */
     Mapa(){
-    //Pre: --
-    //Post: Mapa buit
         localitzacions = new ArrayList<>();
         connexions = new ArrayList<>();
         indexsPR = new TreeSet<>();
@@ -33,28 +36,32 @@ public class Mapa {
         esFinal = false;
     }
     
+    /**
+    @pre --
+    @post Afegeix la localització al mapa
+    */
     public void AfegirLocalitzacio(Localitzacio l){
-    //Pre: --
-    //Post: Afegeix la localització al mapa
         localitzacions.add(l);
         connexions.add(new HashMap());
         if (l.esPuntDeRecarrega())
             indexsPR.add(localitzacions.size()-1);
     }
     
-    public void AfegirConnexio(int o, int d, float dist, Temps t) throws IndexOutOfBoundsException{
-    //Pre: {o,d} < localitzacions.size()
-    //Post: Crea una connexió entre la localització origen i la localització
-    //      desti amb pes p, si ja existeix la modifica amb el nou pes.
-        
+    /**
+    @pre 0 <= {o,d} < localitzacions.size()
+    @post Crea una connexió entre la localització origen i la localització desti amb pes p, si ja existeix la modifica amb el nou pes.
+    */
+    public void AfegirConnexio(int o, int d, float dist, Temps t) throws IndexOutOfBoundsException{       
         if (localitzacions.size()<=o || localitzacions.size()<=d)
             throw new IndexOutOfBoundsException("Mida: "+localitzacions.size()+" Valors: "+o+", "+d);
         connexions.get(o).put(d, new Pes(dist, t));
     }
     
+    /**
+    @pre 0 <= loc < localitzacions.size()
+    @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc (de PR a loc)
+    */
     public ArrayDeque<Integer> PRMesProximA(int loc) throws Exception{
-        //Pre: loc < localitzacions.size()
-        //Post: retorna la cua de punts de recàrrega ordenats per proximitat a loc (de PR a loc)
         if (localitzacions.size()<loc)
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
@@ -62,9 +69,11 @@ public class Mapa {
         return PRMesProxim(loc,false);
     }
     
+    /**
+    @pre 0 <= loc <localitzacions.size()
+    @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc (de loc a PR)
+    */
     public ArrayDeque<Integer> PRMesProximDesde(int loc) throws Exception{
-        //Pre: loc < localitzacions.size()
-        //Post: retorna la cua de punts de recàrrega ordenats per proximitat a loc (de loc a PR)
         if (localitzacions.size()<loc)
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
@@ -72,6 +81,10 @@ public class Mapa {
         return PRMesProxim(loc,true);
     }
     
+    /**
+    @pre 0 <= loc <localitzacions.size()
+    @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc en la direcció indicada (true: loc->PR, false: PR->loc)
+    */
     private ArrayDeque<Integer> PRMesProxim(int loc, boolean dir) throws Exception{
         TreeSet<Integer> iPR = (TreeSet<Integer>) indexsPR.clone();
         ArrayDeque<Integer> ret = new ArrayDeque<>();
@@ -100,6 +113,10 @@ public class Mapa {
         return ret;
     }
     
+    /**
+    @pre 0 <= {o,d} < localitzacions.size()
+    @post Retorna la ruta amb el camí mínim desde  o  fins a  d
+    */
     public Ruta CamiMinim(int o, int d) throws Exception{
         //Pre: {o,d} < localitzacions.size()
         //Post: Retorna la ruta de distància mínima entre  o  i  d.
@@ -117,28 +134,35 @@ public class Mapa {
         return r;
     }
     
+    /**
+    @pre --
+    @post Retorna el nombre de localitzacions del mapa
+    */
     public int nLocalitzacions() {
-    // Pre: --
-    // Post: Retorna el nombre de localitzacions del mapa 
         return localitzacions.size(); 
     }
     
+    /**
+    @pre --
+    @post Retorna el nombre de punts de recàrrega del mapa
+    */
     public int nPuntsRecarrega(){
-        //Pre:--
-        //Post: Retorna el nombre de punts de recàrrega del mapa
         return indexsPR.size();
     }
     
-    public Localitzacio loc(int i) {
-    // Pre: 0 < i < nLocalitzacions 
-    // Post: Retorna la localització de la posició i de la taula 
-        
+    /**
+    @pre 0 <= i < nLocalitzacions
+    @post Retorna la localització d'índex i
+    */
+    public Localitzacio loc(int i) {      
         return localitzacions.get(i);
     }
         
+    /**
+    @pre 0 <= origen < localitzacions.size()
+    @post Calcula la taula de distàncies i previs de Dijkstra des de l'origen
+    */
     private void Dijkstra(int origen) throws Exception{
-    //Pre: 0 < origen < localitzacions.size()
-    //Post: Calcula la taula de distancies i previs de Dijkstra des de l'origen
         ArrayList<Pes> dist;
         dist = new ArrayList<Pes>(localitzacions.size());
         ArrayList<Integer> prev;
@@ -193,9 +217,11 @@ public class Mapa {
         esFinal = true;
     }
     
+    /**
+    @pre --
+    @post Calcula la matriu de distàncies i previs per Dijkstra
+    */
     private void Dijkstra() {
-    //Pre: --
-    //Post: Calcula la matriu de distancies i previs per Dijkstra
         for (int i=0; i<localitzacions.size(); i++){
             try {
                 Dijkstra(i);
