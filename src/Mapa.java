@@ -143,7 +143,7 @@ public class Mapa {
         dist = new ArrayList<Pes>(localitzacions.size());
         ArrayList<Integer> prev;
         prev = new ArrayList<Integer>(localitzacions.size());
-        Set<Integer> Q = null;
+        Set<Integer> Q = new Set<Integer>;
         
         Pes INFINIT = new Pes(2147483647, new Temps(24,00));
         
@@ -164,6 +164,9 @@ public class Mapa {
             if (ite.hasNext()) u = ite.next();                
             while(ite.hasNext()){
                 int aux = ite.next();
+                if(aux<0 || aux>=dist.size()){
+                    throw new Exception("Aux = " + aux + "dist size = " + dist.size());
+                }
                 if (dist.get(aux).compareTo(dist.get(u)) < 0) u = aux;
             }
             
