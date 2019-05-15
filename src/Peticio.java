@@ -79,8 +79,7 @@ public class Peticio implements Comparable<Peticio> {
     
     @Override
     public String toString(){
-        return "PETICIÓ: " + horaTrucada + " " + horaSortida + " " + origen + " " + desti + " " + nClients;
-        // + "\nTemps màxim d'espera = " + statsMitjanaTempsE.getMax() + "\nTemps mínim d'espera = " + statsMitjanaTempsE.getMin() + "\nSD = " + StandardDeviation(mitjanesTempsEspera,statsMitjanaTempsE.getAverage()) + "\nVariació = " + Variacio(mitjanesTempsEspera,statsMitjanaTempsE.getAverage());
+        return "PETICIÓ: " + identificador  + "\n\nHora trucada: " + horaTrucada + "\nHora sortida: " + horaSortida + "\nOrigen: " + origen + "\nDesti " + desti  + "\nNombre de clients: " + nClients + "\n";
 
     }
     
