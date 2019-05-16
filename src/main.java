@@ -20,14 +20,12 @@ public class main {
      */
     public static void main(String[] args) throws IOException, Exception {
     
-        Gestio g = new Gestio();
-        try{
-            g.CrearMapa();
-
-        }
-        catch(IndexOutOfBoundsException ioobe){
-            System.err.println(ioobe);
-        }
+        Gestio g = new Gestio(); 
+        g.CrearMapa();
+        g.CrearVehicles();
+        g.CrearPeticions();
+        g.AtendrePeticions();
+       
     }
     
 }
