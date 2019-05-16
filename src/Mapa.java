@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeSet;
 
 /** 
@@ -167,7 +166,7 @@ public class Mapa {
         dist = new ArrayList<Pes>(localitzacions.size());
         ArrayList<Integer> prev;
         prev = new ArrayList<Integer>(localitzacions.size());
-        Set<Integer> Q = new Set<Integer>;
+        TreeSet<Integer> Q = new TreeSet<>;
         
         Pes INFINIT = new Pes(2147483647, new Temps(24,00));
         
