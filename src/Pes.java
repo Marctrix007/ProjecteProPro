@@ -65,4 +65,9 @@ public class Pes implements Comparable<Pes> {
     public int compareTo(Pes p){
         return (int) ((int) this.dist - p.dist);
     }
+    
+    @Override
+    public String toString(){
+        return " Km: " + dist + "   Temps: " + temp;
+    }
 }
