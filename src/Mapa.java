@@ -42,6 +42,9 @@ public class Mapa {
     public void AfegirLocalitzacio(Localitzacio l){
         localitzacions.add(l);
         connexions.add(new HashMap());
+        distancies.add(new ArrayList<Pes>());
+        previs.add(new ArrayList<Integer>());
+        esFinal = false;
         if (l.esPuntDeRecarrega())
             indexsPR.add(localitzacions.size()-1);
     }
@@ -54,6 +57,7 @@ public class Mapa {
         if (localitzacions.size()<=o || localitzacions.size()<=d)
             throw new IndexOutOfBoundsException("Mida: "+localitzacions.size()+" Valors: "+o+", "+d);
         connexions.get(o).put(d, new Pes(dist, t));
+        esFinal = false;
     }
     
     /**
@@ -95,7 +99,7 @@ public class Mapa {
         
         while (!iPR.isEmpty()){
             Iterator<Integer> ite = iPR.iterator();
-            if (ite.hasNext()) pmin = distancies.get(loc).get(ite.next());
+            if (ite.hasNext()) pmin = distancies.get(loc).get(ite.next()); //
             while (ite.hasNext()){
                 aux = ite.next();
                 if (dir) paux = distancies.get(loc).get(aux);
