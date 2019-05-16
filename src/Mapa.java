@@ -170,7 +170,7 @@ public class Mapa {
         dist = new ArrayList<Pes>(localitzacions.size());
         ArrayList<Integer> prev;
         prev = new ArrayList<Integer>(localitzacions.size());
-        TreeSet<Integer> Q = new TreeSet<>;
+        TreeSet<Integer> Q = new TreeSet<>();
         
         Pes INFINIT = new Pes(2147483647, new Temps(24,00));
         
