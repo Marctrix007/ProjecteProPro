@@ -35,6 +35,24 @@ public class Mapa {
         esFinal = false;
     }
     
+    public void mostrar(){
+        for(int i=0; i<distancies.size(); i++){
+            System.out.println("Linia: "+i);
+            for(int j=0; j<distancies.get(i).size(); j++){
+                System.out.println(distancies.get(i).get(j).toString());
+            }
+        }
+        for(int i=0; i<previs.size(); i++){
+            System.out.println("Linia: "+i);
+            for(int j=0; j<previs.get(i).size(); j++){
+                System.out.println(previs.get(i).get(j).toString());
+            }
+        }
+        System.out.println("PRS:");
+        Iterator<Integer> ite = indexsPR.iterator();
+        while(ite.hasNext()) System.out.println(ite.next());
+    }
+    
     /**
     @pre --
     @post Afegeix la localització al mapa
@@ -42,7 +60,7 @@ public class Mapa {
     public void AfegirLocalitzacio(Localitzacio l){
         localitzacions.add(l);
         connexions.add(new HashMap());
-        distancies.add(new ArrayList<Pes>());
+        if(!distancies.add(new ArrayList<Pes>())) System.out.println("Distancies mal creades");
         previs.add(new ArrayList<Integer>());
         esFinal = false;
         if (l.esPuntDeRecarrega())
@@ -93,13 +111,12 @@ public class Mapa {
         ArrayDeque<Integer> ret = new ArrayDeque<>();
         
         Pes paux, pmin;
-        pmin = new Pes();
         int aux, PRmin;
-        PRmin = -1;
-        
-        while (!iPR.isEmpty()){
+              
+        while (!iPR.isEmpty() && ret.size()<indexsPR.size()){
+            PRmin = -1;
+            pmin = new Pes(2000, new Temps(24,00));
             Iterator<Integer> ite = iPR.iterator();
-            if (ite.hasNext()) pmin = distancies.get(loc).get(ite.next()); //
             while (ite.hasNext()){
                 aux = ite.next();
                 if (dir) paux = distancies.get(loc).get(aux);
@@ -109,10 +126,15 @@ public class Mapa {
                     PRmin = aux;
                 }
             }
-            if (PRmin==-1) throw new Exception("No existeixen PRs per anar a/desde" + loc);
+            if (PRmin==-1 && dir) throw new Exception("No existeixen PRs per anar desde " + loc);
+            else if (PRmin==-1 && !dir) throw new Exception("No existeixen PRs per anar a " + loc);
             ret.addLast(PRmin);
             iPR.remove(PRmin);
         }
+        Iterator<Integer> tier = ret.iterator();
+        System.out.println("Mostrar llistat de PRs trobats");
+        while(tier.hasNext()) System.out.print(tier.next()+" ");
+        System.out.println(" ");
         return ret;
     }
     
@@ -165,7 +187,7 @@ public class Mapa {
     @pre 0 <= origen < localitzacions.size()
     @post Calcula la taula de distàncies i previs de Dijkstra des de l'origen
     */
-    private void Dijkstra(int origen) throws Exception{
+    private void iDijkstra(int origen) throws Exception{
         ArrayList<Pes> dist;
         dist = new ArrayList<Pes>(localitzacions.size());
         ArrayList<Integer> prev;
@@ -175,12 +197,13 @@ public class Mapa {
         Pes INFINIT = new Pes(2147483647, new Temps(24,00));
         
         for (int v=0; v < localitzacions.size(); v++){
-            dist.set(v, INFINIT);
-            prev.set(v, null);
+            dist.add(v, INFINIT);
+            prev.add(v, -1);
             boolean add = Q.add(v);
             if (!add) throw new Exception("Q falla");
         }
         dist.set(origen, new Pes());
+        prev.set(origen, origen);
                 
         while (!Q.isEmpty()){
             int u = -1;
@@ -227,7 +250,7 @@ public class Mapa {
     private void Dijkstra() {
         for (int i=0; i<localitzacions.size(); i++){
             try {
-                Dijkstra(i);
+                iDijkstra(i);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
