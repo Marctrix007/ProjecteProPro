@@ -105,4 +105,13 @@ public class Ruta {
     public double kmFets(){
         return pes.distancia();
     }
+    
+    @Override
+    public String toString(){
+        String s = "";
+        for(Integer i:cami){
+            s = s + i + " ";
+        }
+        return s;
+    }
 }
