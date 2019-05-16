@@ -62,8 +62,8 @@ public class Ruta {
     */
     public boolean Conte(Ruta r){       
         boolean primer = false, desti = false;
-        int cap = r.cami.peekFirst();
-        int cua = r.cami.peekLast();
+        Integer cap = r.cami.peekFirst();
+        Integer cua = r.cami.peekLast();
         
         Iterator<Integer> ite = cami.iterator();
         
