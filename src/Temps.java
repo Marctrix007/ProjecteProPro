@@ -33,7 +33,8 @@ public class Temps implements Comparable<Temps>{
     public Temps(float t){
       hora = (int) t;
       t -= hora;
-      minut = (int) t*60;
+      t*=60;
+      minut = (int)t;
     }
     
     /**
