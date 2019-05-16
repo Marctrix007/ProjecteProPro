@@ -86,16 +86,15 @@ public class Gestio {
                 PuntDeRecarrega puntRec = new PuntDeRecarrega(nom,popul,nPlaces,carregaRapida);
                 mapa.AfegirLocalitzacio(puntRec);
                 stats.guardarPuntRC(puntRec);
-                System.out.println(puntRec);
+                //System.out.println(puntRec);
             }
             else {
                 Localitzacio loc = new Localitzacio(nom,popul);
                 mapa.AfegirLocalitzacio(loc);
-                System.out.println(loc);
+                //System.out.println(loc);
             }
         }
         
-        fitxerLoc.close();
     }
     
     
@@ -112,15 +111,14 @@ public class Gestio {
             String[] liniaArr = linia.split(","); 
             Integer origen = Integer.parseInt(liniaArr[0]);
             Integer desti = Integer.parseInt(liniaArr[1]);
-            System.out.println("abans");
+            //System.out.println("abans");
             String temps = liniaArr[2];
             Temps tTrajecte = new Temps(temps);
-            System.out.println(liniaArr[3]);
+            //System.out.println(liniaArr[3]);
             float distKm = Float.parseFloat(liniaArr[3]); 
             mapa.AfegirConnexio(origen, desti, distKm, tTrajecte);
-            System.out.println("després"); 
+            //System.out.println("després"); 
         }
-        fitxerCon.close();
         
     }
     
@@ -140,16 +138,11 @@ public class Gestio {
     public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException, PuntDeRecarrega.ExcepcioNoQuedenPlaces {
         
         System.out.println("Fitxer de vehicles: ");
-        Scanner fitxerVehicles;
-        try (Scanner teclat = new Scanner(System.in)) {
-            File fitVeh = new File(teclat.nextLine());
-            fitxerVehicles = new Scanner(fitVeh);
-        }
-        
-        
-        
+        Scanner teclat = new Scanner(System.in);
+        File fitVeh = new File(teclat.nextLine());
+        Scanner fitxerVehicles = new Scanner(fitVeh);
+                
         while(fitxerVehicles.hasNextLine()){
-            
             String linia = fitxerVehicles.nextLine();
             String[] liniaArr = linia.split(", ");
             String matricula = liniaArr[0];
@@ -167,7 +160,6 @@ public class Gestio {
             PuntDeRecarrega p = (PuntDeRecarrega)mapa.loc(puntRecarrega); // ubiquem el vehicle en el punt de recàrrega llegit del fitxer a les 7:00 
             p.EstacionarVehicle(v, new Temps(0,7));
         }        
-        fitxerVehicles.close();
           
     }
    
@@ -178,9 +170,9 @@ public class Gestio {
         Random rand = new Random();
 
         float result = rand.nextFloat() * (max - min) + min;
-
+       
         return result;
-
+        
     }
     
     public void CrearPeticions() {
@@ -193,17 +185,19 @@ public class Gestio {
         
         // Creem una taula amb el màxim de peticions que poden produir-se en una localització
         // segons el seu índex de popularitat 
-        int[] maxPeticionsPopul = {0,1,3,4,5,6,7,8,9,10};
+        //int[] maxPeticionsPopul = {0,1,3,4,5,6,7,8,9,10};
         
         int iden = 1; 
         for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
             Localitzacio origen = mapa.loc(i); 
-            int maxPeticionsOrigen = maxPeticionsPopul[origen.popularitat()] / mapa.nLocalitzacions(); 
-            int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);     // Com a mínim en un punt s'atendrà una petició 
+            int maxPeticionsOrigen = origen.popularitat();
+            int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);     
             for (int j=0; j<nPeticionsOrigen; j++) {
                 float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades 
+                //System.out.println(horaTrucada);
                 Temps hTrucada = new Temps(horaTrucada); 
                 float horaSortida = randFloat(horaTrucada+(float)0.25,22);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
+                //System.out.println(horaSortida);
                 Temps hSortida = new Temps(horaSortida); 
                 // Obtenim aleatoriament una localització de destí diferent a la d'origen 
                 int des;    // des és l'identificador de la localització de destí 
@@ -216,7 +210,7 @@ public class Gestio {
                 // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
                 Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);    
                 // Afegim la petició a la cua
-                System.out.println(pet);
+                //System.out.println(pet);
                 peticions.add(pet); 
                 iden++;   
             }                
@@ -233,10 +227,10 @@ public class Gestio {
     
         // Es demana per teclat el temps d'espera màxim de les peticions 
         System.out.println("Temps d'espera màxim de les peticions: ");
+        System.out.println(System.in.available());
         Scanner s = new Scanner(System.in);
         String tEsp = s.next();     // tEsp entrat de la forma hh:mm 
         tEspMax = new Temps(tEsp); 
-        
         
         // Es crea l'objecte estadistica 
         stats = new Estadistica(); 
