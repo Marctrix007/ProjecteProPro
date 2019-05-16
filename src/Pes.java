@@ -1,48 +1,61 @@
 /**
- *
- * @author Xavier Rodríguez i Martínez
+@class Pes
+@brief Classe que conté el temps i distància d'una connexió
+@author Xavier Rodríguez i Martínez
  */
 public class Pes implements Comparable<Pes> {
     private final float dist;
     private final Temps temp;
     
+    /**
+    @pre --
+    @post Constructor per defecte
+    */    
     Pes(){
-    //Pre: --
-    //Post: Constructor per defecte
         dist = 0;
         temp = new Temps(0,0);
     }
     
+    /**
+    @pre {d,t} >= 0
+    @post Pes creat segons paràmetres
+    */    
     Pes(float d, Temps t){
-    //Pre: {d,t} >= 0
-    //Post: Pes creat segons paràmetres
         this.dist = d;
         this.temp = t;
     }
     
+    /**
+    @pre --
+    @post Retorna el valor de distància
+    */
     public float distancia(){
-    //Pre: --
-    //Post: Retorna el valor de distància
         return dist;
     }
     
+    /**
+    @pre --
+    @post Retorna el cost en temps
+    */
     public Temps temps(){
-    //Pre: --
-    //Post: Retorna el cost en temps
         return temp;
     }
     
+    /**
+    @pre --
+    @post Se sumen els pesos de  p  a this
+    */
     public Pes mes(Pes p){
-    //Pre: --
-    //Post: Es sumen els pesos de  p  a this.
         float d = dist+p.dist;
         Temps t = temp.mes(p.temp);
         return new Pes(d,t);
     }
     
+    /**
+    @pre --
+    @post Es resten els pesos de  p  a this.
+    */
     public Pes menys(Pes p){
-    //Pre: --
-    //Post: Es resten els pesos de  p  a this.
         float d = dist-p.dist;
         Temps t = temp.menys(p.temp);
         return new Pes(d,t);
