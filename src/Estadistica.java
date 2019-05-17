@@ -60,9 +60,9 @@ public class Estadistica {
         @post Vehicle v guardat
     */   
     public void guardarVehicle(Vehicle v){
-        mitjanesOcupVehi.put(v, new ArrayList());
-        mitjanesTempsVehiEstac.put(v, new ArrayList());
-        mitjanesKMVehicle.put(v, new ArrayList());
+        mitjanesOcupVehi.put(v, new ArrayList<>());
+        mitjanesTempsVehiEstac.put(v, new ArrayList<>());
+        mitjanesKMVehicle.put(v, new ArrayList<>());
     }
     
     /** 
@@ -71,7 +71,7 @@ public class Estadistica {
         @post Punt de Recàrrega p guardat
     */   
     public void guardarPuntRC(PuntDeRecarrega p){
-        mitjanesOcupPRC.put(p, new ArrayList());
+        mitjanesOcupPRC.put(p, new ArrayList<Double>());
     }
     
     /** 
@@ -98,6 +98,13 @@ public class Estadistica {
         @post guarda l'ocupació d'un punt de recàrrega concret
     */
     public void guardarOcupacioMigPuntRC(PuntDeRecarrega p, Double ocup){  //---------
+        Set<Map.Entry<PuntDeRecarrega,ArrayList<Double>>> ocupMitjPRC = mitjanesOcupPRC.entrySet();
+        for(Map.Entry<PuntDeRecarrega,ArrayList<Double>> punt:ocupMitjPRC){
+            System.out.println(punt.getKey().nom()+ "----" + punt.getKey().nom().hashCode() + " --- "  + StringPRCMitjanaOcup(punt.getKey()));
+        }
+        
+        ArrayList<Double> valors =  mitjanesOcupPRC.get(p);
+        if (valors==null) System.out.println("Ey!!!!!!!");
         mitjanesOcupPRC.get(p).add(ocup);
     }
     
@@ -118,6 +125,8 @@ public class Estadistica {
     public void guardarOcupacioVehicle(Vehicle v, Double ocup){ //---------
         mitjanesOcupVehi.get(v).add(ocup);        
     }
+    
+   
     
 //N PETICIONS-------------------------------------------------------------------------
     
@@ -176,7 +185,7 @@ public class Estadistica {
         
         DoubleSummaryStatistics statsMitjanaKM = mitjanes.stream().collect(Collectors.summarizingDouble(Ruta::kmFets));
         
-        return " Kms mig fets = " + statsMitjanaKM.getAverage();
+        return "Kms mig fets = " + statsMitjanaKM.getAverage();
     }
     
     
@@ -193,7 +202,7 @@ public class Estadistica {
         
         DoubleSummaryStatistics statsMitjanaTempsE = mitjanesTempsEspera.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
      
-        return "Temps mig d'espera = " + statsMitjanaTempsE.getAverage() + "\nTemps màxim d'espera = " + statsMitjanaTempsE.getMax() + "\nTemps mínim d'espera = " + statsMitjanaTempsE.getMin() + "\nSD = " + StandardDeviation(mitjanesTempsEspera,statsMitjanaTempsE.getAverage()) + "\nVariació = " + Variacio(mitjanesTempsEspera,statsMitjanaTempsE.getAverage());
+        return "\nTemps mig d'espera = " + statsMitjanaTempsE.getAverage() + "\nTemps màxim d'espera = " + statsMitjanaTempsE.getMax() + "\nTemps mínim d'espera = " + statsMitjanaTempsE.getMin() + "\nSD = " + StandardDeviation(mitjanesTempsEspera,statsMitjanaTempsE.getAverage()) + "\nVariació = " + Variacio(mitjanesTempsEspera,statsMitjanaTempsE.getAverage());
     }
     
     
@@ -232,7 +241,7 @@ public class Estadistica {
         DoubleSummaryStatistics statsMitjanaTemps = mitjanes.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
        
         
-        return "\n--- Mitjana Temps Estacionat = " + statsMitjanaTemps.getAverage() + " SD = " + StandardDeviation(mitjanes,statsMitjanaTemps.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaTemps.getAverage());
+        return "Mitjana Temps Estacionat = " + statsMitjanaTemps.getAverage() + " SD = " + StandardDeviation(mitjanes,statsMitjanaTemps.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaTemps.getAverage());
         
     }
     
@@ -251,7 +260,7 @@ public class Estadistica {
         
         DoubleSummaryStatistics statsMitjanaOcup = mitjanes.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
         
-        return " Mitjana ocupació = " + statsMitjanaOcup.getAverage() + " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
+        return "Mitjana ocupació = " + statsMitjanaOcup.getAverage() + " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
     }
     
 
@@ -292,10 +301,10 @@ public class Estadistica {
     */
     private String RutesVehicle(Vehicle v){
         ArrayList<Ruta> rutes = mitjanesKMVehicle.get(v);
-        String s = " ";
+        String s = "\n       Ruta ";
         int i = 0;
         for(Ruta r:rutes){
-            s = s + "Ruta " + i +
+            s = s + i +
                 "\n       " + r.toString() +
                 "\n       " + r.cost().toString() + 
                 "\n        ***\n";
@@ -327,21 +336,21 @@ public class Estadistica {
         
         
         
-        s = s+"VEHICLES:";
+        s = s+"\n\nVEHICLES:";
         
         Set<Map.Entry<Vehicle,ArrayList<Double>>> ocupMitj = mitjanesOcupVehi.entrySet();
         for(Map.Entry<Vehicle,ArrayList<Double>> element:ocupMitj){
             s = s + 
                 "\n ----> " + element.getKey().matricula() +
-                "\n       " + RutesVehicle(element.getKey()) +
+                "       " + RutesVehicle(element.getKey()) +
                 "\n       " + StringKMMitjana(element.getKey()) +                  
                 "\n       " + StringMitjana(element.getKey()) + 
-                "\n       " + StringTempsMitjana(element.getKey());
+                "\n       " + StringTempsMitjana(element.getKey()) +
+                "\n***************";
                     
         }
         
-        s = s+"\n***************\n";
-        s = s+"PUNTS DE RECARREGA:";
+        s = s+"\n\nPUNTS DE RECARREGA:";
         
         Set<Map.Entry<PuntDeRecarrega,ArrayList<Double>>> ocupMitjPRC = mitjanesOcupPRC.entrySet();
         for(Map.Entry<PuntDeRecarrega,ArrayList<Double>> punt:ocupMitjPRC){
