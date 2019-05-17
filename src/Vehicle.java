@@ -29,7 +29,7 @@ public class Vehicle {
     
     // Excepcions: el main podria llançar una excepcio si el temps de carrega es excessiu per indicar que el vehicle no es pot acceptar 
     //matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega
-    public Vehicle(String mat, String mod, String tipus, float auto, boolean carregaRapida, int nombrePlaces, Temps duradaCarr) {
+    Vehicle(String mat, String mod, String tipus, float auto, boolean carregaRapida, int nombrePlaces, Temps duradaCarr) {
     
         matricula = mat;
         this.tipus = tipus;
@@ -104,7 +104,14 @@ public class Vehicle {
     
     @Override
     public String toString(){
-        return "Matricula: " + matricula + "\nTipus: " + tipus + "\nModel: " + model + "\nAutonomia: " + autonomia + "\nTemps de carrega: " + duradaCarrega.toString() + "\nPlaces vehicle: " + nPlaces + "\n";
+        String s; 
+        s= "Matricula: " + matricula + "\nTipus: " + tipus + "\nModel: " + model + "\nAutonomia: " + autonomia + "\nTemps de carrega: ";
+        s+= duradaCarrega.toString() + "\nPlaces vehicle: " + nPlaces + "\nCàrrega ràpida: ";
+        if (carrRapida)
+            s+= "SÍ\n";
+        else s+="NO\n";
+        return s; 
+        
     }
     
 }
