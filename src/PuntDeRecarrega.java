@@ -133,7 +133,7 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
         @post retorna un vehicle v del punt de recarrega i l'elimina del punt
     */
-    public Vehicle SortidaVehicle(float recorregut, int nPersones, Temps tPRaLoc, Temps tEspMax, Temps horaSortida, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
+    public Vehicle SortidaVehicle(float recorregut, int nPersones, Temps tPRaLoc, Temps tEspMax, Temps horaSortida, Temps horaAvis, Temps horaDisp) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
   
         if (a_parking.isEmpty()){
             throw new ExcepcioNoQuedenVehicles("No hi ha vehicles");
@@ -157,6 +157,7 @@ public class PuntDeRecarrega extends Localitzacio {
             if (!trobat)
                 return null;
             else{
+                horaDisp = a_parking.get(v); 
                 a_parking.remove(v);
                 return v;
             }
