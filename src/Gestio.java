@@ -178,7 +178,7 @@ public class Gestio {
         
     }
     
-    public void CrearPeticions() {
+    public void CrearPeticions() throws IOException {
     // Pre: --
     // Post: Crea cada petició amb el seu identificador, hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten, 
     //       el seu estat inicial i l'afegeix a una cua de prioritats ordenada segons l'hora de sortida 
@@ -190,6 +190,7 @@ public class Gestio {
         // segons el seu índex de popularitat 
         //int[] maxPeticionsPopul = {0,1,3,4,5,6,7,8,9,10};
         
+        BufferedWriter writer = new BufferedWriter(new FileWriter("peticions.txt",true));        
         int iden = 1; 
         for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
             Localitzacio origen = mapa.loc(i); 
@@ -212,6 +213,7 @@ public class Gestio {
                 // Creem la petició
                 // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
                 Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);    
+                writer.write(pet.toString()); 
                 // Afegim la petició a la cua
                 //System.out.println(pet);
                 peticions.add(pet); 
@@ -234,9 +236,6 @@ public class Gestio {
         Scanner s = new Scanner(System.in);
         String tEsp = s.next();     // tEsp entrat de la forma hh:mm 
         tEspMax = new Temps(tEsp); 
-        
-        // Es crea l'objecte estadistica 
-        stats = new Estadistica(); 
         
         // Mentre quedin peticions per tractar 
         while (!peticions.isEmpty()) {
@@ -330,8 +329,8 @@ public class Gestio {
             rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
             Temps tEstacionat = horaAvis.menys(horaDisp.menys(pMesProperOrigen.tempsCarrega(v))); 
             System.out.println(pMesProperOrigen.Capacitat());
-            //stats.guardarOcupacioMigPuntRC(pMesProperOrigen,pMesProperOrigen.ocupacio()); 
-            //stats.guardartempsEstacionatVehicle(v,tEstacionat); 
+            stats.guardarOcupacioMigPuntRC(pMesProperOrigen,pMesProperOrigen.ocupacio()); 
+            stats.guardartempsEstacionatVehicle(v,tEstacionat); 
         }
         
         return v; 
@@ -345,7 +344,7 @@ public class Gestio {
         v.CarregarPassatgers(petIni.NombreClients());
         peticions.remove(petIni); 
         double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
-        //stats.guardarOcupacioVehicle(v,ocupVehicle); 
+        stats.guardarOcupacioVehicle(v,ocupVehicle); 
         Iterator<Integer> itLoc = rVehicle.iterator(); 
         Iterator<Integer> itSeg; 
         int locAct, locSeg = 0; 
@@ -360,9 +359,17 @@ public class Gestio {
             itLoc.remove();
             itLoc = rVehicle.iterator(); 
         }
+        
+        System.out.println(rVehicle);
         // L'últim punt de la ruta del vehicle és el punt de recàrrega on ha d'estacionar 
-        PuntDeRecarrega PR = (PuntDeRecarrega) mapa.loc(locSeg); 
-        PR.EstacionarVehicle(v, horaArribada);
+        Localitzacio PR = mapa.loc(locSeg); 
+        if (PR.esPuntDeRecarrega()) {
+            PuntDeRecarrega p = (PuntDeRecarrega) PR;
+            p.EstacionarVehicle(v, horaArribada);
+        }
+        else {
+            System.out.println("No és PR");
+        }
         
     }
     
@@ -378,8 +385,8 @@ public class Gestio {
                 v.DescarregarPassatgers(pet.NombreClients());
                 petAtendre.remove(pet); // S'elimina pet de la llista de peticions que es poden atendre, ja que ja s'ha atès 
                 peticions.remove(pet); 
-                //double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
-                //stats.guardarOcupacioVehicle(v,ocupVehicle);
+                double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
+                stats.guardarOcupacioVehicle(v,ocupVehicle);
             }
         }
   
