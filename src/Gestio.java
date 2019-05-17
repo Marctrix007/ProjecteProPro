@@ -56,7 +56,10 @@ public class Gestio {
     
     public void MostrarEstadistics()throws IOException{
         
+        for(int i = 0; i<=10; i++) stats.incrementarNombreDeEncerts();
+        for(int i = 0; i<=6; i++) stats.incrementarNombreDeFallades();
         String dades = stats.toString();
+        System.out.println(dades);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt",true))) {
             writer.write(dades);
         }
