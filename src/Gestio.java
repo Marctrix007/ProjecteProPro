@@ -328,10 +328,10 @@ public class Gestio {
             rVehicle = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador());
             rVehicle.Concatenar(mapa.CamiMinim(pet.origen.identificador(), pet.desti.identificador()));
             rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
-            double ocupPROri = (pMesProperOrigen.Capacitat()-pMesProperOrigen.PlacesLliures())/pMesProperOrigen.Capacitat();
             Temps tEstacionat = horaAvis.menys(horaDisp.menys(pMesProperOrigen.tempsCarrega(v))); 
-            stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupPROri); 
-            stats.guardartempsEstacionatVehicle(v,tEstacionat); 
+            System.out.println(pMesProperOrigen.Capacitat());
+            //stats.guardarOcupacioMigPuntRC(pMesProperOrigen,pMesProperOrigen.ocupacio()); 
+            //stats.guardartempsEstacionatVehicle(v,tEstacionat); 
         }
         
         return v; 
@@ -345,7 +345,7 @@ public class Gestio {
         v.CarregarPassatgers(petIni.NombreClients());
         peticions.remove(petIni); 
         double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
-        stats.guardarOcupacioVehicle(v,ocupVehicle); 
+        //stats.guardarOcupacioVehicle(v,ocupVehicle); 
         Iterator<Integer> itLoc = rVehicle.iterator(); 
         Iterator<Integer> itSeg; 
         int locAct, locSeg = 0; 
@@ -378,8 +378,8 @@ public class Gestio {
                 v.DescarregarPassatgers(pet.NombreClients());
                 petAtendre.remove(pet); // S'elimina pet de la llista de peticions que es poden atendre, ja que ja s'ha atès 
                 peticions.remove(pet); 
-                double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
-                stats.guardarOcupacioVehicle(v,ocupVehicle);
+                //double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
+                //stats.guardarOcupacioVehicle(v,ocupVehicle);
             }
         }
   
@@ -432,7 +432,7 @@ public class Gestio {
                             // Es marca la petició com a atesa
                             stats.incrementarNombreDeEncerts();
                             double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
-                            stats.guardarOcupacioVehicle(v,ocupVehicle);
+                            //stats.guardarOcupacioVehicle(v,ocupVehicle);
                         }
                     }                  
                 }   
