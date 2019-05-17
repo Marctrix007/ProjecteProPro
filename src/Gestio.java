@@ -296,14 +296,14 @@ public class Gestio {
         int nPass = pet.NombreClients(); 
         // Distància en km de rVehicle 
         float recorregut; 
-        
+        Temps horaDisp = new Temps(); 
         
         while ((itOri.hasNext() && itDes.hasNext()) && !trobat) { 
             recorregut = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen().identificador()).cost().distancia()+ 
             mapa.CamiMinim(pet.origen().identificador(), pet.desti().identificador()).cost().distancia()+
             mapa.CamiMinim(pet.desti().identificador(), pMesProperDesti.identificador()).cost().distancia(); 
             if (!pMesProperOrigen.Buit() && pMesProperDesti.PlacesLliures() > 0) { // Es comprova si els punts de recàrrega es poden admetre 
-                v = pMesProperOrigen.SortidaVehicle(recorregut, nPass, tPRaOrigen, tEspMax, pet.horaSortida(), horaAvis); 
+                v = pMesProperOrigen.SortidaVehicle(recorregut, nPass, tPRaOrigen, tEspMax, pet.horaSortida(), horaAvis, horaDisp); 
                 if (v != null)  // Si s'ha trobat un vehicle apropiat, ja no es busca més 
                     trobat = true;
             }
@@ -326,7 +326,7 @@ public class Gestio {
             rVehicle.Concatenar(mapa.CamiMinim(pet.origen.identificador(), pet.desti.identificador()));
             rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
             double ocupPROri = (pMesProperOrigen.Capacitat()-pMesProperOrigen.PlacesLliures())/pMesProperOrigen.Capacitat();
-            Temps tEstacionat = horaAvis.menys(pMesProperOrigen.horaDisponibilitat(v).menys(pMesProperOrigen.tempsCarrega(v))); 
+            Temps tEstacionat = horaAvis.menys(horaDisp.menys(pMesProperOrigen.tempsCarrega(v))); 
             stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupPROri); 
             stats.guardartempsEstacionatVehicle(v,tEstacionat); 
         }
