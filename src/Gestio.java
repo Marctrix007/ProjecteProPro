@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/** @file Gestio.java
+    @brief Classe Gestio
+*/
 
-/**
- *
- * @author Marc Padrós Jiménez
- */
+/** @class Gestio
+    @brief És l'encarregada de què s'atenguin les peticions 
+    @author Marc Padrós 
+*/
 
 import java.io.BufferedWriter;
 import java.io.File; 
@@ -26,52 +24,59 @@ import java.util.Iterator;
 
 public class Gestio {
     
-    // Cua de prioritats que conté les peticions 
-    private SortedSet<Peticio> peticions;
+   
+    /* ATRIBUTS */
+    
+    private SortedSet<Peticio> peticions; // peticions estan ordenades per hora de sortida 
     private Mapa mapa;
-    private Temps tEspMax; 
+    private Temps tEspMax; // temps d'espera màxim per cada petició 
     private Estadistica stats;
+    // INVARIANT: 
+    // peticions != null
+    // mapa != null
+    // tEspMax != null
+    // stats != null 
     
     
+// ------------------------------------------
     
+    /* PART PÚBLICA */ 
     
     /**
         @brief Creació de Gestió 
         @pre Cert
         @post Crea un objecte Gestió 
     **/
-    
     Gestio(){
+        
         peticions = new TreeSet();
         mapa = new Mapa();
         tEspMax = new Temps();
         stats = new Estadistica();
+        
     }
 
     /**
-     * @throws java.io.IOException
+     *  @brief  Llistat d'estadístics  
         @pre Cert
-        @post Guarda la informació de les rutes i estadístics a un fitxer de sortida
+        @post Guarda la informació de les rutes, els estadístics de vehicles, localitzacions i peticions en un fitxer de sortida
     **/
-    
     public void MostrarEstadistics()throws IOException{
-        
-        for(int i = 0; i<=10; i++) stats.incrementarNombreDeEncerts();
-        for(int i = 0; i<=6; i++) stats.incrementarNombreDeFallades();
+       
         String dades = stats.toString();
-        System.out.println(dades);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt",true))) {
             writer.write(dades);
         }
-        
     }
     
+    /**
+     * @brief Creació de les localitzacions del mapa 
+     * @pre Cert
+     * @post Crea les localitzacions que poden ser punts de recàrrega o no i les afegeix al mapa. Les localitzacions es llegeixen d'un fitxer d'entrada.  
+    */
     public void CrearLocalitzacions() throws FileNotFoundException, IndexOutOfBoundsException {
-    // Pre: --
-    // Post: Crea les localitzacions que poden ser punts de recàrrega o no i les afegeix al mapa    
-    
-    
-        System.out.println("Fitxer de localitzacions: ");
+
+        System.out.println("FITXER DE LOCALITZACIONS: ");
         Scanner teclat = new Scanner(System.in);
         File fitLoc = new File(teclat.nextLine());
         
@@ -82,29 +87,35 @@ public class Gestio {
             int iden = Integer.parseInt(liniaArr[0]); 
             String nom = liniaArr[1]; 
             int popul = Integer.parseInt(liniaArr[2]); 
-            if (liniaArr.length>3) {      // Si la localització és un punt de recàrrega
+            if (liniaArr.length>3) {      // Si la localització és un punt de recàrrega, la línia té una dada més que indica que la localització és un punt de recàrrega 
                 int nPlaces = Integer.parseInt(liniaArr[3]); 
                 String carrRapid = liniaArr[4]; 
                 boolean carregaRapida = "SI".equals(carrRapid);
-                PuntDeRecarrega puntRec = new PuntDeRecarrega(nom,popul,nPlaces,carregaRapida);
+                PuntDeRecarrega puntRec = new PuntDeRecarrega(iden,nom,popul,nPlaces,carregaRapida);
                 mapa.AfegirLocalitzacio(puntRec);
-                stats.guardarPuntRC(puntRec);
+                stats.guardarPuntRC(puntRec);    /*** COMPROVAR SI FUNCIONA ***/ 
                 //System.out.println(puntRec);
             }
             else {
-                Localitzacio loc = new Localitzacio(nom,popul);
+                Localitzacio loc = new Localitzacio(iden,nom,popul);
                 mapa.AfegirLocalitzacio(loc);
                 //System.out.println(loc);
             }
         }
+        fitxerLoc.close();
         
     }
     
-    
+    /**
+     * @brief Creació de les connexions entre les localitzacions del mapa 
+     * @pre Cert
+     * @post Crea les connexions entre les localitzacions i les afegeix al mapa. Les connexions es llegeixen d'un fitxer d'entrada.  
+     */
     public void CrearConnexions() throws FileNotFoundException, IndexOutOfBoundsException {
     // Pre: --
     // Post: Crea les connexions entre les localitzacions i les afegeix al mapa 
-        System.out.println("Fitxer de connexions: ");
+        
+        System.out.println("\nFITXER DE CONNEXIONS: ");
         Scanner teclat = new Scanner(System.in);
         File fitCon = new File(teclat.nextLine());
    
@@ -114,33 +125,34 @@ public class Gestio {
             String[] liniaArr = linia.split(","); 
             Integer origen = Integer.parseInt(liniaArr[0]);
             Integer desti = Integer.parseInt(liniaArr[1]);
-            //System.out.println("abans");
             String temps = liniaArr[2];
             Temps tTrajecte = new Temps(temps);
-            //System.out.println(liniaArr[3]);
             float distKm = Float.parseFloat(liniaArr[3]); 
             mapa.AfegirConnexio(origen, desti, distKm, tTrajecte);
-            //System.out.println("després"); 
         }
-        
+        fitxerCon.close();
     }
     
-    
+    /**
+        @brief Creació del mapa 
+        @pre Cert
+        @post Crea un mapa amb les seves localitzacions i les connexions entre aquestes 
+    */
     public void CrearMapa() throws IndexOutOfBoundsException, FileNotFoundException {
-    // Pre: --
-    // Post: Crea un mapa amb les seves localitzacions i les connexions entre aquestes 
-    
-        Mapa m = new Mapa(); 
         
         CrearLocalitzacions();
         CrearConnexions();
             
     }
     
-    
+    /**
+        @brief Creació dels vehicles 
+        @pre Cert
+        @post Crea els vehicles guardats en un fitxer d'entrada
+    */
     public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException, PuntDeRecarrega.ExcepcioNoQuedenPlaces {
         
-        System.out.println("Fitxer de vehicles: ");
+        System.out.println("\nFITXER DE VEHICLES: ");
         Scanner teclat = new Scanner(System.in);
         File fitVeh = new File(teclat.nextLine());
         Scanner fitxerVehicles = new Scanner(fitVeh);
@@ -158,18 +170,23 @@ public class Gestio {
             Temps tCarr = new Temps(tCarrega); 
             int puntRecarrega = Integer.parseInt(liniaArr[7]); 
             Vehicle v = new Vehicle(matricula,model,tipus,autonomia,carregaRapida,nPlaces, tCarr);
-            System.out.println(v);
-            stats.guardarVehicle(v);
-            PuntDeRecarrega p = (PuntDeRecarrega)mapa.loc(puntRecarrega); // ubiquem el vehicle en el punt de recàrrega llegit del fitxer a les 7:00 
-            p.EstacionarVehicle(v, new Temps(0,7));
+            //System.out.println(v);
+            stats.guardarVehicle(v);    /*** COMPROVAR SI FUNCIONA el guardarVehicle ***/ 
+            // Cada vehicle estarà estacionat en el punt de recàrrega que li correspon des de les 5h de la matinada 
+            PuntDeRecarrega p = (PuntDeRecarrega) mapa.loc(puntRecarrega); 
+            p.EstacionarVehicle(v, new Temps(5,0));
+            //System.out.println(p); /*** EL VEHICLE S'ESTACIONA CORRECTAMENT **/
         }        
-          
+        fitxerVehicles.close();
     }
    
+    /**
+        @brief Nombre aleatori en coma flotant dins d'un rang de valors  
+        @pre Cert
+        @post Retorna un nombre aleatori en coma flotant contingut entre min i max
+    */
     public static float randFloat(float min, float max) {
-    // Pre: --
-    // Post: Retorna un nombre amb coma flotant contingut entre min i max 
-    
+        
         Random rand = new Random();
 
         float result = rand.nextFloat() * (max - min) + min;
@@ -178,51 +195,51 @@ public class Gestio {
         
     }
     
+    /**
+        @brief Creació de les peticions  
+        @pre Cert
+        @post Crea cada petició amb el seu identificador, hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten, 
+              i l'afegeix al llistat de peticions 
+    */
     public void CrearPeticions() throws IOException {
-    // Pre: --
-    // Post: Crea cada petició amb el seu identificador, hora de trucada, hora de sortida, punt d'origen, de destí, el nombre de clients que la tramiten, 
-    //       el seu estat inicial i l'afegeix a una cua de prioritats ordenada segons l'hora de sortida 
-    
-        // Creem les peticions  
-        peticions = new TreeSet<>(); 
         
-        // Creem una taula amb el màxim de peticions que poden produir-se en una localització
-        // segons el seu índex de popularitat 
-        //int[] maxPeticionsPopul = {0,1,3,4,5,6,7,8,9,10};
+        // Per cada localització es genera el nombre de peticions d'aquell punt, el nombre de peticions per cada localització està entre 0 i un màxim. 
+        // Per cada petició es generen les dades 
         
-        BufferedWriter writer = new BufferedWriter(new FileWriter("peticions.txt",true));        
-        int iden = 1; 
-        for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització 
-            Localitzacio origen = mapa.loc(i); 
-            int maxPeticionsOrigen = origen.popularitat();
-            int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);     
-            for (int j=0; j<nPeticionsOrigen; j++) {
-                float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades 
-                //System.out.println(horaTrucada);
-                Temps hTrucada = new Temps(horaTrucada); 
-                float horaSortida = randFloat(horaTrucada+(float)0.25,22);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
-                //System.out.println(horaSortida);
-                Temps hSortida = new Temps(horaSortida); 
-                // Obtenim aleatoriament una localització de destí diferent a la d'origen 
-                int des;    // des és l'identificador de la localització de destí 
-                do {
-                    des = (int)randFloat(0,(float)mapa.nLocalitzacions()); 
-                }while (des == i); 
-                Localitzacio desti = mapa.loc(des); 
-                int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4 
-                // Creem la petició
-                // L'estat inicial és 0, que vol dir, que s'ha d'atendre la petició 
-                Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);    
-                writer.write(pet.toString()); 
-                // Afegim la petició a la cua
-                //System.out.println(pet);
-                peticions.add(pet); 
-                iden++;   
-            }                
+        /*** COM A MOLT ES PODEN CREAR 43 PETICIONS AMB EL FITXER LOCALITZACIONS ACTUAL ***/ 
+        
+        int iden = 1;  // L'identificador de cada petició s'incrementa cada cop que es crea una petició nova 
+        try (BufferedWriter fitPet = new BufferedWriter(new FileWriter("Peticions.txt",false))) {
+            for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització
+                Localitzacio origen = mapa.loc(i);
+                int maxPeticionsOrigen = origen.popularitat();
+                int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);
+                for (int j=0; j<nPeticionsOrigen; j++) {
+                    float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades
+                    //System.out.println(horaTrucada);
+                    Temps hTrucada = new Temps(horaTrucada); // Es converteix el temps de decimals a hores, minuts
+                    float horaSortida = randFloat(horaTrucada+(float)0.25,22);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
+                    //System.out.println(horaSortida);
+                    Temps hSortida = new Temps(horaSortida);
+                    // Obtenim aleatoriament una localització de destí diferent a la d'origen
+                    int des;    // des és l'identificador de la localització de destí
+                    do {
+                        des = (int)randFloat(0,(float)mapa.nLocalitzacions()); // en aquest cas randFloat retorna l'índex d'una localització
+                    }while (des == i); // mentre l'índex del destí i de l'origen siguin iguals es generen índexs aleatoris entre 0 i el nombre de localitzacions del mapa
+                    Localitzacio desti = mapa.loc(des);
+                    int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4
+                    // Es crea la petició
+                    Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);
+                    fitPet.write(pet.toString());
+                    //System.out.println(pet);
+                    peticions.add(pet);      // S'afegeix la petició al llistat de peticions
+                    iden++;
+                }
+            }
+            System.out.println("Nombre de peticions: " + peticions.size());     
+            fitPet.close();
         }
-        
-        System.out.println("Mida: " +peticions.size());
-        
+
     }   
     
     public  void AtendrePeticions() throws Exception {
@@ -327,9 +344,9 @@ public class Gestio {
             rVehicle = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador());
             rVehicle.Concatenar(mapa.CamiMinim(pet.origen.identificador(), pet.desti.identificador()));
             rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
+            double ocupPROri = (pMesProperOrigen.Capacitat()-pMesProperOrigen.PlacesLliures())/pMesProperOrigen.Capacitat();
             Temps tEstacionat = horaAvis.menys(horaDisp.menys(pMesProperOrigen.tempsCarrega(v))); 
-            System.out.println(pMesProperOrigen.Capacitat());
-            stats.guardarOcupacioMigPuntRC(pMesProperOrigen,pMesProperOrigen.ocupacio()); 
+            stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupPROri); 
             stats.guardartempsEstacionatVehicle(v,tEstacionat); 
         }
         
@@ -359,17 +376,9 @@ public class Gestio {
             itLoc.remove();
             itLoc = rVehicle.iterator(); 
         }
-        
-        System.out.println(rVehicle);
         // L'últim punt de la ruta del vehicle és el punt de recàrrega on ha d'estacionar 
-        Localitzacio PR = mapa.loc(locSeg); 
-        if (PR.esPuntDeRecarrega()) {
-            PuntDeRecarrega p = (PuntDeRecarrega) PR;
-            p.EstacionarVehicle(v, horaArribada);
-        }
-        else {
-            System.out.println("No és PR");
-        }
+        PuntDeRecarrega PR = (PuntDeRecarrega) mapa.loc(locSeg); 
+        PR.EstacionarVehicle(v, horaArribada);
         
     }
     
@@ -439,7 +448,7 @@ public class Gestio {
                             // Es marca la petició com a atesa
                             stats.incrementarNombreDeEncerts();
                             double ocupVehicle = (v.NombrePlaces()-v.NombrePlacesLliures())/v.NombrePlaces();
-                            //stats.guardarOcupacioVehicle(v,ocupVehicle);
+                            stats.guardarOcupacioVehicle(v,ocupVehicle);
                         }
                     }                  
                 }   
