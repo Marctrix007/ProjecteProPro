@@ -149,6 +149,8 @@ public class Mapa {
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
         
+        System.out.println("Ruta de " + o + " a " + d);
+        
         Ruta r = new Ruta();
         r.afegirPes(distancies.get(o).get(d));
         int aux = d;
@@ -157,6 +159,7 @@ public class Mapa {
             aux = previs.get(o).get(aux);
         }
         r.addFirst(o);
+        System.out.println(r);
         return r;
     }
     
