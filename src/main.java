@@ -24,8 +24,9 @@ public class main {
         g.CrearMapa();
         g.CrearVehicles();
         g.CrearPeticions();
-        //g.AtendrePeticions();
+        g.AtendrePeticions();
         g.MostrarEstadistics();
+        
     }
     
 }
