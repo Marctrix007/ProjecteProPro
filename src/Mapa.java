@@ -156,6 +156,7 @@ public class Mapa {
             r.addFirst(aux);
             aux = previs.get(o).get(aux);
         }
+        r.addFirst(o);
         return r;
     }
     
