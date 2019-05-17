@@ -195,6 +195,19 @@ public class Gestio {
         
     }
     
+    
+    /** MÈTODE PROVA **/
+    public void EscriurePeticionsFitxer() throws IOException {
+        
+        try (BufferedWriter fitPet = new BufferedWriter(new FileWriter("Peticions.txt",false))) {
+            for (Peticio pet: peticions) {
+                fitPet.write(pet.toString());
+            }
+            fitPet.close();
+        }
+       
+    }
+    
     /**
         @brief Creació de les peticions  
         @pre Cert
@@ -209,36 +222,33 @@ public class Gestio {
         /*** COM A MOLT ES PODEN CREAR 43 PETICIONS AMB EL FITXER LOCALITZACIONS ACTUAL ***/ 
         
         int iden = 1;  // L'identificador de cada petició s'incrementa cada cop que es crea una petició nova 
-        try (BufferedWriter fitPet = new BufferedWriter(new FileWriter("Peticions.txt",false))) {
-            for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització
-                Localitzacio origen = mapa.loc(i);
-                int maxPeticionsOrigen = origen.popularitat();
-                int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);
-                for (int j=0; j<nPeticionsOrigen; j++) {
-                    float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades
-                    //System.out.println(horaTrucada);
-                    Temps hTrucada = new Temps(horaTrucada); // Es converteix el temps de decimals a hores, minuts
-                    float horaSortida = randFloat(horaTrucada+(float)0.25,22);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
-                    //System.out.println(horaSortida);
-                    Temps hSortida = new Temps(horaSortida);
-                    // Obtenim aleatoriament una localització de destí diferent a la d'origen
-                    int des;    // des és l'identificador de la localització de destí
-                    do {
-                        des = (int)randFloat(0,(float)mapa.nLocalitzacions()); // en aquest cas randFloat retorna l'índex d'una localització
-                    }while (des == i); // mentre l'índex del destí i de l'origen siguin iguals es generen índexs aleatoris entre 0 i el nombre de localitzacions del mapa
-                    Localitzacio desti = mapa.loc(des);
-                    int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4
-                    // Es crea la petició
-                    Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);
-                    fitPet.write(pet.toString());
-                    //System.out.println(pet);
-                    peticions.add(pet);      // S'afegeix la petició al llistat de peticions
-                    iden++;
-                }
+        for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització
+            Localitzacio origen = mapa.loc(i);
+            int maxPeticionsOrigen = origen.popularitat();
+            int nPeticionsOrigen = (int)randFloat(0,(float)maxPeticionsOrigen);
+            for (int j=0; j<nPeticionsOrigen; j++) {
+                float horaTrucada = randFloat(8, (float) 21.75);     // De les 8h a les 21h45 s'atendran les trucades
+                //System.out.println(horaTrucada);
+                Temps hTrucada = new Temps(horaTrucada); // Es converteix el temps de decimals a hores, minuts
+                float horaSortida = randFloat(horaTrucada+(float)0.25,22);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
+                //System.out.println(horaSortida);
+                Temps hSortida = new Temps(horaSortida);
+                // Obtenim aleatoriament una localització de destí diferent a la d'origen
+                int des;    // des és l'identificador de la localització de destí
+                do {
+                    des = (int)randFloat(0,(float)mapa.nLocalitzacions()); // en aquest cas randFloat retorna l'índex d'una localització
+                }while (des == i); // mentre l'índex del destí i de l'origen siguin iguals es generen índexs aleatoris entre 0 i el nombre de localitzacions del mapa
+                Localitzacio desti = mapa.loc(des);
+                int nClients = (int)randFloat(1,4); // Com a mínim 1 client farà la petició i com a molt la faran 4
+                // Es crea la petició
+                Peticio pet = new Peticio(iden,hTrucada,hSortida,origen,desti,nClients);
+                //System.out.println(pet);
+                peticions.add(pet);      // S'afegeix la petició al llistat de peticions
+                iden++;
             }
-            System.out.println("Nombre de peticions: " + peticions.size());     
-            fitPet.close();
         }
+        System.out.println("Nombre de peticions: " + peticions.size());     
+        EscriurePeticionsFitxer(); 
 
     }   
     
@@ -248,11 +258,12 @@ public class Gestio {
         
     
         // Es demana per teclat el temps d'espera màxim de les peticions 
-        System.out.println("Temps d'espera màxim de les peticions: ");
-        System.out.println(System.in.available());
+        System.out.println("\nTemps d'espera màxim de les peticions: ");
+        //System.out.println(System.in.available());
         Scanner s = new Scanner(System.in);
         String tEsp = s.next();     // tEsp entrat de la forma hh:mm 
         tEspMax = new Temps(tEsp); 
+        s.close();
         
         // Mentre quedin peticions per tractar 
         while (!peticions.isEmpty()) {
