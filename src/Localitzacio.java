@@ -13,7 +13,6 @@
 
 public class Localitzacio {
     
-    
     /** 
         @brief Constructor per defecte
         @pre cert
@@ -22,6 +21,7 @@ public class Localitzacio {
     Localitzacio(){
         a_nom = " ";
         a_index_pop = 0;
+        a_iden = 0; 
     }
     
     /** 
@@ -29,9 +29,10 @@ public class Localitzacio {
         @pre cert
         @post Nou objecte PuntDeRecarrega creat amb els paràmetres
     */
-    Localitzacio(String nom, int index_popularitat){
+    Localitzacio(int iden, String nom, int index_popularitat){
         a_nom = nom;
         a_index_pop = index_popularitat;
+        a_iden = iden; 
     }
     
     
@@ -71,7 +72,7 @@ public class Localitzacio {
     */
     @Override
     public String toString(){
-        return "\nNom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\n";
+        return "\nPUNT " + a_iden + "\nNom del punt: " + a_nom + "\nTé popularitat: " + a_index_pop + "\n";
     }
     
     
