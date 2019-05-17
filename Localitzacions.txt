@@ -4,4 +4,4 @@
 3,PR_1,1,10,SI
 4,Palau Sant Jordi,7
 5,Torre Agbar,7
-6,PR_2,1,6,NO
+6,PR_2,1,8,NO
