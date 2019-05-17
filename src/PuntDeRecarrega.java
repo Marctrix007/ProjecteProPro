@@ -34,8 +34,8 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre cert
         @post Nou objecte Estadística creat a partir dels paràmetres
     */
-    PuntDeRecarrega(String nom, int index_popularitat, int nPlaces, boolean CarregaRapida){
-        super(nom,index_popularitat);
+    PuntDeRecarrega(int iden, String nom, int index_popularitat, int nPlaces, boolean CarregaRapida){
+        super(iden,nom,index_popularitat);
         a_nPlaces = nPlaces;
         a_carregaRapida = CarregaRapida;
         a_parking = new HashMap();
@@ -120,11 +120,15 @@ public class PuntDeRecarrega extends Localitzacio {
         if(this.PlacesLliures() == 0)
            throw new ExcepcioNoQuedenPlaces("No queden places lliures"); 
         else{
-            if (tempsEntrada.compareTo(new Temps(7,0)) == 0) // si són les 7 està disponible des de les 7 
+            if (tempsEntrada.compareTo(new Temps(5,0)) == 0) // si el vehicle s'estaciona per primer cop, és a dir, a les 5h del matí suposem que estarà disponible a partir de les 7h 
                 a_parking.put(v,new Temps(7,0)); 
             else 
                 a_parking.put(v, tempsEntrada.mes(tempsCarrega(v)));
         }
+        
+        //System.out.println("Hora disponibilitat: ");    /** L'HORA ES GUARDA BÉ ***/
+        //System.out.println(a_parking.get(v) + "\n");
+       
     }
     
     
@@ -206,7 +210,11 @@ public class PuntDeRecarrega extends Localitzacio {
     @Override
     public String toString(){
         String s = "\n-------------------------------------------\n";
-        s = s + "Nom del punt: " + a_nom + "\nTe popularitat: " + a_index_pop + "\nPlaces disponibles: " + PlacesLliures();
+        s = s + "PUNT DE RECÀRREGA " + a_iden + "\nNom del punt: " + a_nom + "\nTé popularitat: " + a_index_pop + "\nPlaces disponibles: " + PlacesLliures() + "\nCàrrega ràpida: ";
+        if (a_carregaRapida) {
+            s = s + "SÍ";
+        }
+        else s = s + "NO";
         
         Set<Map.Entry<Vehicle, Temps>> vehicles = a_parking.entrySet();
         Iterator<Map.Entry<Vehicle, Temps>> it_vehicles = vehicles.iterator();
