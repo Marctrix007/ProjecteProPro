@@ -108,11 +108,11 @@ public class Ruta {
     
     @Override
     public String toString(){
-        String s = "";
+        String s = "[ ";
         for(Integer i:cami){
             s = s + i + " ";
         }
-        s = s + "Pes: " + pes.toString();
+        s = s + "] Pes: " + pes.toString();
         return s;
     }
 }
