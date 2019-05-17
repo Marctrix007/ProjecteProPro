@@ -112,6 +112,7 @@ public class Ruta {
         for(Integer i:cami){
             s = s + i + " ";
         }
+        s = s + "Pes: " + pes.toString();
         return s;
     }
 }
