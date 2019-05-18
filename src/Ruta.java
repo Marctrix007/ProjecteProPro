@@ -41,12 +41,17 @@ public class Ruta {
     @pre L'última localitació de  this  i la primera de  r són iguals
     @post Es concatenen la ruta actual i  r  afegint aquesta al final
     */
-    public void Concatenar(Ruta r) {       
+    public void Concatenar(Ruta r) { 
+        System.out.println("Concatenar:");
+        System.out.println(this);
+        System.out.println(r);
         pes = pes.mes(r.pes);
         Iterator<Integer> ite = r.cami.iterator();
         Integer aux = ite.next();
         while (ite.hasNext())
             cami.add(ite.next());
+        System.out.println("Resultat:");
+        System.out.println(this);
     }
     
     /**
