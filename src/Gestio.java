@@ -283,7 +283,9 @@ public class Gestio {
         Ruta rVehicle = new Ruta(); 
         // L'hora en la qual l'empresa avisa al vehicle per atendre la petició és 5 minuts després de què el client truqui 
         Temps horaAvis = pet.horaTrucada().mes(new Temps(0,5)); 
-        Vehicle v = DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(pet,rVehicle, horaAvis); 
+        Vehicle v = DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(pet,rVehicle, horaAvis);
+        System.out.println("Ruta despres: " + rVehicle + " -- " + rVehicle);
+        System.out.println("Referencia sortida: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
         if (v != null) {    // Si s'ha trobat un vehicle per atendre la petició  
             // Es crea una taula amb les peticions que el vehicle pot atendre
             ArrayList<Peticio> peticionsAtendre = new ArrayList<>(); 
@@ -309,6 +311,7 @@ public class Gestio {
     //       passant pels punts d'origen i destí de pet
     //       Si no s'ha trobat cap vehicle apte, retorna null 
         
+        System.out.println("Referencia inicial: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
         Vehicle v = null; 
         boolean trobat = false; 
         // Es demana a Mapa el PuntDeRecarrega més proper al punt d'origen de la petició 
@@ -352,15 +355,23 @@ public class Gestio {
         
         // Si s'ha trobat un vehicle apte, es guarda la ruta del vehicle 
         if (trobat) {
-            rVehicle = mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador());
+            System.out.println("Referencia 1: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
+            rVehicle.Concatenar( mapa.CamiMinim(pMesProperOrigen.identificador(),pet.origen.identificador()) );
+            System.out.println("Referencia 2: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
+            
             rVehicle.Concatenar(mapa.CamiMinim(pet.origen.identificador(), pet.desti.identificador()));
-            rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador())); 
+            System.out.println("Referencia 3: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
+            rVehicle.Concatenar(mapa.CamiMinim(pet.desti.identificador(), pMesProperDesti.identificador()));
+            System.out.println("Referencia 4: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
             double ocupPROri = (pMesProperOrigen.Capacitat()-pMesProperOrigen.PlacesLliures())/pMesProperOrigen.Capacitat();
             Temps tEstacionat = horaAvis.menys(horaDisp.menys(pMesProperOrigen.tempsCarrega(v))); 
             stats.guardarOcupacioMigPuntRC(pMesProperOrigen,ocupPROri); 
-            stats.guardartempsEstacionatVehicle(v,tEstacionat); 
+            stats.guardartempsEstacionatVehicle(v,tEstacionat);
+            //System.out.println("Ruta obtinguda: " + rVehicle);
         }
         
+        System.out.println("Ruta obtinguda: " + rVehicle + " -- " + rVehicle.hashCode());
+        System.out.println("Referencia final: " +Integer.toHexString(System.identityHashCode(rVehicle)) );
         return v; 
     }
     
@@ -376,6 +387,8 @@ public class Gestio {
         Iterator<Integer> itLoc = rVehicle.iterator(); 
         Iterator<Integer> itSeg; 
         int locAct, locSeg = 0; 
+        
+        System.out.println("Ruta: "+  rVehicle.toString());
         
         while (itLoc.hasNext()) {
             locAct = itLoc.next();
