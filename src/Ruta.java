@@ -28,6 +28,14 @@ public class Ruta {
     void addFirst(int u) {
         cami.addFirst(u);
     }
+    
+    /**
+    @pre --
+    @post u  afegit al final del camí
+    */
+    void addLast(int u) {
+        cami.addLast(u);
+    }
 
     /**
     @pre --
