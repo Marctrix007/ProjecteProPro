@@ -35,6 +35,9 @@ public class Mapa {
         esFinal = false;
     }
     
+    public Pes pesEntre(Integer A, Integer B){
+        return connexions.get(A).get(B);
+    }
     public void mostrar(){
         for(int i=0; i<distancies.size(); i++){
             System.out.println("Linia: "+i);
