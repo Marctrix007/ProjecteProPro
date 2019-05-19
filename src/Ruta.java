@@ -51,18 +51,18 @@ public class Ruta {
     @post Es concatenen la ruta actual i  r  afegint aquesta al final
     */
     public void Concatenar(Ruta r) throws Exception { 
-        System.out.println("Concatenar:");
+        /*System.out.println("Concatenar:");
         System.out.println(this);
-        System.out.println(r);
+        System.out.println(r);*/
         pes = pes.mes(r.pes);
         Iterator<Integer> ite = r.cami.iterator();
         Integer a = ite.next();
-        if (!Objects.equals(cami.getLast(), a)) 
+        if (cami.size()!=0 && !Objects.equals(cami.getLast(), a)) 
             throw new Exception("Les rutes no coincideixen, darrer de this " + r.cami.getLast() + " primer de r " + a);
         while (ite.hasNext())
             cami.add(ite.next());
-        System.out.println("Resultat:");
-        System.out.println(this);
+        /*System.out.println("Resultat:");
+        System.out.println(this);*/
     }
     
     /**
@@ -121,6 +121,34 @@ public class Ruta {
     */
     public double kmFets(){
         return pes.distancia();
+    }
+    
+    public double tempsRuta()
+    {
+        return pes.temps().conversioDouble();
+    }
+    
+    
+    public Ruta copia(){
+        Ruta copia = new Ruta();
+        copia.cami = cami.clone();
+        copia.pes = pes;
+        return copia;
+    }
+    
+    public boolean buida(){
+        return cami.isEmpty();
+    }
+    
+    public Integer treureActual(){
+        return cami.pollFirst();
+    }
+    
+    public Integer primerElement(){
+        return cami.peekFirst();
+    }
+    public int mida(){
+        return cami.size();
     }
     
     @Override
