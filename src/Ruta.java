@@ -67,6 +67,14 @@ public class Ruta {
     
     /**
     @pre --
+    @post Retorna el primer element de la ruta, null si és buida
+    */
+    public Integer primerElement(){
+        return cami.peekFirst();
+    }
+    
+    /**
+    @pre --
     @post Retorna la darrera localització de la ruta, null si és buida
     */
     public int ultimaLoc() {
@@ -123,12 +131,19 @@ public class Ruta {
         return pes.distancia();
     }
     
+    /**
+    @pre --
+    @post Retorna el temps en format double
+    */
     public double tempsRuta()
     {
         return pes.temps().conversioDouble();
     }
     
-    
+    /**
+    @pre --
+    @post Retorna un copia de this
+    */
     public Ruta copia(){
         Ruta copia = new Ruta();
         copia.cami = cami.clone();
@@ -136,17 +151,26 @@ public class Ruta {
         return copia;
     }
     
+    /**
+    @pre --
+    @post Retorna ture si la ruta és buida, fals altrament
+    */
     public boolean buida(){
         return cami.isEmpty();
     }
     
+    /**
+    @pre --
+    @post Retorna la primera localització i l'elimina, retorna null si la ruta és buida
+    */
     public Integer treureActual(){
         return cami.pollFirst();
     }
-    
-    public Integer primerElement(){
-        return cami.peekFirst();
-    }
+   
+    /**
+    @pre --
+    @post Retorna el nombre de localitzacions pels que passa la ruta
+    */
     public int mida(){
         return cami.size();
     }
