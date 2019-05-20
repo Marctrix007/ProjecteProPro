@@ -14,13 +14,13 @@ import java.util.TreeSet;
 
 public class Mapa {        
     
-    private ArrayList<Localitzacio> localitzacions;
-    private ArrayList<Map<Integer,Pes>> connexions;
+    private ArrayList<Localitzacio> localitzacions; /** Localitzacions que formen el mapa */
+    private ArrayList<Map<Integer,Pes>> connexions; /** Connexions dirigides entre les localitzacions */
     
-    private TreeSet<Integer> indexsPR;
-    private ArrayList<ArrayList<Pes>> distancies;
-    private ArrayList<ArrayList<Integer>> previs;
-    boolean esFinal;
+    private TreeSet<Integer> indexsPR; /** Set d'índexos dels punts de recàrrega */
+    private ArrayList<ArrayList<Pes>> distancies; /** Matriu de pesos de origen a destí. Resultat de Dijkstra */
+    private ArrayList<ArrayList<Integer>> previs; /** Matriu de punts previs per arribar de origen a destí. Resultat de Dijkstra */
+    boolean esFinal; /** Índica si les dades calculades per Dijkstra són vàlides o no */
     
     /**
     @pre --
