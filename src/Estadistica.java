@@ -150,6 +150,15 @@ public class Estadistica {
         mitjanesOcupVehi.get(v).add(ocup);        
     }
     
+    /** 
+        @brief Guarda el temps de viatge que hi han hagut
+        @pre cert
+        @post guarda el temps de viatge real i esperat d'una peticio
+    */
+    public void guardarTempsViatge(Temps real, Temps esperat){
+        mitjanesTempsViatgeEsperat.add(esperat.conversioDouble());
+        mitjanesTempsViatgeReal.add(real.conversioDouble());
+    }
    
     
 //N PETICIONS-------------------------------------------------------------------------
@@ -312,6 +321,40 @@ public class Estadistica {
             DoubleSummaryStatistics statsMitjanaOcup = mitjanes.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
 
             return "Mitjana ocupació = " + Math.round( statsMitjanaOcup.getAverage() ) +"% "+ " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
+        }
+    }
+    
+//TEMPS VIATGE----------------------------------------------------------------
+    
+    /** 
+        @brief Calcula els estadístics dels temps de viatge de les peticions
+        @pre cert
+        @post retorna el string que conté la mitjana, maxim, minim, la desviacio estandard i la variacio dels Temps de Viatge
+    */
+    
+    private String StringTempsViatgeStats(){
+        if(mitjanesTempsViatgeEsperat.isEmpty()){
+            return("No hi ha dades del temps de viatge");
+        }
+        else{
+            
+            DoubleSummaryStatistics statsTempsVReal = mitjanesTempsViatgeReal.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
+            DoubleSummaryStatistics statsTempsVEspe = mitjanesTempsViatgeEsperat.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
+            
+            Double desStand1 = StandardDeviation(mitjanesTempsViatgeReal,statsTempsVReal.getAverage());
+            Double desStand2 = StandardDeviation(mitjanesTempsViatgeEsperat,statsTempsVEspe.getAverage());
+            Double var1 = Math.pow(desStand1,2);
+            Double var2 = Math.pow(desStand2,2);
+
+            
+            return "\nMitjana Temps de Viatge Real = " + statsTempsVReal.getAverage() + "  ---------  " + " Mitjana Temps de Viatge Esperat = " + statsTempsVEspe.getAverage() +
+                   "\nMaxim Temps de Viatge Real = " + statsTempsVReal.getMax() + "  ---------  " + " Maxim Temps de Viatge Esperat = " + statsTempsVEspe.getMax() +
+                   "\nMinim Temps de Viatge Real = " + statsTempsVReal.getMin() + "  ---------  " + " Minim Temps de Viatge Esperat = " + statsTempsVEspe.getMin() +
+                   "\nSD Temps de Viatge Real = " + desStand1 +  "  ---------  " + " SD Temps de Viatge Esperat = " + desStand2 +
+                   "\nVariacio Temps de Viatge Real = " + Variacio(mitjanesTempsViatgeReal,statsTempsVReal.getAverage()) +  "  ---------  " + " Variacio Temps de Viatge Esperat = " + Variacio(mitjanesTempsViatgeEsperat,statsTempsVEspe.getAverage()) +
+                   "\nSD Diferencies = " + Math.abs(desStand1-desStand2) + 
+                   "\nVariacio Diferencies = " + Math.abs(var2-var1);
+        
         }
     }
     
