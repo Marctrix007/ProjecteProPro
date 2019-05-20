@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class Ruta {
     
-    private Pes pes;
+    private Pes pes; //INVARIANT: pes >= Pes(0,0)
     private ArrayDeque<Integer> cami;
     
     /**
