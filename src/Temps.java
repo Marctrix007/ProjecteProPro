@@ -31,7 +31,7 @@ public class Temps implements Comparable<Temps>{
     @pre --
     @post L'hora és l'enter i els minuts la fracció centesimal
     */
-    public Temps(float t){
+    public Temps(double t){
       hora = (int) t;
       t -= hora;
       t*=60;
@@ -71,7 +71,7 @@ public class Temps implements Comparable<Temps>{
     @pre --
     @post Multiplica el temps  this  per  n  vegades
     */
-    public Temps per(float n){
+    public Temps per(double n){
         int m = this.minut + this.hora*60;
         m = (int) (m*n);
         return new Temps(0, m);
