@@ -10,8 +10,10 @@ import java.util.Objects;
  */
 public class Ruta {
     
-    private Pes pes; //INVARIANT: pes >= Pes(0,0)
-    private ArrayDeque<Integer> cami;
+    private Pes pes; /** Pes de la ruta */
+    private ArrayDeque<Integer> cami; /** Índexos de les localitzacions per les que passa ruta */
+    
+    //INVARIANT: pes >= Pes(0,0)
     
     /**
     @pre --
