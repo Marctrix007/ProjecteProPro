@@ -138,7 +138,7 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
         @post retorna un vehicle v del punt de recarrega i l'elimina del punt
     */
-    public Pair<Vehicle,Temps> SortidaVehicle(float recorregut, int nPersones, Temps tPRaLoc, Temps tEspMax, Temps horaSortida, Temps horaAvis, Temps horaDisp) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
+    public Pair<Vehicle,Temps> SortidaVehicle(float recorregut, int nPersones, Temps horaArribada, Temps horaNec, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
   
         if (Buit()){
             throw new ExcepcioNoQuedenVehicles("No hi ha vehicles");
@@ -155,14 +155,14 @@ public class PuntDeRecarrega extends Localitzacio {
                 entry_vehicle = it_vehicles.next();
                 v = entry_vehicle.getKey();
                 if (entry_vehicle.getValue().compareTo(horaAvis) <= 0) {// si tDisp <= horaAvis, el vehicle està disponible quan l'avisa l'empresa 
-                    if (horaAvis.mes(tPRaLoc).compareTo(horaSortida.mes(tEspMax)) <= 0 && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones) 
+                    if (horaArribada.compareTo(horaNec) <= 0 && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones) 
                         trobat = true;
                 }
             }           
             if (!trobat)
                 return null;
             else{
-                horaDisp = a_parking.get(v);
+                Temps horaDisp = a_parking.get(v);
                 a_parking.remove(v);
                 return new Pair(v,horaDisp);
             }
@@ -179,7 +179,7 @@ public class PuntDeRecarrega extends Localitzacio {
         return a_parking.get(v); 
     }
     
-       /** 
+    /** 
         @brief Temps de càrrega d'un vehicle determinat 
         @pre v està estacionat en el punt de recàrrega
         @post retorna el temps de càrrega de v 
@@ -193,7 +193,7 @@ public class PuntDeRecarrega extends Localitzacio {
     
     
     /** 
-        @brief Indica que es un punt de recarrega
+        @brief Indica que és un punt de recarrega
         @pre cert
         @post retorna cert indicant que es un punt de recarrega
     */
