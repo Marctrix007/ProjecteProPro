@@ -384,6 +384,9 @@ public class Estadistica {
                 "\nPETICIONS:"+
                 "\nPercentatge de peticions satisfetes -> " + percentatgePeticionsSatisfetes() + "%" + 
                 "\nPercentatge de peticions fallades -> " + percentatgePeticionsFallades() + "%" +
+                "\nPeticions satisfetes -> " + peticionsSatisfetes +
+                "\nPeticions fallades -> " + peticionsFallades +
+                "\nPeticions totals -> " + (peticionsFallades+peticionsSatisfetes) +
                 StringTempsMigEspera()+
                 "\n***************\n";
         
