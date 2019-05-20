@@ -58,9 +58,11 @@ public class Ruta {
         System.out.println(r);*/
         pes = pes.mes(r.pes);
         Iterator<Integer> ite = r.cami.iterator();
-        Integer a = ite.next();
-        if (cami.size()!=0 && !Objects.equals(cami.getLast(), a)) 
-            throw new Exception("Les rutes no coincideixen, darrer de this " + r.cami.getLast() + " primer de r " + a);
+        if (!cami.isEmpty()) {
+            Integer a = ite.next();
+            if (!Objects.equals(cami.getLast(), a)) 
+                throw new Exception("Les rutes no coincideixen, darrer de this " + r.cami.getLast() + " primer de r " + a);
+        }
         while (ite.hasNext())
             cami.add(ite.next());
         /*System.out.println("Resultat:");
