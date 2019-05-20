@@ -35,6 +35,10 @@ public class Mapa {
         esFinal = false;
     }
     
+    /**
+    @pre 0 <= {A,B} < nLocalitzacions
+    @post Mapa buit
+    */
     public Pes pesEntre(Integer A, Integer B){
         return distancies.get(A).get(B);
     }
@@ -72,7 +76,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= {o,d} < localitzacions.size()
+    @pre 0 <= {o,d} < nLocalitzacions
     @post Crea una connexió entre la localització origen i la localització desti amb pes p, si ja existeix la modifica amb el nou pes.
     */
     public void AfegirConnexio(int o, int d, float dist, Temps t) throws IndexOutOfBoundsException{       
@@ -83,7 +87,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= loc < localitzacions.size()
+    @pre 0 <= loc < nLocalitzacions
     @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc (de PR a loc)
     */
     public ArrayDeque<Integer> PRMesProximA(int loc) throws Exception{
@@ -95,7 +99,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= loc <localitzacions.size()
+    @pre 0 <= loc < nLocalitzacions
     @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc (de loc a PR)
     */
     public ArrayDeque<Integer> PRMesProximDesde(int loc) throws Exception{
@@ -143,7 +147,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= {o,d} < localitzacions.size()
+    @pre 0 <= {o,d} < nLocalitzacions
     @post Retorna la ruta amb el camí mínim desde  o  fins a  d
     */
     public Ruta CamiMinim(int o, int d) throws Exception{
@@ -192,7 +196,7 @@ public class Mapa {
     }
         
     /**
-    @pre 0 <= origen < localitzacions.size()
+    @pre 0 <= origen < nLocalitzacions
     @post Calcula la taula de distàncies i previs de Dijkstra des de l'origen
     */
     private void iDijkstra(int origen) throws Exception{
