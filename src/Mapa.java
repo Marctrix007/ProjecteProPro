@@ -14,13 +14,13 @@ import java.util.TreeSet;
 
 public class Mapa {        
     
-    private ArrayList<Localitzacio> localitzacions;
-    private ArrayList<Map<Integer,Pes>> connexions;
+    private ArrayList<Localitzacio> localitzacions; /** Localitzacions que formen el mapa */
+    private ArrayList<Map<Integer,Pes>> connexions; /** Connexions dirigides entre les localitzacions */
     
-    private TreeSet<Integer> indexsPR;
-    private ArrayList<ArrayList<Pes>> distancies;
-    private ArrayList<ArrayList<Integer>> previs;
-    boolean esFinal;
+    private TreeSet<Integer> indexsPR; /** Set d'índexos dels punts de recàrrega */
+    private ArrayList<ArrayList<Pes>> distancies; /** Matriu de pesos de origen a destí. Resultat de Dijkstra */
+    private ArrayList<ArrayList<Integer>> previs; /** Matriu de punts previs per arribar de origen a destí. Resultat de Dijkstra */
+    boolean esFinal; /** Índica si les dades calculades per Dijkstra són vàlides o no */
     
     /**
     @pre --
@@ -33,6 +33,14 @@ public class Mapa {
         distancies = new ArrayList<>();
         previs = new ArrayList<>();
         esFinal = false;
+    }
+    
+    /**
+    @pre 0 <= {A,B} < nLocalitzacions
+    @post Mapa buit
+    */
+    public Pes pesEntre(Integer A, Integer B){
+        return distancies.get(A).get(B);
     }
     
     public void mostrar(){
@@ -68,7 +76,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= {o,d} < localitzacions.size()
+    @pre 0 <= {o,d} < nLocalitzacions
     @post Crea una connexió entre la localització origen i la localització desti amb pes p, si ja existeix la modifica amb el nou pes.
     */
     public void AfegirConnexio(int o, int d, float dist, Temps t) throws IndexOutOfBoundsException{       
@@ -79,7 +87,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= loc < localitzacions.size()
+    @pre 0 <= loc < nLocalitzacions
     @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc (de PR a loc)
     */
     public ArrayDeque<Integer> PRMesProximA(int loc) throws Exception{
@@ -91,7 +99,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= loc <localitzacions.size()
+    @pre 0 <= loc < nLocalitzacions
     @post Retorna la cua de punts de recàrrega ordenats per proximitat a loc (de loc a PR)
     */
     public ArrayDeque<Integer> PRMesProximDesde(int loc) throws Exception{
@@ -139,7 +147,7 @@ public class Mapa {
     }
     
     /**
-    @pre 0 <= {o,d} < localitzacions.size()
+    @pre 0 <= {o,d} < nLocalitzacions
     @post Retorna la ruta amb el camí mínim desde  o  fins a  d
     */
     public Ruta CamiMinim(int o, int d) throws Exception{
@@ -149,7 +157,7 @@ public class Mapa {
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
         
-        System.out.println("Ruta de " + o + " a " + d);
+        //System.out.println("Ruta de " + o + " a " + d);
         
         Ruta r = new Ruta();
         r.afegirPes(distancies.get(o).get(d));
@@ -159,7 +167,7 @@ public class Mapa {
             aux = previs.get(o).get(aux);
         }
         r.addFirst(o);
-        System.out.println(r);
+        //System.out.println(r);
         return r;
     }
     
@@ -188,7 +196,7 @@ public class Mapa {
     }
         
     /**
-    @pre 0 <= origen < localitzacions.size()
+    @pre 0 <= origen < nLocalitzacions
     @post Calcula la taula de distàncies i previs de Dijkstra des de l'origen
     */
     private void iDijkstra(int origen) throws Exception{
@@ -200,12 +208,14 @@ public class Mapa {
         
         Pes INFINIT = new Pes(2147483647, new Temps(24,00));
         
+        //S'inicalitza tota la taula amb distància infinita
         for (int v=0; v < localitzacions.size(); v++){
             dist.add(v, INFINIT);
             prev.add(v, -1);
             boolean add = Q.add(v);
             if (!add) throw new Exception("Q falla");
         }
+        //distancia d'origen a origen es marca com a 0
         dist.set(origen, new Pes());
         prev.set(origen, origen);
                 
@@ -218,15 +228,15 @@ public class Mapa {
             if (ite.hasNext()) u = ite.next();                
             while(ite.hasNext()){
                 int aux = ite.next();
-                if(aux<0 || aux>=dist.size()){
+                if(aux<0 || aux>=dist.size())
                     throw new Exception("Aux = " + aux + "dist size = " + dist.size());
-                }
                 if (dist.get(aux).compareTo(dist.get(u)) < 0) u = aux;
             }
             
             if(u==-1) throw new Exception("Dijkstra out of range");
             Q.remove(u);
-                        
+            
+            //Si la distància de u als seus veïns és inferior que la que hi havia s'actualitza i es posa u com a previ
             Iterator<Entry<Integer,Pes>> veins;
             veins = connexions.get(u).entrySet().iterator();
                     
@@ -241,10 +251,9 @@ public class Mapa {
                 }
             }          
         }
+        //Al acabar es guarden les distancies de origen als punts i la taula de previs
         distancies.set(origen, dist);
         previs.set(origen, prev);
-        
-        esFinal = true;
     }
     
     /**
@@ -259,6 +268,8 @@ public class Mapa {
                 System.out.println(ex);
             }
         }
+        //Es marca que s'ha acabat de calcular Dijkstra i per tant les dades estan actualitzades
+        esFinal = true;
     }
     
 }

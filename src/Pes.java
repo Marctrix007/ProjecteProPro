@@ -4,8 +4,10 @@
 @author Xavier Rodríguez i Martínez
  */
 public class Pes implements Comparable<Pes> {
-    private final float dist;
-    private final Temps temp;
+    private final float dist; /** Cost en kms de la connexió */
+    private final Temps temp; /** Cost en temps de la connexió */
+    
+    //INVARIANT: dist >= 0; temps >= Temps(0,0)
     
     /**
     @pre --

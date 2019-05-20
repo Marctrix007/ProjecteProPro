@@ -1,6 +1,7 @@
 
 import java.util.ArrayDeque;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
 @class Ruta
@@ -9,8 +10,10 @@ import java.util.Iterator;
  */
 public class Ruta {
     
-    private Pes pes;
-    private ArrayDeque<Integer> cami;
+    private Pes pes; /** Pes de la ruta */
+    private ArrayDeque<Integer> cami; /** Índexos de les localitzacions per les que passa ruta */
+    
+    //INVARIANT: pes >= Pes(0,0)
     
     /**
     @pre --
@@ -50,16 +53,28 @@ public class Ruta {
     @post Es concatenen la ruta actual i  r  afegint aquesta al final
     */
     public void Concatenar(Ruta r) throws Exception { 
-        System.out.println("Concatenar:");
+        /*System.out.println("Concatenar:");
         System.out.println(this);
-        System.out.println(r);
+        System.out.println(r);*/
         pes = pes.mes(r.pes);
         Iterator<Integer> ite = r.cami.iterator();
-        if (ite.next() != r.cami.getLast()) throw new Exception("Les rutes no coincideixen");
+        if (!cami.isEmpty()) {
+            Integer a = ite.next();
+            if (!Objects.equals(cami.getLast(), a)) 
+                throw new Exception("Les rutes no coincideixen, darrer de this " + r.cami.getLast() + " primer de r " + a);
+        }
         while (ite.hasNext())
             cami.add(ite.next());
-        System.out.println("Resultat:");
-        System.out.println(this);
+        /*System.out.println("Resultat:");
+        System.out.println(this);*/
+    }
+    
+    /**
+    @pre --
+    @post Retorna el primer element de la ruta, null si és buida
+    */
+    public Integer primerElement(){
+        return cami.peekFirst();
     }
     
     /**
@@ -118,6 +133,50 @@ public class Ruta {
     */
     public double kmFets(){
         return pes.distancia();
+    }
+    
+    /**
+    @pre --
+    @post Retorna el temps en format double
+    */
+    public double tempsRuta()
+    {
+        return pes.temps().conversioDouble();
+    }
+    
+    /**
+    @pre --
+    @post Retorna un copia de this
+    */
+    public Ruta copia(){
+        Ruta copia = new Ruta();
+        copia.cami = cami.clone();
+        copia.pes = pes;
+        return copia;
+    }
+    
+    /**
+    @pre --
+    @post Retorna ture si la ruta és buida, fals altrament
+    */
+    public boolean buida(){
+        return cami.isEmpty();
+    }
+    
+    /**
+    @pre --
+    @post Retorna la primera localització i l'elimina, retorna null si la ruta és buida
+    */
+    public Integer treureActual(){
+        return cami.pollFirst();
+    }
+   
+    /**
+    @pre --
+    @post Retorna el nombre de localitzacions pels que passa la ruta
+    */
+    public int mida(){
+        return cami.size();
     }
     
     @Override

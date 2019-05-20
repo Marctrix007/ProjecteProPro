@@ -3,6 +3,7 @@
 @brief Temps en hh:mm
 @author Xavier Rodríguez i Martínez
  */
+
 public class Temps implements Comparable<Temps>{
 
     private final int hora;

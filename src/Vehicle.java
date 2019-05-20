@@ -29,7 +29,7 @@ public class Vehicle {
     
     // Excepcions: el main podria llançar una excepcio si el temps de carrega es excessiu per indicar que el vehicle no es pot acceptar 
     //matricula,model,tipus,autonomia,carrega,nPlaces, tCarrega
-    Vehicle(String mat, String mod, String tipus, float auto, boolean carregaRapida, int nombrePlaces, Temps duradaCarr) {
+    public Vehicle(String mat, String mod, String tipus, float auto, boolean carregaRapida, int nombrePlaces, Temps duradaCarr) {
     
         matricula = mat;
         this.tipus = tipus;
@@ -80,6 +80,12 @@ public class Vehicle {
         return nPlacesLliures; 
     }
     
+    public double Ocupacio() throws Exception{
+        System.out.println("Places: " + nPlaces + " Lliures: " + nPlacesLliures);
+        if((100.0*(nPlaces - nPlacesLliures)/nPlaces)>100) throw new Exception("OYEEEE");
+        return 100.0*(nPlaces - nPlacesLliures)/nPlaces;
+    }
+    
     public void CarregarPassatgers(int nPass) {
     // Pre: --
     // Post: Redueix el nombre de places lliures del vehicle en funció del nombre de passatgers que ha de carregar  
@@ -104,14 +110,7 @@ public class Vehicle {
     
     @Override
     public String toString(){
-        String s; 
-        s= "Matricula: " + matricula + "\nTipus: " + tipus + "\nModel: " + model + "\nAutonomia: " + autonomia + "\nTemps de carrega: ";
-        s+= duradaCarrega.toString() + "\nPlaces vehicle: " + nPlaces + "\nCàrrega ràpida: ";
-        if (carrRapida)
-            s+= "SÍ\n";
-        else s+="NO\n";
-        return s; 
-        
+        return "Matricula: " + matricula + "\nTipus: " + tipus + "\nModel: " + model + "\nAutonomia: " + autonomia + "\nTemps de carrega: " + duradaCarrega.toString() + "\nPlaces vehicle: " + nPlaces + "\n";
     }
     
 }
