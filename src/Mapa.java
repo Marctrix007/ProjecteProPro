@@ -157,7 +157,7 @@ public class Mapa {
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
         
-        System.out.println("Ruta de " + o + " a " + d);
+        //System.out.println("Ruta de " + o + " a " + d);
         
         Ruta r = new Ruta();
         r.afegirPes(distancies.get(o).get(d));
@@ -167,7 +167,7 @@ public class Mapa {
             aux = previs.get(o).get(aux);
         }
         r.addFirst(o);
-        System.out.println(r);
+        //System.out.println(r);
         return r;
     }
     
@@ -208,12 +208,14 @@ public class Mapa {
         
         Pes INFINIT = new Pes(2147483647, new Temps(24,00));
         
+        //S'inicalitza tota la taula amb distància infinita
         for (int v=0; v < localitzacions.size(); v++){
             dist.add(v, INFINIT);
             prev.add(v, -1);
             boolean add = Q.add(v);
             if (!add) throw new Exception("Q falla");
         }
+        //distancia d'origen a origen es marca com a 0
         dist.set(origen, new Pes());
         prev.set(origen, origen);
                 
@@ -234,7 +236,8 @@ public class Mapa {
             
             if(u==-1) throw new Exception("Dijkstra out of range");
             Q.remove(u);
-                        
+            
+            //Si la distància de u als seus veïns és inferior que la que hi havia s'actualitza i es posa u com a previ
             Iterator<Entry<Integer,Pes>> veins;
             veins = connexions.get(u).entrySet().iterator();
                     
@@ -249,6 +252,7 @@ public class Mapa {
                 }
             }          
         }
+        //Al acabar es guarden les distancies de origen als punts i la taula de previs
         distancies.set(origen, dist);
         previs.set(origen, prev);
         
