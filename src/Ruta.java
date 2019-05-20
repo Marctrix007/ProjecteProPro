@@ -13,7 +13,7 @@ public class Ruta {
     private Pes pes; /** Pes de la ruta */
     private ArrayDeque<Integer> cami; /** Índexos de les localitzacions per les que passa ruta */
     
-    //INVARIANT: pes >= Pes(0,0)
+    /** INVARIANT: pes >= Pes(0,0) */
     
     /**
     @pre --
@@ -53,9 +53,6 @@ public class Ruta {
     @post Es concatenen la ruta actual i  r  afegint aquesta al final
     */
     public void Concatenar(Ruta r) throws Exception { 
-        /*System.out.println("Concatenar:");
-        System.out.println(this);
-        System.out.println(r);*/
         pes = pes.mes(r.pes);
         Iterator<Integer> ite = r.cami.iterator();
         if (!cami.isEmpty()) {
@@ -65,8 +62,6 @@ public class Ruta {
         }
         while (ite.hasNext())
             cami.add(ite.next());
-        /*System.out.println("Resultat:");
-        System.out.println(this);*/
     }
     
     /**
