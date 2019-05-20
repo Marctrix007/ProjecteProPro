@@ -1,0 +1,98 @@
+
+ESTADÍSTIQUES Porta'm a ProP:
+---------------------------------------
+
+PETICIONS:
+Percentatge de peticions satisfetes -> 100.0%
+Percentatge de peticions fallades -> 0.0%
+Temps mig d'espera = 0:00
+Temps màxim d'espera = 0:00
+Temps mínim d'espera = 0:00
+SD = 0:00
+Variació = 0:00
+***************
+
+
+VEHICLES:
+ ----> 3540DVJ       
+       Ruta 0
+       [ 6 1 2 5 6 1 3 4 0 6 ] Pes:  Km: 57.3   Temps: 0:55
+        
+
+       Km totals = 57 km
+       Kms mig fets = 57 km
+       Temps total = 0:55
+       Temps mig = 0:55
+       Mitjana ocupació = 25%  SD = 32.0 Var = 1024.0
+       Mitjana Temps Estacionat = 7:46 SD = 0:00 Var = 0:00
+***************
+ ----> 1491GVL       
+       Ruta 0
+       [ 3 4 0 6 1 3 4 0 6 1 3 4 0 6 1 3 4 0 6 1 3 4 0 6 1 2 5 6 ] Pes:  Km: 181.5   Temps: 2:58
+        
+
+       Km totals = 182 km
+       Kms mig fets = 182 km
+       Temps total = 2:58
+       Temps mig = 2:58
+       Mitjana ocupació = 54%  SD = 27.0 Var = 729.0
+       Mitjana Temps Estacionat = 5:24 SD = 0:00 Var = 0:00
+***************
+ ----> 4958PYV       
+       Ruta 0
+       [ 6 1 2 5 6 1 3 4 0 6 1 3 ] Pes:  Km: 68.7   Temps: 1:04
+        
+
+       Km totals = 69 km
+       Kms mig fets = 69 km
+       Temps total = 1:04
+       Temps mig = 1:04
+       Mitjana ocupació = 29%  SD = 37.0 Var = 1369.0
+       Mitjana Temps Estacionat = 4:43 SD = 0:00 Var = 0:00
+***************
+ ----> 2091PFJ       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 6450ZND       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 6507RIX       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 8825KIB       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 5687VHW       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 8701IIT       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 8147UOT       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+ ----> 1754GUT       
+       No hi ha dades de les rutes del vehicle
+       No hi ha dades de l'ocupacio del vehicle
+       No hi ha dades del Temps Mig Estacionat
+***************
+
+PUNTS DE RECARREGA:
+ ----> PR_2
+        Mitjana ocupacio Punt = 44%  SD = 7.0 Var = 49.0
+ ----> PR_1
+        Mitjana ocupacio Punt = 75%  SD = 7.0 Var = 49.0

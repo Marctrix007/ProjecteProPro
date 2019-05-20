@@ -419,7 +419,7 @@ public class Gestio {
             //Ens guardem el punt en la ruta definitiva
             rDef.addLast(puntActual);
             // Si s'arriba al punt d'origen de la petició inicial 
-            if (puntActual == petIni.origen().identificador()) {
+            if (puntActual == petIni.origen().identificador() && !petIniCarregada) {
                 petIniCarregada = true; 
                 v.CarregarPassatgers(petIni.NombreClients()); // es carreguen els passatgers de la petició inicial
                 stats.guardarOcupacioVehicle(v,v.Ocupacio()); // es guarda la ocupació del vehicle després de carregar els passatgers 

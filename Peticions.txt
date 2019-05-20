@@ -1,0 +1,766 @@
+
+PETICIÓ 6:
+
+Hora trucada: 10:01
+Hora sortida: 12:05
+Origen: 
+PUNT 1
+Nom del punt: Camp Nou
+Té popularitat: 8
+
+Destí: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Nombre de clients: 3
+
+PETICIÓ 18:
+
+Hora trucada: 8:10
+Hora sortida: 12:42
+Origen: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 1
+
+PETICIÓ 5:
+
+Hora trucada: 9:00
+Hora sortida: 13:30
+Origen: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 3
+
+PETICIÓ 3:
+
+Hora trucada: 9:24
+Hora sortida: 13:34
+Origen: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Destí: 
+PUNT 1
+Nom del punt: Camp Nou
+Té popularitat: 8
+
+Nombre de clients: 3
+
+PETICIÓ 2:
+
+Hora trucada: 12:34
+Hora sortida: 15:51
+Origen: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 2
+
+PETICIÓ 15:
+
+Hora trucada: 12:20
+Hora sortida: 18:17
+Origen: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 3
+Nom del punt: PR_1
+Té popularitat: 1
+Places disponibles: 3
+Càrrega ràpida: SÍ
+*****************************
+Vehicles que conté:
+Matricula: 1491GVL
+Tipus: 4x4
+Model: Jeep
+Autonomia: 189.0
+Temps de carrega: 1:12
+Places vehicle: 6
+
+
+Matricula: 2091PFJ
+Tipus: Cotxe
+Model: Volvo CX
+Autonomia: 120.0
+Temps de carrega: 2:11
+Places vehicle: 4
+
+
+Matricula: 6450ZND
+Tipus: Cotxe
+Model: Tesla S
+Autonomia: 338.0
+Temps de carrega: 1:58
+Places vehicle: 4
+
+
+Matricula: 6507RIX
+Tipus: Cotxe
+Model: Smart
+Autonomia: 59.0
+Temps de carrega: 0:51
+Places vehicle: 2
+
+
+Matricula: 8825KIB
+Tipus: Cotxe
+Model: Seat Toledo
+Autonomia: 111.0
+Temps de carrega: 1:43
+Places vehicle: 4
+
+
+Matricula: 8147UOT
+Tipus: Cotxe
+Model: Seat Arona
+Autonomia: 101.0
+Temps de carrega: 2:05
+Places vehicle: 4
+
+
+Matricula: 1754GUT
+Tipus: Cotxe
+Model: Nissan Leaf
+Autonomia: 114.0
+Temps de carrega: 1:39
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 1
+
+PETICIÓ 14:
+
+Hora trucada: 11:33
+Hora sortida: 18:44
+Origen: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Destí: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Nombre de clients: 2
+
+PETICIÓ 1:
+
+Hora trucada: 17:59
+Hora sortida: 19:17
+Origen: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Destí: 
+PUNT 1
+Nom del punt: Camp Nou
+Té popularitat: 8
+
+Nombre de clients: 3
+
+PETICIÓ 7:
+
+Hora trucada: 13:27
+Hora sortida: 19:18
+Origen: 
+PUNT 1
+Nom del punt: Camp Nou
+Té popularitat: 8
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 3
+
+PETICIÓ 12:
+
+Hora trucada: 14:31
+Hora sortida: 19:21
+Origen: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Destí: 
+PUNT 1
+Nom del punt: Camp Nou
+Té popularitat: 8
+
+Nombre de clients: 2
+
+PETICIÓ 10:
+
+Hora trucada: 10:05
+Hora sortida: 19:39
+Origen: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 3
+
+PETICIÓ 19:
+
+Hora trucada: 17:27
+Hora sortida: 19:50
+Origen: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Destí: 
+PUNT 4
+Nom del punt: Palau Sant Jordi
+Té popularitat: 7
+
+Nombre de clients: 3
+
+PETICIÓ 13:
+
+Hora trucada: 15:49
+Hora sortida: 19:53
+Origen: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 3
+Nom del punt: PR_1
+Té popularitat: 1
+Places disponibles: 3
+Càrrega ràpida: SÍ
+*****************************
+Vehicles que conté:
+Matricula: 1491GVL
+Tipus: 4x4
+Model: Jeep
+Autonomia: 189.0
+Temps de carrega: 1:12
+Places vehicle: 6
+
+
+Matricula: 2091PFJ
+Tipus: Cotxe
+Model: Volvo CX
+Autonomia: 120.0
+Temps de carrega: 2:11
+Places vehicle: 4
+
+
+Matricula: 6450ZND
+Tipus: Cotxe
+Model: Tesla S
+Autonomia: 338.0
+Temps de carrega: 1:58
+Places vehicle: 4
+
+
+Matricula: 6507RIX
+Tipus: Cotxe
+Model: Smart
+Autonomia: 59.0
+Temps de carrega: 0:51
+Places vehicle: 2
+
+
+Matricula: 8825KIB
+Tipus: Cotxe
+Model: Seat Toledo
+Autonomia: 111.0
+Temps de carrega: 1:43
+Places vehicle: 4
+
+
+Matricula: 8147UOT
+Tipus: Cotxe
+Model: Seat Arona
+Autonomia: 101.0
+Temps de carrega: 2:05
+Places vehicle: 4
+
+
+Matricula: 1754GUT
+Tipus: Cotxe
+Model: Nissan Leaf
+Autonomia: 114.0
+Temps de carrega: 1:39
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 2
+
+PETICIÓ 17:
+
+Hora trucada: 12:14
+Hora sortida: 20:25
+Origen: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 3
+Nom del punt: PR_1
+Té popularitat: 1
+Places disponibles: 3
+Càrrega ràpida: SÍ
+*****************************
+Vehicles que conté:
+Matricula: 1491GVL
+Tipus: 4x4
+Model: Jeep
+Autonomia: 189.0
+Temps de carrega: 1:12
+Places vehicle: 6
+
+
+Matricula: 2091PFJ
+Tipus: Cotxe
+Model: Volvo CX
+Autonomia: 120.0
+Temps de carrega: 2:11
+Places vehicle: 4
+
+
+Matricula: 6450ZND
+Tipus: Cotxe
+Model: Tesla S
+Autonomia: 338.0
+Temps de carrega: 1:58
+Places vehicle: 4
+
+
+Matricula: 6507RIX
+Tipus: Cotxe
+Model: Smart
+Autonomia: 59.0
+Temps de carrega: 0:51
+Places vehicle: 2
+
+
+Matricula: 8825KIB
+Tipus: Cotxe
+Model: Seat Toledo
+Autonomia: 111.0
+Temps de carrega: 1:43
+Places vehicle: 4
+
+
+Matricula: 8147UOT
+Tipus: Cotxe
+Model: Seat Arona
+Autonomia: 101.0
+Temps de carrega: 2:05
+Places vehicle: 4
+
+
+Matricula: 1754GUT
+Tipus: Cotxe
+Model: Nissan Leaf
+Autonomia: 114.0
+Temps de carrega: 1:39
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 2
+
+PETICIÓ 8:
+
+Hora trucada: 18:16
+Hora sortida: 20:42
+Origen: 
+PUNT 1
+Nom del punt: Camp Nou
+Té popularitat: 8
+
+Destí: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Nombre de clients: 1
+
+PETICIÓ 4:
+
+Hora trucada: 19:31
+Hora sortida: 21:08
+Origen: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 3
+
+PETICIÓ 9:
+
+Hora trucada: 16:42
+Hora sortida: 21:25
+Origen: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Destí: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Nombre de clients: 1
+
+PETICIÓ 11:
+
+Hora trucada: 17:32
+Hora sortida: 21:52
+Origen: 
+PUNT 2
+Nom del punt: Estacio de Sants
+Té popularitat: 9
+
+Destí: 
+-------------------------------------------
+PUNT DE RECÀRREGA 6
+Nom del punt: PR_2
+Té popularitat: 1
+Places disponibles: 4
+Càrrega ràpida: NO
+*****************************
+Vehicles que conté:
+Matricula: 3540DVJ
+Tipus: Cotxe
+Model: Fiat 500
+Autonomia: 85.0
+Temps de carrega: 3:58
+Places vehicle: 3
+
+
+Matricula: 4958PYV
+Tipus: Cotxe
+Model: Seat Ibiza
+Autonomia: 87.0
+Temps de carrega: 1:44
+Places vehicle: 4
+
+
+Matricula: 5687VHW
+Tipus: Cotxe
+Model: Peugeot 25
+Autonomia: 132.0
+Temps de carrega: 2:00
+Places vehicle: 4
+
+
+Matricula: 8701IIT
+Tipus: Cotxe
+Model: Seat Picasso
+Autonomia: 98.0
+Temps de carrega: 1:22
+Places vehicle: 4
+
+
+
+-------------------------------------------
+
+Nombre de clients: 3
+
+PETICIÓ 16:
+
+Hora trucada: 21:40
+Hora sortida: 21:57
+Origen: 
+PUNT 5
+Nom del punt: Torre Agbar
+Té popularitat: 7
+
+Destí: 
+PUNT 0
+Nom del punt: Aeroport
+Té popularitat: 10
+
+Nombre de clients: 3

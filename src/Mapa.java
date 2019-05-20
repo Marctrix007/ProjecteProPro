@@ -140,9 +140,9 @@ public class Mapa {
             iPR.remove(PRmin);
         }
         Iterator<Integer> tier = ret.iterator();
-        System.out.println("Mostrar llistat de PRs trobats");
+        /*System.out.println("Mostrar llistat de PRs trobats");
         while(tier.hasNext()) System.out.print(tier.next()+" ");
-        System.out.println(" ");
+        System.out.println(" ");*/
         return ret;
     }
     
