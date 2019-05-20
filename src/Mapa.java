@@ -255,8 +255,6 @@ public class Mapa {
         //Al acabar es guarden les distancies de origen als punts i la taula de previs
         distancies.set(origen, dist);
         previs.set(origen, prev);
-        
-        esFinal = true;
     }
     
     /**
@@ -271,6 +269,8 @@ public class Mapa {
                 System.out.println(ex);
             }
         }
+        //Es marca que s'ha acabat de calcular Dijkstra i per tant les dades estan actualitzades
+        esFinal = true;
     }
     
 }
