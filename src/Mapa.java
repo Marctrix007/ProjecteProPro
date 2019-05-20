@@ -42,25 +42,7 @@ public class Mapa {
     public Pes pesEntre(Integer A, Integer B){
         return distancies.get(A).get(B);
     }
-    
-    public void mostrar(){
-        for(int i=0; i<distancies.size(); i++){
-            System.out.println("Linia: "+i);
-            for(int j=0; j<distancies.get(i).size(); j++){
-                System.out.println(distancies.get(i).get(j).toString());
-            }
-        }
-        for(int i=0; i<previs.size(); i++){
-            System.out.println("Linia: "+i);
-            for(int j=0; j<previs.get(i).size(); j++){
-                System.out.println(previs.get(i).get(j).toString());
-            }
-        }
-        System.out.println("PRS:");
-        Iterator<Integer> ite = indexsPR.iterator();
-        while(ite.hasNext()) System.out.println(ite.next());
-    }
-    
+        
     /**
     @pre --
     @post Afegeix la localització al mapa
@@ -136,13 +118,10 @@ public class Mapa {
             }
             if (PRmin==-1 && dir) throw new Exception("No existeixen PRs per anar desde " + loc);
             else if (PRmin==-1 && !dir) throw new Exception("No existeixen PRs per anar a " + loc);
+            
             ret.addLast(PRmin);
             iPR.remove(PRmin);
         }
-        Iterator<Integer> tier = ret.iterator();
-        /*System.out.println("Mostrar llistat de PRs trobats");
-        while(tier.hasNext()) System.out.print(tier.next()+" ");
-        System.out.println(" ");*/
         return ret;
     }
     
@@ -151,13 +130,9 @@ public class Mapa {
     @post Retorna la ruta amb el camí mínim desde  o  fins a  d
     */
     public Ruta CamiMinim(int o, int d) throws Exception{
-        //Pre: {o,d} < localitzacions.size()
-        //Post: Retorna la ruta de distància mínima entre  o  i  d.
         if (localitzacions.size()<o || localitzacions.size()<d)
             throw new Exception("Localització no existent");
         if (!esFinal) Dijkstra();
-        
-        //System.out.println("Ruta de " + o + " a " + d);
         
         Ruta r = new Ruta();
         r.afegirPes(distancies.get(o).get(d));
@@ -167,7 +142,7 @@ public class Mapa {
             aux = previs.get(o).get(aux);
         }
         r.addFirst(o);
-        //System.out.println(r);
+        
         return r;
     }
     
