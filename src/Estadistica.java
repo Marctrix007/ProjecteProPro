@@ -458,6 +458,9 @@ public class Estadistica {
                 "\n       " + StringPRCMitjanaOcup(punt.getKey());
         }
         
+        s = s+"\n\nTEMPS VIATGE:";
+        s = s+StringTempsViatgeStats();
+        
         
 
 
