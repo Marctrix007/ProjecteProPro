@@ -194,6 +194,10 @@ public class Gestio {
         
     }
     
+    /**
+        @pre 
+        @post 
+    */
     private static int getPoissonRandom(double mean) {
         Random r = new Random();
         double L = Math.exp(-mean);
@@ -206,6 +210,10 @@ public class Gestio {
         return k - 1;
     }
     
+    /**
+        @pre 
+        @post 
+    */
     private void EscriurePeticionsFitxer() throws IOException {
         
         try (BufferedWriter fitPet = new BufferedWriter(new FileWriter("Peticions.txt",false))) {
@@ -259,6 +267,10 @@ public class Gestio {
 
     }     
     
+    /**
+        @pre 
+        @post 
+    */
     public  void AtendrePeticions() throws Exception {
     // Pre: --  
     // Post: Tracta totes les peticions 
@@ -278,9 +290,11 @@ public class Gestio {
         
     }
     
-       
     
-    
+    /**
+        @pre 
+        @post 
+    */
     private void TractarPeticio(Peticio pet) throws Exception {
     // Pre: --
     // Post: Marca pet com a atesa o com a fallida. Mentre es tracta pet es poden tractar altres peticions. 
@@ -306,7 +320,12 @@ public class Gestio {
             
             
     }
-        
+    
+    
+    /**
+        @pre 
+        @post 
+    */
     private Vehicle DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Ruta rVehicle, Temps horaAvis) throws Exception {
 
         Vehicle v = null; 
@@ -380,8 +399,11 @@ public class Gestio {
         
     }
     
-
-private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
+    /**
+        @pre 
+        @post 
+    */
+    private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
         
         // Es redueix el nombre de places lliures del vehicle a partir del nombre de clients de la petició inicial, pet 
         Peticio petIni = petAtendre.get(0);
@@ -441,9 +463,11 @@ private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre
         
     }
     
+    /**
+        @pre v té passatgers 
+        @post v descarrega els passatgers en horaArribada que tinguin com a destinació loc. Les peticions dels passatgers que pertanyen a petAtendre han pogut ser ateses per v. 
+    */
      private void DescarregarClients(Vehicle v, int loc, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
-    // Pre: v té passatgers 
-    // Post: v descarrega els passatgers en horaArribada que tinguin com a destinació loc. Les peticions dels passatgers que pertanyen a petAtendre han pogut ser ateses per v. 
         
         // Es busquen les peticions que el vehicle ha pogut atendre i que tenen com a destinació loc 
         Iterator<Peticio> it = petAtendre.iterator();
@@ -458,11 +482,11 @@ private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre
         }
      }
     
-    
+    /**
+        @pre Cert
+        @post v comprova si és capaç d'atendre més peticions que s'hagin de recollir a loc en el moment que hi és v, horaArribada. Qualsevol petició que pugui atendre s'afegeix a petAtendre. La destinació de la petició pot modificar rVehicle. 
+    */
     private void TractarMesPeticions(Vehicle v, int loc, Temps horaArribada, ArrayList<Peticio> petAtendre, Ruta rVehicle) throws Exception {
-    // Pre: --
-    // Post: v comprova si és capaç d'atendre més peticions que s'hagin de recollir a loc en el moment que hi és v, horaArribada.
-    //       Qualsevol petició que pugui atendre s'afegeix a petAtendre. La destinació de la petició pot modificar rVehicle. 
         
         // La petició inicial que ha d'atendre el vehicle s'ignora
         // Ja s'ha carregat els seus clients en el vehicle 
@@ -526,10 +550,11 @@ private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre
         }
     }
 
-    
+    /**
+        @pre Cert
+        @post Retorna el punt de recàrrega més proper a loc en el qual es pugui estacionar. Retorna null si no s'ha trobat cap punt de recàrrega estacionable. 
+    */
     private PuntDeRecarrega pMesProperLocEstacionable(int loc) throws Exception {
-    // Pre: --
-    // Post: Retorna el punt de recàrrega més proper a loc en el qual es pugui estacionar. Retorna null si no s'ha trobat cap punt de recàrrega estacionable. 
     
         ArrayDeque<Integer> PRMesPropersLoc = mapa.PRMesProximDesde(loc); 
         boolean trobat = false; 
