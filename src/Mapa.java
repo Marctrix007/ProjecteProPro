@@ -248,9 +248,9 @@ public class Mapa {
             }          
         }
         Iterator<Integer> seguro = prev.iterator();
-        while(ite.hasNext()){
-            if(ite.next() == -1)
-                throw new Exception("No totes les localitzacions tenen entrada i sortida al sistema")
+        while(seguro.hasNext()){
+            if(seguro.next() == -1)
+                throw new Exception("No totes les localitzacions tenen entrada i sortida al sistema");
         }
         //Al acabar es guarden les distancies de origen als punts i la taula de previs
         distancies.set(origen, dist);
