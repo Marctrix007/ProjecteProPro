@@ -138,6 +138,11 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
         @post retorna un vehicle v del punt de recarrega i l'elimina del punt
     */
+    /** 
+        @brief Surt un vehicle del punt de recarrega a atendre una petició
+        @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
+        @post retorna un vehicle v del punt de recarrega i l'elimina del punt
+    */
     public Pair<Vehicle,Temps> SortidaVehicle(float recorregut, int nPersones, Temps horaArribada, Temps horaPeticio, Temps horaMax, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
   
         if (Buit()){
@@ -154,16 +159,23 @@ public class PuntDeRecarrega extends Localitzacio {
             while(it_vehicles.hasNext() && !trobat){
                 entry_vehicle = it_vehicles.next();
                 v = entry_vehicle.getKey();
+                System.out.println("*********\n");
+                System.out.println("VEHICLE A ANALITZAR: " + v.matricula() + " amb tDisp = " + a_parking.get(v));
+                System.out.println("Temps disponible: " + entry_vehicle.getValue() + " Hora d'Avis: " + horaAvis);
                 if (entry_vehicle.getValue().compareTo(horaAvis) <= 0) {// si tDisp <= horaAvis, el vehicle està disponible quan l'avisa l'empresa 
+                    System.out.println("Hora Peticio: " + horaPeticio + " Hora Arribada: " + horaArribada + " Hora Max: " + horaMax);
+                    System.out.println("Té autonomia de " + v.Autonomia() + " i ha de recorre " + recorregut + " amb unes places de " + v.NombrePlaces() +  " per " + nPersones + " clients");
                     boolean arribarAbans = false, arribarDespres = false;  
                     // si el vehicle arriba al punt d'origen de la petició 10 minuts abans de l'hora de sortida 
-                    if (horaPeticio.menys(horaArribada).per(-1.0).compareTo(new Temps(0,10)) <= 0) 
+                    if (horaPeticio.menys(horaArribada).compareTo(new Temps(0,10)) <= 0 && horaPeticio.menys(horaArribada).compareTo(new Temps(0,0))>=0)  
                         arribarAbans = true;
                     // si el vehicle arriba al punt d'origen de la petició entre l'hora de sortida i l'hora sortida més el temps d'espera màxim 
                     else if (horaArribada.compareTo(horaPeticio) > 0 && horaArribada.compareTo(horaMax) <= 0) 
                         arribarDespres = true;     
-                    if (arribarAbans || arribarDespres && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones) 
+                    if (arribarAbans || arribarDespres && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones){
                         trobat = true;
+                        System.out.println("VEHICLE TROBAT");
+                    }
                 }
             }           
             if (!trobat)
@@ -174,8 +186,7 @@ public class PuntDeRecarrega extends Localitzacio {
                 return new Pair(v,horaDisp);
             }
         }
-    }    
-        
+    } 
     
     /** 
         @brief Indica l'hora de disponibilitat d'un vehicle determinat 
@@ -194,7 +205,7 @@ public class PuntDeRecarrega extends Localitzacio {
     public Temps tempsCarrega(Vehicle v){
         Temps tCar = v.TempsCarrega();
         if (AcceptaCarregaRapida() && v.CarregaRapida())
-            tCar = tCar.per((float) 0.7);
+            tCar = tCar.per(0.7);
         return tCar; 
     }
     
@@ -271,4 +282,3 @@ public class PuntDeRecarrega extends Localitzacio {
     
     
 }
-
