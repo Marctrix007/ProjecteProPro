@@ -1,3 +1,8 @@
+/** 
+    @file Mapa.java
+    @brief Fitxer que guarda la classe Mapa
+*/
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;

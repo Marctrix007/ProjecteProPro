@@ -1,3 +1,7 @@
+/** 
+    @file Ruta.java
+    @brief Fitxer que guarda la classe Ruta
+*/
 
 import java.util.ArrayDeque;
 import java.util.Iterator;

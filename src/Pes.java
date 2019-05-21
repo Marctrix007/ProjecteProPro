@@ -1,3 +1,8 @@
+/** 
+    @file Pes.java
+    @brief Fitxer que guarda la classe Pes
+*/
+
 /**
 @class Pes
 @brief Classe que conté el temps i distància d'una connexió

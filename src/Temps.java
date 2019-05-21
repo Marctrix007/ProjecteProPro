@@ -1,3 +1,8 @@
+/** 
+    @file Temps.java
+    @brief Fitxer que guarda la classe Temps
+*/
+
 /**
 @class Temps
 @brief Temps en hh:mm
