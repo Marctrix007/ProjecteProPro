@@ -538,8 +538,8 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
                         }
                         
                         System.out.println("Temps Trajecte Esp: " + tTrajecteEsp + " Temps Trajecte Real: " + tTrajecteReal);
-                        
-                        if (tTrajecteReal.menys(tTrajecteEsp).compareTo(new Temps(0,15)) <= 0) {
+                                                
+                        if (tTrajecteReal.mes(tTrajecteEsp).compareTo(tTrajecteEsp.per(2)) <= 0) {
                             petAtendre.add(pet);
                             //System.out.println("Peticio nova afegida:\n" + pet);
                             // El vehicle carrega els passatgers de la petició
