@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
     @author Enrique Sambola
 */
 public class Estadistica {
+    
     /*
         DESCRIPCIÓ GENERAL CLASSE:
         Aquesta classe està formada per un conjunt d'estructures de dades que s'omplen al recopilar informació d'altres classes 
@@ -58,6 +59,8 @@ public class Estadistica {
         mitjanesOcupPRC: mapa format per el parell punt de recarrega i els percentatges d'ocupació que ha tingut un punt de recarrega al llarg de l'execució
         mitjanesKMVehicle: mapa format per el parell vehicle i les rutes que ha fet al llarg de l'execució
         mitjanesTempsEspera: llista dels temps (decimal) que han esperat cada peticio 
+        mitjanesTempsViatgeReal: llista dels temps (decimal) de viatge que ha fet cada peticio
+        mitjanesTempsViatgeEsperat: llista dels temps (decimals) de viatge estimat per cada peticio
 
         INVARIANT:
         peticionsSatisfetes: >=0
@@ -67,6 +70,8 @@ public class Estadistica {
         mitjanesOcupPRC: !=null
         mitjanesKMVehicle: !=null
         mitjanesTempsEspera: !=null
+        mitjanesTempsViatgeReal: !=null
+        mitjanesTempsViatgeEsperat: !=null
      
     */
     
@@ -220,8 +225,7 @@ public class Estadistica {
     */
     private String StringKMMitjana(Vehicle v){
         
-        System.out.println(v.matricula() + " StringKMMitjana\n");
-        ArrayList<Ruta> mitjanes = mitjanesKMVehicle.get(v); System.out.println("***\nElements = " + mitjanes +"\n***\n");
+        ArrayList<Ruta> mitjanes = mitjanesKMVehicle.get(v);
         
         if(mitjanes.isEmpty()){
             return "No hi ha dades de les rutes del vehicle";
@@ -269,8 +273,7 @@ public class Estadistica {
         @post retorna el string que conté la mitjana, la desviacio estandard i la variacio de la Ocupacio Mitja dels Punts de Recarrega
     */
     private String StringPRCMitjanaOcup(PuntDeRecarrega p){
-        System.out.println(p.nom() + " StringPRCMitjanaOcup\n");
-        ArrayList<Double> mitjanes = mitjanesOcupPRC.get(p); System.out.println("***\nElements = " + mitjanes +"\n***\n");
+        ArrayList<Double> mitjanes = mitjanesOcupPRC.get(p);
         
         if(mitjanes.isEmpty()){
             return "No hi ha dades de la Mitjana ocupacio Punt";
@@ -293,8 +296,7 @@ public class Estadistica {
     */
     private String StringTempsMitjana(Vehicle v){
   
-        System.out.println(v.matricula() + " StringTempsMitjana\n");
-        ArrayList<Double> mitjanes = mitjanesTempsVehiEstac.get(v); System.out.println("***\nElements = " + mitjanes +"\n***\n");
+        ArrayList<Double> mitjanes = mitjanesTempsVehiEstac.get(v);
         
         if(mitjanes.isEmpty()){
             return "No hi ha dades del Temps Mig Estacionat";
@@ -318,8 +320,7 @@ public class Estadistica {
     */
     private String StringMitjana(Vehicle v){
  
-        System.out.println(v.matricula() + " StringMitjana%OcupVeh\n");
-        ArrayList<Double> mitjanes = mitjanesOcupVehi.get(v); System.out.println("***\nElements = " + mitjanes +"\n***\n");
+        ArrayList<Double> mitjanes = mitjanesOcupVehi.get(v); 
         if(mitjanes.isEmpty()){
             return "No hi ha dades de l'ocupacio del vehicle";
         }
