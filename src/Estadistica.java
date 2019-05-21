@@ -22,13 +22,17 @@ public class Estadistica {
         per després treure una descripció estadística de alguns elements que hem considerat importants. S'ha d'entendre com 
         si fos un bloc amb les seves entrades (els mètodes "guardar") i una sortida (el toString). A partir de les
         entrades calcula els estadístics i en treu una sortida quan es demani.
+
+
         ASPECTES IMPLEMENTACIÓ:
         A l'hora de calcular els estadístics he fet servir una eina de l'API molt útil: l'stream. Aquest tracta els elements 
         d'una colecció qualsevol com un fluxe de dades al qual se li poden aplicar operacions declaratives, és a dir, no ens 
         preocupem de COM ho calcula sinó QUÈ volem que ens calculi, molt semblant al llenguatge SQL.
+
         A partir de l'stream, podem aplicar una altre utilitat de l'API que es diu SummayStatistics. Aquest calcula els estadístics més comuns
         com la mitjana, el màxim, el minim, el nombre d'elements, etc. mitjançant un stream de dades. Hi ha de varis tipus: Int, Long i Double. Per
         aquest cas he cregut més adient fer servir DoubleSummaryStatistics ja que la majoria d'operacions serien amb nombres de tipus Double.
+
         BIBLIOGRAFIA:
         Stream: https://www.oracle.com/technetwork/es/articles/java/procesamiento-streams-java-se-8-2763402-esa.html
         DoubleSummaryStatistics: https://github.com/frohoff/jdk8u-jdk/blob/master/src/share/classes/java/util/DoubleSummaryStatistics.java
@@ -42,9 +46,8 @@ public class Estadistica {
     private HashMap<PuntDeRecarrega,ArrayList<Double>> mitjanesOcupPRC;
     private HashMap<Vehicle,ArrayList<Ruta>> mitjanesKMVehicle;
     private ArrayList<Double> mitjanesTempsEspera;
-    private ArrayList<Double> mitjanesTempsViatgeEsperat;
     private ArrayList<Double> mitjanesTempsViatgeReal;
-
+    private ArrayList<Double> mitjanesTempsViatgeEsperat;
     
     /*
         DESCRIPCIÓ ATRIBUTS:
@@ -55,6 +58,7 @@ public class Estadistica {
         mitjanesOcupPRC: mapa format per el parell punt de recarrega i els percentatges d'ocupació que ha tingut un punt de recarrega al llarg de l'execució
         mitjanesKMVehicle: mapa format per el parell vehicle i les rutes que ha fet al llarg de l'execució
         mitjanesTempsEspera: llista dels temps (decimal) que han esperat cada peticio 
+
         INVARIANT:
         peticionsSatisfetes: >=0
         peticionsFallades: >=0
@@ -63,8 +67,7 @@ public class Estadistica {
         mitjanesOcupPRC: !=null
         mitjanesKMVehicle: !=null
         mitjanesTempsEspera: !=null
-        mitjanesTempsViatgeEsperat != null 
-        mitjanesTempsViatgeReal != null 
+     
     */
     
     
@@ -79,10 +82,11 @@ public class Estadistica {
         mitjanesOcupVehi =  new HashMap<>(); 
         mitjanesTempsVehiEstac = new HashMap<>();
         mitjanesOcupPRC = new HashMap<>();
-        mitjanesTempsEspera = new ArrayList<>();
+        mitjanesTempsEspera = new ArrayList();
         mitjanesKMVehicle = new HashMap<>();
-        mitjanesTempsViatgeEsperat = new ArrayList<>();
-        mitjanesTempsViatgeReal = new ArrayList<>();
+        mitjanesTempsViatgeReal = new ArrayList();
+        mitjanesTempsViatgeEsperat = new ArrayList();
+    
     }
     
      /** 
@@ -150,6 +154,7 @@ public class Estadistica {
         mitjanesOcupVehi.get(v).add(ocup);        
     }
     
+    
     /** 
         @brief Guarda el temps de viatge que hi han hagut
         @pre cert
@@ -159,7 +164,8 @@ public class Estadistica {
         mitjanesTempsViatgeEsperat.add(esperat.conversioDouble());
         mitjanesTempsViatgeReal.add(real.conversioDouble());
     }
-   
+    
+    
     
 //N PETICIONS-------------------------------------------------------------------------
     
@@ -189,7 +195,7 @@ public class Estadistica {
         @post retorna el percentage de peticions que han estat satisfetes  
     */ 
     private double percentatgePeticionsSatisfetes(){  
-        return (double) Math.round(peticionsSatisfetes*100.00/(peticionsSatisfetes+peticionsFallades));
+        return arrodonir(peticionsSatisfetes*100.00/(peticionsSatisfetes+peticionsFallades));
     }
     
     /** 
@@ -198,7 +204,7 @@ public class Estadistica {
         @post retorna el percentage de peticions que han estat fallades
     */
     private double percentatgePeticionsFallades(){
-        return (double) Math.round(peticionsFallades*100.00/(peticionsSatisfetes+peticionsFallades));
+        return arrodonir(peticionsFallades*100.00/(peticionsSatisfetes+peticionsFallades));
     }
     
 
@@ -224,10 +230,10 @@ public class Estadistica {
             DoubleSummaryStatistics statsMitjanaKM = mitjanes.stream().collect(Collectors.summarizingDouble(Ruta::kmFets));
             DoubleSummaryStatistics statsMitjanaTemps = mitjanes.stream().collect(Collectors.summarizingDouble(Ruta::tempsRuta));
 
-            return "Km totals = " + Math.round( statsMitjanaKM.getSum() ) +" km"+ 
-                    "\n       Kms mig fets = " + Math.round( statsMitjanaKM.getAverage() ) + " km" +
-                    "\n       Temps total = " + new Temps( (float) statsMitjanaTemps.getSum()) +
-                    "\n       Temps mig = " + new Temps( (float) statsMitjanaTemps.getAverage());
+            return "Km totals = " + arrodonir(statsMitjanaKM.getSum()) +" km"+ 
+                    "\n       Kms mig fets = " + arrodonir(statsMitjanaKM.getAverage()) + " km" +
+                    "\n       Temps total = " + new Temps(statsMitjanaTemps.getSum()) +
+                    "\n       Temps mig = " + new Temps(statsMitjanaTemps.getAverage());
         }
     }
     
@@ -248,7 +254,7 @@ public class Estadistica {
         else{
             DoubleSummaryStatistics statsMitjanaTempsE = mitjanesTempsEspera.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
 
-            return "\nTemps mig d'espera = " + new Temps((float) statsMitjanaTempsE.getAverage() ) + "\nTemps màxim d'espera = " + new Temps((float)statsMitjanaTempsE.getMax()) + "\nTemps mínim d'espera = " + new Temps((float)statsMitjanaTempsE.getMin()) + "\nSD = " + new Temps((float)StandardDeviation(mitjanesTempsEspera,statsMitjanaTempsE.getAverage())) + "\nVariació = " + new Temps((float)Variacio(mitjanesTempsEspera,statsMitjanaTempsE.getAverage()));
+            return "\nTemps mig d'espera = " + new Temps(statsMitjanaTempsE.getAverage() ) + "\nTemps màxim d'espera = " + new Temps(statsMitjanaTempsE.getMax()) + "\nTemps mínim d'espera = " + new Temps(statsMitjanaTempsE.getMin()) + "\nSD = " + new Temps(StandardDeviation(mitjanesTempsEspera,statsMitjanaTempsE.getAverage())) + "\nVariació = " + new Temps(Variacio(mitjanesTempsEspera,statsMitjanaTempsE.getAverage()));
         }
     }
     
@@ -272,7 +278,7 @@ public class Estadistica {
         else{
             DoubleSummaryStatistics statsMitjanaOcup = mitjanes.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
 
-            return " Mitjana ocupacio Punt = " + Math.round( statsMitjanaOcup.getAverage() ) +"% "+ " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
+            return " Mitjana ocupacio Punt = " + arrodonir(statsMitjanaOcup.getAverage()) +"% "+ " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
         }
     }
     
@@ -296,7 +302,7 @@ public class Estadistica {
         else{
             DoubleSummaryStatistics statsMitjanaTemps = mitjanes.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
 
-            return "Mitjana Temps Estacionat = " + new Temps((float)statsMitjanaTemps.getAverage()) + " SD = " + new Temps((float)StandardDeviation(mitjanes,statsMitjanaTemps.getAverage())) + " Var = " + new Temps((float)Variacio(mitjanes,statsMitjanaTemps.getAverage()));
+            return "Mitjana Temps Estacionat = " + new Temps(statsMitjanaTemps.getAverage()) + " SD = " + new Temps(StandardDeviation(mitjanes,statsMitjanaTemps.getAverage())) + " Var = " + new Temps(Variacio(mitjanes,statsMitjanaTemps.getAverage()));
 
         }
     }
@@ -320,18 +326,17 @@ public class Estadistica {
         else{
             DoubleSummaryStatistics statsMitjanaOcup = mitjanes.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
 
-            return "Mitjana ocupació = " + Math.round( statsMitjanaOcup.getAverage() ) +"% "+ " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
+            return "Mitjana ocupació = " +  arrodonir(statsMitjanaOcup.getAverage())   +"% "+ " SD = " + StandardDeviation(mitjanes,statsMitjanaOcup.getAverage()) + " Var = " + Variacio(mitjanes,statsMitjanaOcup.getAverage());
         }
     }
     
 //TEMPS VIATGE----------------------------------------------------------------
-    
+ 
     /** 
         @brief Calcula els estadístics dels temps de viatge de les peticions
         @pre cert
         @post retorna el string que conté la mitjana, maxim, minim, la desviacio estandard i la variacio dels Temps de Viatge
     */
-    
     private String StringTempsViatgeStats(){
         if(mitjanesTempsViatgeEsperat.isEmpty()){
             return("No hi ha dades del temps de viatge");
@@ -341,19 +346,19 @@ public class Estadistica {
             DoubleSummaryStatistics statsTempsVReal = mitjanesTempsViatgeReal.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
             DoubleSummaryStatistics statsTempsVEspe = mitjanesTempsViatgeEsperat.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
             
-            Double desStand1 = StandardDeviation(mitjanesTempsViatgeReal,statsTempsVReal.getAverage());
-            Double desStand2 = StandardDeviation(mitjanesTempsViatgeEsperat,statsTempsVEspe.getAverage());
-            Double var1 = Math.pow(desStand1,2);
-            Double var2 = Math.pow(desStand2,2);
+            double desStand1 = StandardDeviation(mitjanesTempsViatgeReal,statsTempsVReal.getAverage());
+            double desStand2 = StandardDeviation(mitjanesTempsViatgeEsperat,statsTempsVEspe.getAverage());
+            double var1 = Math.pow(desStand1,2);
+            double var2 = Math.pow(desStand2,2);
 
             
-            return "\nMitjana Temps de Viatge Real = " + statsTempsVReal.getAverage() + "  ---------  " + " Mitjana Temps de Viatge Esperat = " + statsTempsVEspe.getAverage() +
-                   "\nMaxim Temps de Viatge Real = " + statsTempsVReal.getMax() + "  ---------  " + " Maxim Temps de Viatge Esperat = " + statsTempsVEspe.getMax() +
-                   "\nMinim Temps de Viatge Real = " + statsTempsVReal.getMin() + "  ---------  " + " Minim Temps de Viatge Esperat = " + statsTempsVEspe.getMin() +
-                   "\nSD Temps de Viatge Real = " + desStand1 +  "  ---------  " + " SD Temps de Viatge Esperat = " + desStand2 +
-                   "\nVariacio Temps de Viatge Real = " + Variacio(mitjanesTempsViatgeReal,statsTempsVReal.getAverage()) +  "  ---------  " + " Variacio Temps de Viatge Esperat = " + Variacio(mitjanesTempsViatgeEsperat,statsTempsVEspe.getAverage()) +
-                   "\nSD Diferencies = " + Math.abs(desStand1-desStand2) + 
-                   "\nVariacio Diferencies = " + Math.abs(var2-var1);
+            return "\nMitjana Temps de Viatge Real = " + new Temps(statsTempsVReal.getAverage()) + "  ---------  " + " Mitjana Temps de Viatge Esperat = " + new Temps(statsTempsVEspe.getAverage()) +
+                   "\nMaxim Temps de Viatge Real = " + new Temps(statsTempsVReal.getMax()) + "  ---------  " + " Maxim Temps de Viatge Esperat = " + new Temps(statsTempsVEspe.getMax()) +
+                   "\nMinim Temps de Viatge Real = " + new Temps(statsTempsVReal.getMin()) + "  ---------  " + " Minim Temps de Viatge Esperat = " + new Temps(statsTempsVEspe.getMin()) +
+                   "\nSD Temps de Viatge Real = " + new Temps(desStand1) +  "  ---------  " + " SD Temps de Viatge Esperat = " + new Temps(desStand2) +
+                   "\nVariacio Temps de Viatge Real = " + new Temps(var1) +  "  ---------  " + " Variacio Temps de Viatge Esperat = " + new Temps(var2) +
+                   "\nSD Diferencies = " + new Temps(Math.abs(desStand1-desStand2)) + 
+                   "\nVariacio Diferencies = " + new Temps(Math.abs(var2-var1));
         
         }
     }
@@ -373,7 +378,7 @@ public class Estadistica {
         }
         else{
             double sumaMitjanes = numeros.stream().mapToDouble((x) -> Math.pow(x.doubleValue() - mitjana, 2.0)).sum();
-            return Math.round( Math.sqrt(sumaMitjanes/(numeros.size()-1)) );
+            return arrodonir(Math.sqrt(sumaMitjanes/(numeros.size()-1) )) ;
         }
     }
     
@@ -385,7 +390,16 @@ public class Estadistica {
     private double Variacio(ArrayList<Double> numeros, double mitjana){
     //Pre: numeros.size()>0 i mitjana>0
     //Post: retorna la variacio de llista de numeros a partir de la mitjana, NaN si la llista de està buida
-        return Math.round( Math.pow(StandardDeviation(numeros,mitjana),2) );
+        return arrodonir(Math.pow(StandardDeviation(numeros,mitjana),2));
+    }
+    
+    /**
+     * @brief permet arrodonir un numero amb dos decimals
+     * @pre cert
+     * @post arrodoneix un double amb dos decimals
+     */
+    private double arrodonir(Double valor){
+        return ((double)Math.round(valor * 100d) / 100d);
     }
     
     
@@ -460,7 +474,6 @@ public class Estadistica {
         
         s = s+"\n\nTEMPS VIATGE:";
         s = s+StringTempsViatgeStats();
-        
         
 
 
