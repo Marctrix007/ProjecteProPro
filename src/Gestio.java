@@ -348,7 +348,7 @@ public class Gestio {
             if (!pMesProperOrigen.Buit() && pMesProperDesti.PlacesLliures() > 0) { // Es comprova si els punts de recàrrega es poden admetre 
                 horaArribada = horaAvis.mes(tPRaOrigen); 
                 stats.guardarOcupacioMigPuntRC(pMesProperOrigen,pMesProperOrigen.ocupacio()); 
-                Pair<Vehicle,Temps> sortidaVehicle = pMesProperOrigen.SortidaVehicle(recorregut, nPass, horaArribada,pet.horaSortida(),horaMax, horaAvis);
+                Pair<Vehicle,Temps> sortidaVehicle = pMesProperOrigen.SortidaVehicle(recorregut, nPass, horaArribada,pet.horaTrucada(),horaMax, horaAvis);
                 // sortidaVehicle és un pair del vehicle trobat amb la seva hora de disponibilitat 
                 if (sortidaVehicle != null){  // Si s'ha trobat un vehicle apte, ja no es busca més 
                     trobat = true;
