@@ -348,15 +348,18 @@ public class Gestio {
             if (!pMesProperOrigen.Buit() && pMesProperDesti.PlacesLliures() > 0) { // Es comprova si els punts de recàrrega es poden admetre 
                 horaArribada = horaAvis.mes(tPRaOrigen); 
                 stats.guardarOcupacioMigPuntRC(pMesProperOrigen,pMesProperOrigen.ocupacio()); 
-                Pair<Vehicle,Temps> sortidaVehicle = pMesProperOrigen.SortidaVehicle(recorregut, nPass, horaArribada,pet.horaTrucada(),horaMax, horaAvis);
+                Pair<Vehicle,Temps> sortidaVehicle = pMesProperOrigen.SortidaVehicle(recorregut, nPass, horaMax.menys(tPRaOrigen), horaAvis);
                 // sortidaVehicle és un pair del vehicle trobat amb la seva hora de disponibilitat 
                 if (sortidaVehicle != null){  // Si s'ha trobat un vehicle apte, ja no es busca més 
                     trobat = true;
                     v = sortidaVehicle.getKey(); 
                     horaDisp = sortidaVehicle.getValue();
                 }
+                else {
+                    System.out.println("VEHICLE NO TROBAT else1");
+                }
             }
-            if (pMesProperOrigen.Buit() || v == null) {
+            if ((pMesProperOrigen.Buit() || v == null) && pMesProperDesti.PlacesLliures() > 0) {
             // Obtenir el següent punt de recàrrega més proper a origen en cas que el PR estigui buit o no s'hagi trobat un vehicle apte 
               pMesProperOrigen = (PuntDeRecarrega)mapa.loc(itOri.next()); 
               // Recalcular el temps per anar del nou punt de recàrrega al punt d'origen de la petició 
