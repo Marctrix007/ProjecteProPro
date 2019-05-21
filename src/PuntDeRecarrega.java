@@ -172,7 +172,7 @@ public class PuntDeRecarrega extends Localitzacio {
                     // si el vehicle arriba al punt d'origen de la petició entre l'hora de sortida i l'hora sortida més el temps d'espera màxim 
                     else if (horaArribada.compareTo(horaPeticio) > 0 && horaArribada.compareTo(horaMax) <= 0) 
                         arribarDespres = true;     
-                    if (arribarAbans || arribarDespres && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones){
+                    if ((arribarAbans || arribarDespres) && (v.Autonomia() >= recorregut) && (v.NombrePlaces() > nPersones)){
                         trobat = true;
                         System.out.println("VEHICLE TROBAT");
                     }
