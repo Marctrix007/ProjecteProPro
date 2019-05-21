@@ -65,8 +65,6 @@ public class Gestio {
     public void MostrarEstadistics()throws IOException{
        
         String dades = stats.toString();
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println(dades);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Estadistics.txt",false))) {
             writer.write(dades);
         }
@@ -151,32 +149,37 @@ public class Gestio {
         @pre Cert
         @post Crea els vehicles guardats en un fitxer d'entrada
     */
-    public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException, PuntDeRecarrega.ExcepcioNoQuedenPlaces {
+    public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException {
         
-        System.out.println("\nFITXER DE VEHICLES: ");
-        Scanner teclat = new Scanner(System.in);
-        File fitVeh = new File(teclat.nextLine());
-        Scanner fitxerVehicles = new Scanner(fitVeh);
-                
-        while(fitxerVehicles.hasNextLine()){
-            String linia = fitxerVehicles.nextLine();
-            String[] liniaArr = linia.split(", ");
-            String matricula = liniaArr[0];
-            String model = liniaArr[1];
-            String tipus = liniaArr[2];
-            float autonomia = Float.parseFloat(liniaArr[3]); 
-            boolean carregaRapida = liniaArr[4].equals("SI");
-            Integer nPlaces = Integer.parseInt(liniaArr[5]);
-            String tCarrega = liniaArr[6];
-            Temps tCarr = new Temps(tCarrega); 
-            int puntRecarrega = Integer.parseInt(liniaArr[7]); 
-            Vehicle v = new Vehicle(matricula,model,tipus,autonomia,carregaRapida,nPlaces, tCarr);
-            stats.guardarVehicle(v);
-            // Cada vehicle estarà estacionat en el punt de recàrrega que li correspon des de les 5h de la matinada 
-            PuntDeRecarrega p = (PuntDeRecarrega) mapa.loc(puntRecarrega); 
-            p.EstacionarVehicle(v, new Temps(5,0));
-        }        
-        fitxerVehicles.close();
+        try { 
+            System.out.println("\nFITXER DE VEHICLES: ");
+            Scanner teclat = new Scanner(System.in);
+            File fitVeh = new File(teclat.nextLine());
+            Scanner fitxerVehicles = new Scanner(fitVeh);
+
+            while(fitxerVehicles.hasNextLine()){
+                String linia = fitxerVehicles.nextLine();
+                String[] liniaArr = linia.split(", ");
+                String matricula = liniaArr[0];
+                String model = liniaArr[1];
+                String tipus = liniaArr[2];
+                float autonomia = Float.parseFloat(liniaArr[3]); 
+                boolean carregaRapida = liniaArr[4].equals("SI");
+                Integer nPlaces = Integer.parseInt(liniaArr[5]);
+                String tCarrega = liniaArr[6];
+                Temps tCarr = new Temps(tCarrega); 
+                int puntRecarrega = Integer.parseInt(liniaArr[7]); 
+                Vehicle v = new Vehicle(matricula,model,tipus,autonomia,carregaRapida,nPlaces, tCarr);
+                stats.guardarVehicle(v);
+                // Cada vehicle estarà estacionat en el punt de recàrrega que li correspon des de les 5h de la matinada 
+                PuntDeRecarrega p = (PuntDeRecarrega) mapa.loc(puntRecarrega); 
+                p.EstacionarVehicle(v, new Temps(5,0));
+            }        
+            fitxerVehicles.close();
+        }
+        catch (PuntDeRecarrega.ExcepcioNoQuedenPlaces e) {
+            System.out.println(e.toString()); 
+        }
     }
    
     /**
@@ -241,7 +244,7 @@ public class Gestio {
         for (int i=0; i<mapa.nLocalitzacions(); i++) { // i és l'identificador de cada localització
             Localitzacio origen = mapa.loc(i);
             int maxPeticionsOrigen = origen.popularitat() * 2;
-            int nPeticionsOrigen = 5;
+            int nPeticionsOrigen =  (int)randDouble(0,maxPeticionsOrigen);
             for (int j=0; j<nPeticionsOrigen; j++) {
                 int minutsTrucada = 0;
                 // L'hora de trucada ha de ser entre les 8h i les 21h45 
