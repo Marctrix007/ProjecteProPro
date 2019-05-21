@@ -149,9 +149,8 @@ public class Gestio {
         @pre Cert
         @post Crea els vehicles guardats en un fitxer d'entrada
     */
-    public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException {
+    public void CrearVehicles() throws FileNotFoundException,IndexOutOfBoundsException, PuntDeRecarrega.ExcepcioNoQuedenPlaces {
         
-        try { 
             System.out.println("\nFITXER DE VEHICLES: ");
             Scanner teclat = new Scanner(System.in);
             File fitVeh = new File(teclat.nextLine());
@@ -176,10 +175,8 @@ public class Gestio {
                 p.EstacionarVehicle(v, new Temps(5,0));
             }        
             fitxerVehicles.close();
-        }
-        catch (PuntDeRecarrega.ExcepcioNoQuedenPlaces e) {
-            System.out.println(e.toString()); 
-        }
+        
+
     }
    
     /**
@@ -251,7 +248,6 @@ public class Gestio {
                 double horaTrucada = randDouble(8, 21.75);
                 Temps hTrucada = new Temps(horaTrucada); // Es converteix el temps de decimals a hores, minuts
                 double horaSortida = randDouble(horaTrucada+0.25,horaTrucada+0.50);     // Ha d'haver un marge de 15 minuts entre trucada i recollida (+ 0.25 = + 15 minuts)
-                //System.out.println(horaSortida);
                 Temps hSortida = new Temps(horaSortida);
                 // Obtenim una localització de destí diferent a la d'origen
                 int des;    // des és l'identificador de la localització de destí
@@ -411,7 +407,7 @@ public class Gestio {
         int locSegOri = rPetIni.primerElement(); 
         
         //Creem la ruta definitiva final
-        Ruta rDef = new Ruta(); //System.out.println("Ruta aux: " + rAux);
+        Ruta rDef = new Ruta(); 
         //Variables auxiliars
         Integer puntActual = 0;
         Integer puntDesti = 0;
@@ -419,7 +415,6 @@ public class Gestio {
         boolean petIniCarregada = false; 
         boolean arribatPrimerPuntDescarrega = false; 
         
-        System.out.println("\nVehicle: "+ v.matricula());
         while(!rVehicle.buida()){
             //Obtenim el primer punt 
             puntActual = rVehicle.primerElement();
@@ -439,7 +434,7 @@ public class Gestio {
                 DescarregarClients(v,puntActual,petAtendre,horaArribada);
             //Tractem més peticions; fins que no s'arriba al punt d'origen de la primera petició no s'ha de comprovar si el vehicle pot atendre més peticions 
             if (petIniCarregada) {
-                TractarMesPeticions(v,puntActual,horaArribada,petAtendre,rVehicle); //System.out.println("Ruta actual = " + rAux);
+                TractarMesPeticions(v,puntActual,horaArribada,petAtendre,rVehicle); 
             }
             // Eliminem de la ruta auxiliar el primer punt 
             puntActual = rVehicle.treureActual();
