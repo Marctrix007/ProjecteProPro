@@ -81,7 +81,6 @@ public class Vehicle {
     }
     
     public double Ocupacio() throws Exception{
-        System.out.println("Places: " + nPlaces + " Lliures: " + nPlacesLliures);
         if((100.0*(nPlaces - nPlacesLliures)/nPlaces)>100) throw new Exception("OYEEEE");
         return 100.0*(nPlaces - nPlacesLliures)/nPlaces;
     }
