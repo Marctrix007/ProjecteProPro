@@ -195,10 +195,11 @@ public class Gestio {
     }
     
     /**
-        @pre 
-        @post 
+        @pre Cert
+        @post Retorna un nombre enter proper a mean 
     */
     private static int getPoissonRandom(double mean) {
+        
         Random r = new Random();
         double L = Math.exp(-mean);
         int k = 0;
@@ -211,8 +212,8 @@ public class Gestio {
     }
     
     /**
-        @pre 
-        @post 
+        @pre Cert
+        @post Escriu en un fitxer les dades de les peticions
     */
     private void EscriurePeticionsFitxer() throws IOException {
         
@@ -268,14 +269,11 @@ public class Gestio {
     }     
     
     /**
-        @pre 
-        @post 
+        @pre Cert
+        @post Tracta totes les peticions 
     */
     public  void AtendrePeticions() throws Exception {
-    // Pre: --  
-    // Post: Tracta totes les peticions 
         
-    
         // Es demana per teclat el temps d'espera màxim de les peticions 
         System.out.println("\nTemps d'espera màxim de les peticions: (hh:mm)");
         Scanner s = new Scanner(System.in);
@@ -292,13 +290,11 @@ public class Gestio {
     
     
     /**
-        @pre 
-        @post 
+        @pre Cert 
+        @post Marca pet com a atesa o com a fallida. Mentre es tracta pet es poden tractar altres peticions. 
     */
     private void TractarPeticio(Peticio pet) throws Exception {
-    // Pre: --
-    // Post: Marca pet com a atesa o com a fallida. Mentre es tracta pet es poden tractar altres peticions. 
-    
+        
         // Es demana un vehicle al punt de recàrrega més proper, que pugui atendre la petició 
         Ruta rVehicle = new Ruta(); 
         // L'hora en la qual l'empresa avisa al vehicle per atendre la petició és 5 minuts després de què el client truqui 
@@ -323,8 +319,8 @@ public class Gestio {
     
     
     /**
-        @pre 
-        @post 
+        @pre pet != null, rVehicle != null, horaAvis != null 
+        @post Retorna un vehicle estacionat en un punt de recàrrega que pugui atendre pet quan horaAvis. Si s'ha trobat un vehicle apte, s'associa rVehicle al vehicle. En cas contrari retorna null. 
     */
     private Vehicle DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Ruta rVehicle, Temps horaAvis) throws Exception {
 
@@ -400,8 +396,8 @@ public class Gestio {
     }
     
     /**
-        @pre 
-        @post 
+        @pre v != null, rVehicle != null, petAtendre != null, horaArribada != null
+        @post El vehicle comença la ruta rVehicle en horaArribada i per cada punt de la ruta comprova si pot afegir més peticions al llistat petAtendre o eliminar en cas que hagi de descarregar. 
     */
     private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
         
