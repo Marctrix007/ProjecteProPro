@@ -257,7 +257,6 @@ public class Gestio {
                 iden++;
             }
         }
-        System.out.println("Nombre de peticions: " + peticions.size());     
         EscriurePeticionsFitxer(); 
 
     }     
@@ -268,8 +267,7 @@ public class Gestio {
         
     
         // Es demana per teclat el temps d'espera màxim de les peticions 
-        System.out.println("\nTemps d'espera màxim de les peticions: ");
-        //System.out.println(System.in.available());
+        System.out.println("\nTemps d'espera màxim de les peticions: (hh:mm)");
         Scanner s = new Scanner(System.in);
         String tEsp = s.next();     // tEsp entrat de la forma hh:mm 
         tEspMax = new Temps(tEsp); 
@@ -411,7 +409,7 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
             // Si s'arriba al punt d'origen de la petició inicial 
             if (puntActual == petIni.origen().identificador() && !petIniCarregada) {
                 petIniCarregada = true; 
-                v.CarregarPassatgers(petIni.NombreClients()); System.out.println("Carrego peticio inicial " + petIni.identificador() + " amb aquests clients " + petIni.NombreClients() + " al punt " + petIni.origen().identificador() + " a les " + horaArribada + " i ha sortit a les " + petIni.horaSortida());
+                v.CarregarPassatgers(petIni.NombreClients()); 
                 stats.guardarOcupacioVehicle(v,v.Ocupacio()); // es guarda la ocupació del vehicle després de carregar els passatgers 
             }
             //Descarreguem si estem en el punt; mentre no s'arribi al punt següent del punt d'origen de la primera petició no es pot descarregar clients 
@@ -454,15 +452,9 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
         while (it.hasNext()) {
             Peticio pet = it.next();
             if (pet.desti().identificador() == loc) {
-                System.out.println("*************");
-                System.out.println("Places actuals abans de descarregar = " + v.NombrePlacesLliures() + " Places totals = " + v.NombrePlaces());
-                System.out.println("Destinació petició: " + pet.desti().identificador());
-                v.DescarregarPassatgers(pet.NombreClients()); System.out.println("Descarrego peticio " + pet.identificador() + " amb aquests clients " + pet.NombreClients() + " al punt " + loc);
-                System.out.println("Places actuals després de descarregar = " + v.NombrePlacesLliures() + " Places totals = " + v.NombrePlaces());
-                System.out.println("*************");
+                v.DescarregarPassatgers(pet.NombreClients()); 
                 it.remove(); // S'elimina pet de la llista de peticions que el vehicle pot atendre, ja que ja s'ha atès 
-                peticions.remove(pet); // S'elimina pet del llistat de peticions perquè ja s'ha tractat 
-                System.out.println("Queden " + petAtendre.size() + " peticions per atendre");
+                peticions.remove(pet); // S'elimina pet del llistat de peticions perquè ja s'ha tractat
                 stats.guardarOcupacioVehicle(v,v.Ocupacio());
             }
         }
@@ -485,8 +477,6 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
             if (horaArribada.compareTo(pet.horaSortida()) >= 0 && horaArribada.compareTo(pet.horaSortida().mes(tEspMax)) <= 0 && loc == pet.origen().identificador()) {
                 // Es comprova si la ruta del vehicle conté la ruta de la petició 
                 // Si no la conté el recorregut que hauria de fer el vehicle és major 
-                System.out.println("PODRIA ATENDRE LA PETICIO: " + pet.identificador() + " i estic a " + loc);
-                System.out.println("Hora Arriba: " + horaArribada + " Hora Sortida: " + pet.horaSortida() + " Temps Espera Maxim: " + tEspMax);
                 
                 Ruta rPet = mapa.CamiMinim(pet.origen().identificador(), pet.desti().identificador());
                 float recorregut = 0;
@@ -505,11 +495,9 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
                     }
                 }
                 // Es comprova si el vehicle té prou autonomia restant
-                System.out.println("Autonomia vehicle: " + v.Autonomia() + " Recorregut que hauria de fer: " + recorregut);
-                
+                               
                 if (v.Autonomia()>= recorregut) {
                     // Es comprova si el vehicle té prou places lliures 
-                    System.out.println("Places lliures : " + v.NombrePlacesLliures() + " Nombre de clients: " + pet.NombreClients());
                     if (v.NombrePlacesLliures() >= pet.NombreClients()) {
                         // Si el vehicle pot atendre la petició s'afegeix a la resta de peticions que es poden atendre
                         
@@ -520,18 +508,13 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
                             rAux.Concatenar(rNova);
                             tTrajecteReal = rAux.cost().temps(); 
                         }
-                        
-                        System.out.println("Temps Trajecte Esp: " + tTrajecteEsp + " Temps Trajecte Real: " + tTrajecteReal);
                                                 
                         if (tTrajecteReal.mes(tTrajecteEsp).compareTo(tTrajecteEsp.per(2)) <= 0) {
                             petAtendre.add(pet);
                             // El vehicle carrega els passatgers de la petició
-                            System.out.println("EL VEHICLE POT ATENDRE UNA NOVA PETICIÓ: " + pet.identificador());
-                            System.out.println("*************");
-                            v.CarregarPassatgers(pet.NombreClients()); System.out.println("Carrego peticio " + pet.identificador() + " amb aquests clients " + pet.NombreClients() + " al punt " + loc + " a les " + horaArribada + " i ha sortit a les " + pet.horaSortida());
+                            v.CarregarPassatgers(pet.NombreClients());
                             // Es redueix l'autonomia restant del vehicle 
                             if (modificarRuta){ 
-                                System.out.println("MODIFICAR RUTA"); 
                                 rVehicle.Concatenar(rNova); 
                             }
                             // Es marca la petició com a atesa
