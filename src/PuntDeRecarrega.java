@@ -158,11 +158,6 @@ public class PuntDeRecarrega extends Localitzacio {
                 }
             }           
             if (!trobat){
-                System.out.println("VEHICLE NO TROBAT");
-                System.out.println("VEHICLE NO TROBAT");
-                System.out.println("VEHICLE NO TROBAT");
-                System.out.println("VEHICLE NO TROBAT");
-                System.out.println("VEHICLE NO TROBAT");
                 return null;
             }
             else{
