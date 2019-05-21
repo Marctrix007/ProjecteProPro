@@ -1,0 +1,16 @@
+0,Aeroport,10
+1,Camp Nou,8
+2,Estacio de Sants,9
+3,PR_1,1,10,SI
+4,Palau Sant Jordi,7
+5,Torre Agbar,7
+6,PR_2,1,8,NO
+7,Parc Ciutadella,8
+8,Torre Baro,3
+9,Sarria,5
+10,Port Olimpic,7
+11,Sant Adria,4
+12,Deixalleria,1
+13,PR_3,1,7,SI
+14,Hotel Vela,6
+15,Gracia,6
