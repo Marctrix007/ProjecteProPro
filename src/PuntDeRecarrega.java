@@ -138,7 +138,7 @@ public class PuntDeRecarrega extends Localitzacio {
         @pre a_parking.size()<0, nPersones>0, 8h <=tempsSortida<= 22h
         @post retorna un vehicle v del punt de recarrega i l'elimina del punt
     */
-    public Pair<Vehicle,Temps> SortidaVehicle(float recorregut, int nPersones, Temps horaArribada, Temps horaNec, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
+    public Pair<Vehicle,Temps> SortidaVehicle(float recorregut, int nPersones, Temps horaArribada, Temps horaPeticio, Temps horaMax, Temps horaAvis) throws ExcepcioNoQuedenVehicles{    // vehicle no surt fins que no està carregat 
   
         if (Buit()){
             throw new ExcepcioNoQuedenVehicles("No hi ha vehicles");
@@ -155,7 +155,14 @@ public class PuntDeRecarrega extends Localitzacio {
                 entry_vehicle = it_vehicles.next();
                 v = entry_vehicle.getKey();
                 if (entry_vehicle.getValue().compareTo(horaAvis) <= 0) {// si tDisp <= horaAvis, el vehicle està disponible quan l'avisa l'empresa 
-                    if (horaArribada.compareTo(horaNec) <= 0 && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones) 
+                    boolean arribarAbans = false, arribarDespres = false;  
+                    // si el vehicle arriba al punt d'origen de la petició 10 minuts abans de l'hora de sortida 
+                    if (horaPeticio.menys(horaArribada).per(-1.0).compareTo(new Temps(0,10)) <= 0) 
+                        arribarAbans = true;
+                    // si el vehicle arriba al punt d'origen de la petició entre l'hora de sortida i l'hora sortida més el temps d'espera màxim 
+                    else if (horaArribada.compareTo(horaPeticio) > 0 && horaArribada.compareTo(horaMax) <= 0) 
+                        arribarDespres = true;     
+                    if (arribarAbans || arribarDespres && v.Autonomia() >= recorregut && v.NombrePlaces() > nPersones) 
                         trobat = true;
                 }
             }           
