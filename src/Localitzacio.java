@@ -1,6 +1,6 @@
 /** 
     @file Localitzacio.java
-    @brief Fixter que guarda la classe Localització
+    @brief Fitxer que guarda la classe Localització
 */
 
 /** 
