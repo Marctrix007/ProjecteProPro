@@ -32,7 +32,7 @@ public class Ruta {
     @pre --
     @post u  afegit al principi del camí
     */
-    void addFirst(int u) {
+    public void addFirst(int u) {
         cami.addFirst(u);
     }
     
@@ -40,7 +40,7 @@ public class Ruta {
     @pre --
     @post u  afegit al final del camí
     */
-    void addLast(int u) {
+    public void addLast(int u) {
         cami.addLast(u);
     }
 
@@ -48,7 +48,7 @@ public class Ruta {
     @pre --
     @post Es suma el  p  al pes de la ruta
     */
-    void afegirPes(Pes p) {      
+    public void afegirPes(Pes p) {      
         pes = pes.mes(p);
     }
     
