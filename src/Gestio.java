@@ -184,7 +184,7 @@ public class Gestio {
         @pre Cert
         @post Retorna un nombre aleatori en coma flotant contingut entre min i max
     */
-    public static double randDouble(double min, double max) {
+    private static double randDouble(double min, double max) {
         
         Random rand = new Random();
 
@@ -194,7 +194,7 @@ public class Gestio {
         
     }
     
-    public static int getPoissonRandom(double mean) {
+    private static int getPoissonRandom(double mean) {
         Random r = new Random();
         double L = Math.exp(-mean);
         int k = 0;
@@ -206,9 +206,7 @@ public class Gestio {
         return k - 1;
     }
     
-    
-    /** MÈTODE PROVA **/
-    public void EscriurePeticionsFitxer() throws IOException {
+    private void EscriurePeticionsFitxer() throws IOException {
         
         try (BufferedWriter fitPet = new BufferedWriter(new FileWriter("Peticions.txt",false))) {
             for (Peticio pet: peticions) {
@@ -283,7 +281,7 @@ public class Gestio {
        
     
     
-    public void TractarPeticio(Peticio pet) throws Exception {
+    private void TractarPeticio(Peticio pet) throws Exception {
     // Pre: --
     // Post: Marca pet com a atesa o com a fallida. Mentre es tracta pet es poden tractar altres peticions. 
     
@@ -309,7 +307,7 @@ public class Gestio {
             
     }
         
-    public Vehicle DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Ruta rVehicle, Temps horaAvis) throws Exception {
+    private Vehicle DemanarPuntDeRecarregaMesProperVehiclePerAtendrePeticio(Peticio pet, Ruta rVehicle, Temps horaAvis) throws Exception {
 
         Vehicle v = null; 
         boolean trobat = false; 
@@ -383,7 +381,7 @@ public class Gestio {
     }
     
 
-public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
+private void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
         
         // Es redueix el nombre de places lliures del vehicle a partir del nombre de clients de la petició inicial, pet 
         Peticio petIni = petAtendre.get(0);
@@ -443,7 +441,7 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
         
     }
     
-     public void DescarregarClients(Vehicle v, int loc, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
+     private void DescarregarClients(Vehicle v, int loc, ArrayList<Peticio> petAtendre, Temps horaArribada) throws Exception {
     // Pre: v té passatgers 
     // Post: v descarrega els passatgers en horaArribada que tinguin com a destinació loc. Les peticions dels passatgers que pertanyen a petAtendre han pogut ser ateses per v. 
         
@@ -461,7 +459,7 @@ public void FerTrajecte(Vehicle v, Ruta rVehicle, ArrayList<Peticio> petAtendre,
      }
     
     
-    public void TractarMesPeticions(Vehicle v, int loc, Temps horaArribada, ArrayList<Peticio> petAtendre, Ruta rVehicle) throws Exception {
+    private void TractarMesPeticions(Vehicle v, int loc, Temps horaArribada, ArrayList<Peticio> petAtendre, Ruta rVehicle) throws Exception {
     // Pre: --
     // Post: v comprova si és capaç d'atendre més peticions que s'hagin de recollir a loc en el moment que hi és v, horaArribada.
     //       Qualsevol petició que pugui atendre s'afegeix a petAtendre. La destinació de la petició pot modificar rVehicle. 
