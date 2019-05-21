@@ -22,17 +22,13 @@ public class Estadistica {
         per després treure una descripció estadística de alguns elements que hem considerat importants. S'ha d'entendre com 
         si fos un bloc amb les seves entrades (els mètodes "guardar") i una sortida (el toString). A partir de les
         entrades calcula els estadístics i en treu una sortida quan es demani.
-
-
         ASPECTES IMPLEMENTACIÓ:
         A l'hora de calcular els estadístics he fet servir una eina de l'API molt útil: l'stream. Aquest tracta els elements 
         d'una colecció qualsevol com un fluxe de dades al qual se li poden aplicar operacions declaratives, és a dir, no ens 
         preocupem de COM ho calcula sinó QUÈ volem que ens calculi, molt semblant al llenguatge SQL.
-
         A partir de l'stream, podem aplicar una altre utilitat de l'API que es diu SummayStatistics. Aquest calcula els estadístics més comuns
         com la mitjana, el màxim, el minim, el nombre d'elements, etc. mitjançant un stream de dades. Hi ha de varis tipus: Int, Long i Double. Per
         aquest cas he cregut més adient fer servir DoubleSummaryStatistics ja que la majoria d'operacions serien amb nombres de tipus Double.
-
         BIBLIOGRAFIA:
         Stream: https://www.oracle.com/technetwork/es/articles/java/procesamiento-streams-java-se-8-2763402-esa.html
         DoubleSummaryStatistics: https://github.com/frohoff/jdk8u-jdk/blob/master/src/share/classes/java/util/DoubleSummaryStatistics.java
@@ -46,6 +42,9 @@ public class Estadistica {
     private HashMap<PuntDeRecarrega,ArrayList<Double>> mitjanesOcupPRC;
     private HashMap<Vehicle,ArrayList<Ruta>> mitjanesKMVehicle;
     private ArrayList<Double> mitjanesTempsEspera;
+    private ArrayList<Double> mitjanesTempsViatgeEsperat;
+    private ArrayList<Double> mitjanesTempsViatgeReal;
+
     
     /*
         DESCRIPCIÓ ATRIBUTS:
@@ -56,7 +55,6 @@ public class Estadistica {
         mitjanesOcupPRC: mapa format per el parell punt de recarrega i els percentatges d'ocupació que ha tingut un punt de recarrega al llarg de l'execució
         mitjanesKMVehicle: mapa format per el parell vehicle i les rutes que ha fet al llarg de l'execució
         mitjanesTempsEspera: llista dels temps (decimal) que han esperat cada peticio 
-
         INVARIANT:
         peticionsSatisfetes: >=0
         peticionsFallades: >=0
@@ -65,7 +63,8 @@ public class Estadistica {
         mitjanesOcupPRC: !=null
         mitjanesKMVehicle: !=null
         mitjanesTempsEspera: !=null
-     
+        mitjanesTempsViatgeEsperat != null 
+        mitjanesTempsViatgeReal != null 
     */
     
     
@@ -80,9 +79,10 @@ public class Estadistica {
         mitjanesOcupVehi =  new HashMap<>(); 
         mitjanesTempsVehiEstac = new HashMap<>();
         mitjanesOcupPRC = new HashMap<>();
-        mitjanesTempsEspera = new ArrayList();
+        mitjanesTempsEspera = new ArrayList<>();
         mitjanesKMVehicle = new HashMap<>();
-    
+        mitjanesTempsViatgeEsperat = new ArrayList<>();
+        mitjanesTempsViatgeReal = new ArrayList<>();
     }
     
      /** 
