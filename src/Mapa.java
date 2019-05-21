@@ -169,6 +169,27 @@ public class Mapa {
     public Localitzacio loc(int i) {      
         return localitzacions.get(i);
     }
+    
+    
+    /**
+    @pre indexPop >= 0 i <= 10 
+    @post Retorna una localització amb popularitat igual a indexPop. Si no hi ha cap localització amb aquesta popularitat retorna null. 
+    */
+    public Localitzacio locPop(int indexPop) {
+        
+        boolean trobat = false;
+        Iterator<Localitzacio> it = localitzacions.iterator();
+        Localitzacio loc = it.next();
+        while (it.hasNext() && !trobat) {
+            if (loc.popularitat() == indexPop)
+                trobat = true;
+            else loc = it.next();
+        }
+        
+        if (trobat) return loc;
+        else return null; 
+        
+    }
         
     /**
     @pre 0 <= origen < nLocalitzacions
